@@ -1,6 +1,6 @@
 #  Quick summary so far
 
-Day 1-3 
+ Week 1 (Day 1-3)
 
 Explored & validated 2 datasets, ditched first (fake labels), committed to real ticketing dataset
 Cleaned data → cleaning.py (filter, dedupe, strip HTML, build text_input)
@@ -10,7 +10,7 @@ Rewrote notebooks to call the package instead of holding raw logic
 Wrote & passed tests/test_data.py
 Wrote & passed test_classifer.py file
 
- # Week 1 — Complete Summary
+ # Week 1 — Complete Summary -- completed
 
 Data : ( Basically model ne load karvu pachi ema apada needs na according changes karva etc... ( to make the data relevant to use))
 
@@ -30,4 +30,12 @@ Extracted notebook logic into a real package: src/triage/data/cleaning.py, src/t
 Made the project pip-installable (pyproject.toml, pip install -e .)
 Rewrote notebooks to import from the package instead of holding raw logic — notebooks are now thin demos, .py files hold the real logic
 Wrote and passed unit tests for both cleaning (test_data.py) and classifier (test_classifier.py)
+
+
+Week 2 (Day 1-2)
+Built RAG layer — OpenAI embeddings on 22k tickets → FAISS index → retriever returns relevant past tickets + real agent answers for a new query → packaged, tested.
+
+# Week 2 - Complete Summary 
+
+
 
