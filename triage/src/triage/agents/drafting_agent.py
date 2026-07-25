@@ -4,16 +4,27 @@ from triage.agents.triage_agent import TicketState
 
 llm_client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
 
-def build_draft_prompt(ticket_text:str, retrieved_context:list )-> str:
+def build_draft_prompt(ticket_text: str, retrieved_context: list) -> str:
     context_str = "\n\n".join(
-        f"Past ticket: {r['body']}\nResolution given: {r['answer']}"
-        for r in retrieved_context
+        f"{i+1}. {r['answer']}" for i, r in enumerate(retrieved_context)
     )
-    return f"""You are a customer support agent. A customer submitted this ticket:
-    "{ticket_text}"
-    Here are similar past tickets and how they were resolved:
-    {context_str}
-Using this context, draft a helpful, concise response to the customer. Do not mention that you referenced past tickets."""
+    return f"""You are a technical support specialist. Your job is to resolve customer issues directly using only proven prior resolutions.
+
+CUSTOMER ISSUE:
+"{ticket_text}"
+
+PROVEN RESOLUTIONS FROM SIMILAR PAST TICKETS:
+{context_str}
+
+INSTRUCTIONS:
+- Identify which proven resolution(s) above are most relevant to the customer's specific issue.
+- Write a direct answer that resolves the issue using that information. Do not invent steps that are not supported by the resolutions above.
+- Do not write a greeting, subject line, sign-off, or any email formatting. Output only the resolution content itself.
+- Do not ask the customer for more information unless none of the resolutions above provide any usable answer.
+- Keep the response under 80 words.
+- Address the customer's exact issue — do not include general advice unrelated to their specific problem.
+
+RESPONSE:"""
 
 
 def drafting_node(state: TicketState, model: str = "gpt-4o-mini") -> TicketState:
@@ -27,5 +38,4 @@ def drafting_node(state: TicketState, model: str = "gpt-4o-mini") -> TicketState
 
     state['draft_response'] = response.choices[0].message.content
     return state
-
 

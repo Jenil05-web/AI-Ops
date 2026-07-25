@@ -32,16 +32,29 @@ Rewrote notebooks to import from the package instead of holding raw logic — no
 Wrote and passed unit tests for both cleaning (test_data.py) and classifier (test_classifier.py)
 
 
-# Week 2 (Day 1-2)
+# Week 2 - Complete Summary :
+
 Built RAG layer — OpenAI embeddings on 22k tickets → FAISS index → retriever returns relevant past tickets + real agent answers for a new query → packaged, tested.
 
-# Week 2 Summary (after RAG)
 Built 4-node agent pipeline: Triage (your XGBoost classifier) → Retrieval (FAISS + OpenAI embeddings) → Drafting (GPT-4o-mini, grounded in retrieved context) → Escalation (rule-based, flags high-risk queues)
+
 Wired it into a real LangGraph graph (build_graph()), tested end-to-end — full pipeline runs from raw ticket text to a grounded draft response + escalation flag
+
 Extracted all logic into .py modules (agents/triage_agent.py, retrieval_agent.py, drafting_agent.py, escalation_agent.py, graph.py), using functools.partial to inject dependencies cleanly (no globals)
+
 Wrote and passed tests/test_agents.py using MagicMock (new technique — mocking objects, not just functions)
 
-# Week 2 - Complete Summary :
+Built a 20-sample eval set combining classifier + RAG + drafting outputs
+
+Used RAGAS to score retrieval/generation: context_precision (retrieval quality), faithfulness (grounding), answer_relevancy (question-answer match)
+
+Diagnosed weak initial scores as a prompt engineering issue, not a retrieval issue (context_precision was already 1.0)
+
+Iterated on the drafting prompt — improved faithfulness and relevancy after fixing formatting/verbosity issues and confirming kernel reload
+
+Documented final scores as the project's baseline evaluation numbers (put actual final numbers here in your notebook)
+
+
 
 
 
