@@ -36,3 +36,7 @@ def test_build_draft_prompt_includes_ticket_and_context():
     prompt = build_draft_prompt("new problem", context)
     assert "new problem" in prompt
     assert "old fix" in prompt
+
+"""Note MagicMock — new concept here: instead of monkeypatch swapping one function (what we did for RAG), 
+ MagicMock creates a fake object that pretends to be your model/vectorizer/encoder, letting you control exactly what .predict() or .transform() returns without needing the real trained artifacts. 
+Same goal as monkeypatch (avoid real dependencies in tests), different tool for a different shape of problem (mocking objects vs. mocking functions)."""
