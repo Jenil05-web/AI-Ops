@@ -1,33 +1,33 @@
 <div align="center">
 
+<img src="https://capsule-render.vercel.app/api?type=rect&color=0:0F0C29,50:302B63,100:24243E&height=210&section=header&text=AI-Ops&fontSize=78&fontColor=ffffff&fontAlignY=45&desc=An%20End-to-End%20AI%20Support%20Intelligence%20Platform&descAlignY=68&descSize=17&descColor=B8B3E8&animation=twinkling" width="100%"/>
+
 <br/>
 
-<h1>
-  <code>&nbsp;AI‑Ops&nbsp;</code>
-</h1>
+<img src="https://readme-typing-svg.demolab.com/?font=Fira+Code&weight=500&pause=1400&color=8A7FFF,4285F4,EB5E28&background=00000000&center=true&vCenter=true&width=650&lines=Classifying+tickets+with+XGBoost;Retrieving+context+with+FAISS+%2B+OpenAI;Drafting+grounded+replies+with+GPT-4o-mini;Escalating+what+actually+matters+to+humans." alt="typing-svg"/>
 
-<sub><i>an end‑to‑end AI support intelligence platform</i></sub>
+<br/>
+
+<img src="https://img.shields.io/github/stars/Jenil05-web/ai-ops?style=for-the-badge&color=FFD700&labelColor=0d1117&logo=github&logoColor=white"/>
+<img src="https://img.shields.io/github/last-commit/Jenil05-web/ai-ops?style=for-the-badge&color=8A7FFF&labelColor=0d1117"/>
+<img src="https://img.shields.io/github/license/Jenil05-web/ai-ops?style=for-the-badge&color=4285F4&labelColor=0d1117"/>
+<img src="https://img.shields.io/badge/status-active-2ECC71?style=for-the-badge&labelColor=0d1117"/>
 
 <br/><br/>
 
-<img src="https://readme-typing-svg.demolab.com/?font=Fira+Code&weight=500&pause=1400&color=8A7FFF&background=00000000&center=true&vCenter=true&width=620&lines=Classifying+tickets+with+XGBoost;Retrieving+context+with+FAISS+%2B+OpenAI;Drafting+grounded+replies+with+GPT-4o-mini;Escalating+what+actually+matters+to+humans." alt="typing-svg"/>
-
-<br/>
-
-<img src="https://img.shields.io/badge/-●-8A7FFF?style=flat-square" height="4" width="4"/>&nbsp;<img src="https://img.shields.io/badge/-●-4285F4?style=flat-square" height="4" width="4"/>&nbsp;<img src="https://img.shields.io/badge/-●-EB5E28?style=flat-square" height="4" width="4"/>&nbsp;<img src="https://img.shields.io/badge/-●-1C3C3C?style=flat-square" height="4" width="4"/>&nbsp;<img src="https://img.shields.io/badge/-●-412991?style=flat-square" height="4" width="4"/>
+<img src="https://skillicons.dev/icons?i=python,fastapi,docker,githubactions&theme=dark" height="50"/>
+&nbsp;&nbsp;
+<img src="https://img.shields.io/badge/OpenAI-GPT--4o--mini-412991?style=for-the-badge&logo=openai&logoColor=white&labelColor=0d1117" height="28"/>
+&nbsp;
+<img src="https://img.shields.io/badge/LangGraph-Orchestration-1C3C3C?style=for-the-badge&labelColor=0d1117" height="28"/>
+&nbsp;
+<img src="https://img.shields.io/badge/XGBoost-Classifier-EB5E28?style=for-the-badge&labelColor=0d1117" height="28"/>
+&nbsp;
+<img src="https://img.shields.io/badge/FAISS-Vector%20Search-4285F4?style=for-the-badge&labelColor=0d1117" height="28"/>
 
 <br/><br/>
 
-<img src="https://img.shields.io/badge/Python-3.10%2B-3776AB?style=flat-square&logo=python&logoColor=white&labelColor=0d1117"/>
-<img src="https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white&labelColor=0d1117"/>
-<img src="https://img.shields.io/badge/OpenAI-GPT--4o--mini-412991?style=flat-square&logo=openai&logoColor=white&labelColor=0d1117"/>
-<img src="https://img.shields.io/badge/LangGraph-Agentic%20Orchestration-1C3C3C?style=flat-square&labelColor=0d1117"/>
-<img src="https://img.shields.io/badge/XGBoost-Classifier-EB5E28?style=flat-square&labelColor=0d1117"/>
-<br/>
-<img src="https://img.shields.io/badge/FAISS-Vector%20Search-4285F4?style=flat-square&labelColor=0d1117"/>
-<img src="https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white&labelColor=0d1117"/>
-<img src="https://img.shields.io/badge/Pytest-Tested-0A9EDC?style=flat-square&logo=pytest&logoColor=white&labelColor=0d1117"/>
-<img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square&labelColor=0d1117"/>
+<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.gif" width="100%"/>
 
 </div>
 
@@ -37,114 +37,127 @@
 
 <br/>
 
-## Table of Contents
+<div align="center">
 
-<table>
+### 📑 Table of Contents
+
+</div>
+
+<table align="center">
 <tr>
 <td valign="top" width="50%">
 
-- [Why This Exists](#why-this-exists)
-- [Architecture](#architecture)
-- [Tech Stack](#tech-stack)
-- [Results](#results)
-- [Project Structure](#project-structure)
+- 🎯 [Why This Exists](#-why-this-exists)
+- 🧠 [Architecture](#-architecture)
+- 🛠️ [Tech Stack](#️-tech-stack)
+- 📊 [Results](#-results)
+- 📁 [Project Structure](#-project-structure)
 
 </td>
 <td valign="top" width="50%">
 
-- [Getting Started](#getting-started)
-- [API Usage](#api-usage)
-- [Testing](#testing)
-- [Screenshots](#screenshots)
-- [What I'd Build Next](#what-id-build-next)
-- [Lessons Along the Way](#lessons-along-the-way)
+- 🚀 [Getting Started](#-getting-started)
+- 🔌 [API Usage](#-api-usage)
+- 🧪 [Testing](#-testing)
+- 🖼️ [Screenshots](#️-screenshots)
+- 🧭 [What I'd Build Next](#-what-id-build-next)
+- 💡 [Lessons Along the Way](#-lessons-along-the-way)
 
 </td>
 </tr>
 </table>
 
-<br/>
+<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.gif" width="100%"/>
 
-## Why This Exists
+## 🎯 Why This Exists
 
 Most "AI support bot" projects are a single LLM call wearing a UI. That's not what running this in production actually looks like.
 
-**AI‑Ops** is built the way a real support-intelligence system would be: a **classical ML model** does the cheap, deterministic job of routing (it doesn't need an LLM to know "this is a billing question"), a **retrieval layer** grounds every reply in what actually worked before, an **LLM** only gets involved where genuine language generation is required, and a **rule-based layer** decides when a human has to be in the loop. Every layer earns its place — nothing is there just because it's trendy.
+**AI‑Ops** is built the way a real support-intelligence system would be: a <img src="https://img.shields.io/badge/-classical%20ML%20model-EB5E28?style=flat-square&labelColor=0d1117"/> does the cheap, deterministic job of routing (it doesn't need an LLM to know "this is a billing question"), a <img src="https://img.shields.io/badge/-retrieval%20layer-4285F4?style=flat-square&labelColor=0d1117"/> grounds every reply in what actually worked before, an <img src="https://img.shields.io/badge/-LLM-412991?style=flat-square&labelColor=0d1117"/> only gets involved where genuine language generation is required, and a <img src="https://img.shields.io/badge/-rule--based%20layer-2ECC71?style=flat-square&labelColor=0d1117"/> decides when a human has to be in the loop. Every layer earns its place — nothing is there just because it's trendy.
 
 <br/>
 
-## Architecture
+## 🧠 Architecture
 
 ```mermaid
 flowchart LR
-    T[📨 Incoming Ticket] --> TR{Triage Agent}
-    TR -->|TF-IDF + XGBoost| Q[Predicted Queue]
-    T --> RT{Retrieval Agent}
-    RT -->|OpenAI Embeddings + FAISS| CTX[Top-k Similar Resolutions]
-    Q --> DR{Drafting Agent}
+    T([📨 Incoming Ticket]) --> TR{{Triage Agent}}
+    TR -->|TF-IDF + XGBoost| Q[/Predicted Queue/]
+    T --> RT{{Retrieval Agent}}
+    RT -->|OpenAI Embeddings + FAISS| CTX[/Top-k Similar Resolutions/]
+    Q --> DR{{Drafting Agent}}
     CTX --> DR
-    DR -->|GPT-4o-mini| RESP[Grounded Draft Reply]
-    RESP --> ES{Escalation Agent}
-    ES -->|Rule-based| OUT[✅ Auto-send  /  🚩 Human Review]
+    DR -->|GPT-4o-mini| RESP[/Grounded Draft Reply/]
+    RESP --> ES{{Escalation Agent}}
+    ES -->|Rule-based| OUT1([✅ Auto-send])
+    ES -->|Rule-based| OUT2([🚩 Human Review])
+
+    classDef ticket fill:#302B63,stroke:#8A7FFF,color:#fff,stroke-width:2px
+    classDef agent fill:#1C3C3C,stroke:#2ECC71,color:#fff,stroke-width:2px
+    classDef out fill:#0F0C29,stroke:#EB5E28,color:#fff,stroke-width:2px
+    class T,Q,CTX,RESP ticket
+    class TR,RT,DR,ES agent
+    class OUT1,OUT2 out
 ```
 
-| Stage | Approach | Why not just "ask the LLM"? |
-|---|---|---|
-| **Triage** | TF-IDF + XGBoost | Fixed category set → cheap, instant, deterministic. Paying an LLM per ticket for this is wasted cost and latency. |
-| **Retrieval** | OpenAI embeddings + FAISS | Semantic search over real historical resolutions — grounds the reply in what actually worked. |
-| **Drafting** | GPT-4o-mini | The one step that genuinely needs open-ended language generation. |
-| **Escalation** | Rule-based | Transparent, auditable logic for what gets human review — no black box on a compliance-relevant decision. |
+<table>
+<tr><th>Stage</th><th>Approach</th><th>Why not just "ask the LLM"?</th></tr>
+<tr><td>🟣 <b>Triage</b></td><td>TF-IDF + XGBoost</td><td>Fixed category set → cheap, instant, deterministic. Paying an LLM per ticket for this is wasted cost and latency.</td></tr>
+<tr><td>🔵 <b>Retrieval</b></td><td>OpenAI embeddings + FAISS</td><td>Semantic search over real historical resolutions — grounds the reply in what actually worked.</td></tr>
+<tr><td>🟠 <b>Drafting</b></td><td>GPT-4o-mini</td><td>The one step that genuinely needs open-ended language generation.</td></tr>
+<tr><td>🟢 <b>Escalation</b></td><td>Rule-based</td><td>Transparent, auditable logic for what gets human review — no black box on a compliance-relevant decision.</td></tr>
+</table>
 
 <br/>
 
-## Tech Stack
+## 🛠️ Tech Stack
 
 <div align="center">
 
 | Layer | Tools |
-|---|---|
-| Data | pandas, NumPy |
-| Classical ML | scikit-learn, XGBoost |
-| Retrieval | OpenAI Embeddings, FAISS |
-| Orchestration | LangGraph |
-| Generation | OpenAI GPT-4o-mini |
-| Evaluation | RAGAS |
-| Serving | FastAPI, Pydantic, Uvicorn |
-| Testing | pytest, unittest.mock |
-| Packaging | setuptools (`src/` layout, pip-installable) |
-| Ops | Docker, GitHub Actions |
+|:---:|:---|
+| 📦 **Data** | pandas · NumPy |
+| 🧮 **Classical ML** | scikit-learn · XGBoost |
+| 🔍 **Retrieval** | OpenAI Embeddings · FAISS |
+| 🕸️ **Orchestration** | LangGraph |
+| ✍️ **Generation** | OpenAI GPT-4o-mini |
+| 📏 **Evaluation** | RAGAS |
+| 🌐 **Serving** | FastAPI · Pydantic · Uvicorn |
+| 🧪 **Testing** | pytest · unittest.mock |
+| 📦 **Packaging** | setuptools (`src/` layout, pip-installable) |
+| ⚙️ **Ops** | Docker · GitHub Actions |
 
 </div>
 
 <br/>
 
-## Results
+## 📊 Results
 
 **Classifier — 10-class ticket routing (`queue` prediction)**
 
 | Model | Accuracy | Macro F1 |
-|---|---|---|
+|---|:---:|:---:|
 | Logistic Regression + TF-IDF (baseline) | 46% | 0.37 |
-| **XGBoost + TF-IDF (final)** | **50%** | **0.44** |
+| **XGBoost + TF-IDF (final)** | 🟢 **50%** | 🟢 **0.44** |
 
 Weaker on the smallest classes (`General Inquiry`, `Sales and Pre-Sales`) — a direct effect of class imbalance, documented below rather than silently ignored.
 
 **RAG pipeline — RAGAS evaluation (20-sample eval set)**
 
 | Metric | Score | What it measures |
-|---|---|---|
-| Context Precision | `1.00` | Are retrieved past tickets actually relevant? |
-| Faithfulness | `_.__` | Does the draft stick to the retrieved context? |
-| Answer Relevancy | `_.__` | Does the draft actually address the question asked? |
+|---|:---:|---|
+| Context Precision | 🟢 `1.00` | Are retrieved past tickets actually relevant? |
+| Faithfulness | 🟡 `_.__` | Does the draft stick to the retrieved context? |
+| Answer Relevancy | 🟡 `_.__` | Does the draft actually address the question asked? |
 
 > _Fill in the final numbers from `notebooks/05_evaluation.ipynb` — retrieval was validated at a perfect context-precision score; faithfulness and relevancy improved materially after iterating on the drafting prompt._
 
 <br/>
 
-## Project Structure
+## 📁 Project Structure
 
 <details>
-<summary><b>Click to expand full tree</b></summary>
+<summary><b>🌳 Click to expand full tree</b></summary>
 
 ```
 ai-ops/
@@ -172,10 +185,10 @@ ai-ops/
 
 <br/>
 
-## Getting Started
+## 🚀 Getting Started
 
 <details>
-<summary><b>Click to expand setup instructions</b></summary>
+<summary><b>⚡ Click to expand setup instructions</b></summary>
 
 ```bash
 # 1. Clone
@@ -205,7 +218,7 @@ Visit `http://127.0.0.1:8000/docs` for interactive Swagger docs.
 
 <br/>
 
-## API Usage
+## 🔌 API Usage
 
 ```bash
 curl -X POST http://127.0.0.1:8000/process-ticket \
@@ -225,7 +238,7 @@ curl -X POST http://127.0.0.1:8000/process-ticket \
 
 <br/>
 
-## Testing
+## 🧪 Testing
 
 ```bash
 pytest tests/ -v
@@ -235,7 +248,7 @@ Every module — cleaning, classifier, RAG, agents, API — is unit tested with 
 
 <br/>
 
-## Screenshots
+## 🖼️ Screenshots
 
 <!-- Add screenshots here, e.g.:
 <div align="center">
@@ -244,11 +257,13 @@ Every module — cleaning, classifier, RAG, agents, API — is unit tested with 
 </div>
 -->
 
-_Coming soon._
+<div align="center">
+<i>Coming soon.</i>
+</div>
 
 <br/>
 
-## What I'd Build Next
+## 🧭 What I'd Build Next
 
 Deliberately scoped out of this MVP — not forgotten, just sequenced:
 
@@ -260,7 +275,7 @@ Deliberately scoped out of this MVP — not forgotten, just sequenced:
 
 <br/>
 
-## Lessons Along the Way
+## 💡 Lessons Along the Way
 
 - My first dataset choice looked fine on paper — until I actually *read* the rows and found the labels had no real relationship to the text. Caught it before building three layers on top of broken data.
 - A perfect retrieval score doesn't mean a good system — my RAG context precision was `1.00` while the drafted answers still scored poorly, because the problem was prompt design, not retrieval.
@@ -268,18 +283,20 @@ Deliberately scoped out of this MVP — not forgotten, just sequenced:
 
 <br/>
 
-## Author
+<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.gif" width="100%"/>
 
 <div align="center">
+
+### 👤 Author
 
 **Built by Jenil**
 
 <a href="https://github.com/Jenil05-web">
-<img src="https://img.shields.io/badge/GitHub-Jenil05--web-8A7FFF?style=flat-square&logo=github&logoColor=white&labelColor=0d1117"/>
+<img src="https://img.shields.io/badge/GitHub-Jenil05--web-8A7FFF?style=for-the-badge&logo=github&logoColor=white&labelColor=0d1117"/>
 </a>
 
 <br/><br/>
 
-<sub>◇ ◆ ◇ ◆ ◇</sub>
+<img src="https://capsule-render.vercel.app/api?type=rect&color=0:24243E,50:302B63,100:0F0C29&height=100&section=footer&animation=twinkling" width="100%"/>
 
 </div>
