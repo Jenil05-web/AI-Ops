@@ -21,6 +21,8 @@
 <img src="https://img.shields.io/badge/XGBoost-Classifier-EB5E28?style=for-the-badge&labelColor=0d1117" height="28"/>
 &nbsp;
 <img src="https://img.shields.io/badge/FAISS-Vector%20Search-4285F4?style=for-the-badge&labelColor=0d1117" height="28"/>
+&nbsp;
+<a href="./LICENSE"><img src="https://img.shields.io/badge/License-AOBL--1.0-2ECC71?style=for-the-badge&labelColor=0d1117" height="28"/></a>
 
 <br/><br/>
 
@@ -284,13 +286,18 @@ Deliberately scoped out of this MVP — not forgotten, just sequenced:
 
 <div align="center">
 
-### 👤 Author
+###  Author
 
 **Built by Jenil**
 
 <a href="https://github.com/Jenil05-web">
 <img src="https://img.shields.io/badge/GitHub-Jenil05--web-8A7FFF?style=for-the-badge&logo=github&logoColor=white&labelColor=0d1117"/>
 </a>
+<a href="./LICENSE">
+<img src="https://img.shields.io/badge/License-AOBL--1.0-2ECC71?style=for-the-badge&labelColor=0d1117"/>
+</a>
+
+<sub>Licensed under the <a href="./LICENSE">AI-Ops Open Build License</a> — a custom permissive license written for this project.</sub>
 
 <br/><br/>
 
