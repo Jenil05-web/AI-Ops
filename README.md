@@ -1,45 +1,67 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=210&section=header&text=Triage&fontSize=72&fontColor=ffffff&animation=fadeIn&desc=An%20End-to-End%20AI%20Support%20Intelligence%20Platform&descAlignY=78&descSize=18&fontAlignY=35" width="100%"/>
-
 <br/>
 
-<img src="https://readme-typing-svg.demolab.com/?font=Fira+Code&pause=1200&color=6C63FF&center=true&vCenter=true&width=700&lines=Classifying+tickets+with+XGBoost...;Retrieving+context+with+FAISS+%2B+OpenAI...;Drafting+grounded+replies+with+GPT-4o-mini...;Escalating+what+actually+matters+to+humans." alt="typing-svg"/>
+<h1>
+  <code>&nbsp;AI‑Ops&nbsp;</code>
+</h1>
+
+<sub><i>an end‑to‑end AI support intelligence platform</i></sub>
 
 <br/><br/>
 
-![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)
-![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4o--mini-412991?style=for-the-badge&logo=openai&logoColor=white)
-![LangGraph](https://img.shields.io/badge/LangGraph-Agentic%20Orchestration-1C3C3C?style=for-the-badge)
-![XGBoost](https://img.shields.io/badge/XGBoost-Classifier-EB5E28?style=for-the-badge)
-![FAISS](https://img.shields.io/badge/FAISS-Vector%20Search-4285F4?style=for-the-badge)
-![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
-![Pytest](https://img.shields.io/badge/Pytest-Tested-0A9EDC?style=for-the-badge&logo=pytest&logoColor=white)
-![License](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)
+<img src="https://readme-typing-svg.demolab.com/?font=Fira+Code&weight=500&pause=1400&color=8A7FFF&background=00000000&center=true&vCenter=true&width=620&lines=Classifying+tickets+with+XGBoost;Retrieving+context+with+FAISS+%2B+OpenAI;Drafting+grounded+replies+with+GPT-4o-mini;Escalating+what+actually+matters+to+humans." alt="typing-svg"/>
+
+<br/>
+
+<img src="https://img.shields.io/badge/-●-8A7FFF?style=flat-square" height="4" width="4"/>&nbsp;<img src="https://img.shields.io/badge/-●-4285F4?style=flat-square" height="4" width="4"/>&nbsp;<img src="https://img.shields.io/badge/-●-EB5E28?style=flat-square" height="4" width="4"/>&nbsp;<img src="https://img.shields.io/badge/-●-1C3C3C?style=flat-square" height="4" width="4"/>&nbsp;<img src="https://img.shields.io/badge/-●-412991?style=flat-square" height="4" width="4"/>
+
+<br/><br/>
+
+<img src="https://img.shields.io/badge/Python-3.10%2B-3776AB?style=flat-square&logo=python&logoColor=white&labelColor=0d1117"/>
+<img src="https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white&labelColor=0d1117"/>
+<img src="https://img.shields.io/badge/OpenAI-GPT--4o--mini-412991?style=flat-square&logo=openai&logoColor=white&labelColor=0d1117"/>
+<img src="https://img.shields.io/badge/LangGraph-Agentic%20Orchestration-1C3C3C?style=flat-square&labelColor=0d1117"/>
+<img src="https://img.shields.io/badge/XGBoost-Classifier-EB5E28?style=flat-square&labelColor=0d1117"/>
+<br/>
+<img src="https://img.shields.io/badge/FAISS-Vector%20Search-4285F4?style=flat-square&labelColor=0d1117"/>
+<img src="https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white&labelColor=0d1117"/>
+<img src="https://img.shields.io/badge/Pytest-Tested-0A9EDC?style=flat-square&logo=pytest&logoColor=white&labelColor=0d1117"/>
+<img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square&labelColor=0d1117"/>
 
 </div>
 
 <br/>
 
-> **Triage** reads an incoming customer support ticket, figures out which team should own it, pulls up how similar issues were actually resolved in the past, drafts a grounded reply, and decides on its own whether a human needs to step in — all as one orchestrated pipeline, not a single prompt pretending to be a product.
+> **AI‑Ops** reads an incoming customer support ticket, decides which team should own it, pulls up how similar issues were actually resolved before, drafts a grounded reply, and decides on its own whether a human needs to step in — all as one orchestrated pipeline, not a single prompt pretending to be a product.
 
 <br/>
 
 ## Table of Contents
+
+<table>
+<tr>
+<td valign="top" width="50%">
 
 - [Why This Exists](#why-this-exists)
 - [Architecture](#architecture)
 - [Tech Stack](#tech-stack)
 - [Results](#results)
 - [Project Structure](#project-structure)
+
+</td>
+<td valign="top" width="50%">
+
 - [Getting Started](#getting-started)
 - [API Usage](#api-usage)
 - [Testing](#testing)
 - [Screenshots](#screenshots)
 - [What I'd Build Next](#what-id-build-next)
 - [Lessons Along the Way](#lessons-along-the-way)
-- [Author](#author)
+
+</td>
+</tr>
+</table>
 
 <br/>
 
@@ -47,7 +69,7 @@
 
 Most "AI support bot" projects are a single LLM call wearing a UI. That's not what running this in production actually looks like.
 
-**Triage** is built the way a real support-intelligence system would be: a **classical ML model** does the cheap, deterministic job of routing (it doesn't need an LLM to know "this is a billing question"), a **retrieval layer** grounds every reply in what actually worked before, an **LLM** only gets involved where genuine language generation is required, and a **rule-based layer** decides when a human has to be in the loop. Every layer earns its place — nothing is there just because it's trendy.
+**AI‑Ops** is built the way a real support-intelligence system would be: a **classical ML model** does the cheap, deterministic job of routing (it doesn't need an LLM to know "this is a billing question"), a **retrieval layer** grounds every reply in what actually worked before, an **LLM** only gets involved where genuine language generation is required, and a **rule-based layer** decides when a human has to be in the loop. Every layer earns its place — nothing is there just because it's trendy.
 
 <br/>
 
@@ -125,9 +147,9 @@ Weaker on the smallest classes (`General Inquiry`, `Sales and Pre-Sales`) — a 
 <summary><b>Click to expand full tree</b></summary>
 
 ```
-triage/
+ai-ops/
 ├── notebooks/              # exploration & demos — thin, call into src/
-├── src/triage/
+├── src/ai_ops/
 │   ├── data/                # loading, cleaning
 │   ├── models/               # classifier + training script
 │   ├── rag/                  # embeddings, retriever, knowledge base
@@ -157,8 +179,8 @@ triage/
 
 ```bash
 # 1. Clone
-git clone https://github.com/Jenil05-web/triage.git
-cd triage
+git clone https://github.com/Jenil05-web/ai-ops.git
+cd ai-ops
 
 # 2. Create environment & install
 python -m venv venv
@@ -169,12 +191,12 @@ pip install -e .
 cp .env.example .env              # then fill in OPENAI_API_KEY
 
 # 4. Run the pipeline
-python -m triage.data.cleaning          # clean raw data
-python -m triage.models.train           # train the classifier
-python -m triage.rag.knowledge_base     # build embeddings + FAISS index
+python -m ai_ops.data.cleaning          # clean raw data
+python -m ai_ops.models.train           # train the classifier
+python -m ai_ops.rag.knowledge_base     # build embeddings + FAISS index
 
 # 5. Serve the API
-uvicorn triage.api.main:app --reload --app-dir src
+uvicorn ai_ops.api.main:app --reload --app-dir src
 ```
 
 Visit `http://127.0.0.1:8000/docs` for interactive Swagger docs.
@@ -248,11 +270,16 @@ Deliberately scoped out of this MVP — not forgotten, just sequenced:
 
 ## Author
 
-Built by **Jenil**  
-[![GitHub](https://img.shields.io/badge/GitHub-Jenil05--web-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Jenil05-web)
+<div align="center">
 
-<br/>
+**Built by Jenil**
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=120&section=footer" width="100%"/>
+<a href="https://github.com/Jenil05-web">
+<img src="https://img.shields.io/badge/GitHub-Jenil05--web-8A7FFF?style=flat-square&logo=github&logoColor=white&labelColor=0d1117"/>
+</a>
+
+<br/><br/>
+
+<sub>◇ ◆ ◇ ◆ ◇</sub>
 
 </div>
