@@ -4,14 +4,11 @@
 
 <br/>
 
-<img src="https://readme-typing-svg.demolab.com/?font=Fira+Code&weight=500&pause=1400&color=8A7FFF,4285F4,EB5E28&background=00000000&center=true&vCenter=true&width=650&lines=Classifying+tickets+with+XGBoost;Retrieving+context+with+FAISS+%2B+OpenAI;Drafting+grounded+replies+with+GPT-4o-mini;Escalating+what+actually+matters+to+humans." alt="typing-svg"/>
+<img src="https://readme-typing-svg.demolab.com/?font=Fira+Code&weight=500&pause=1400&color=8A7FFF,4285F4,EB5E28&background=00000000&center=true&vCenter=true&width=650&lines=Routes+tickets+instantly+%E2%80%94+no+LLM+call+needed+to+classify;Grounds+every+reply+in+real+past+resolutions%2C+not+guesses;Drafts+context-aware+replies+ready+for+review;Escalates+transparently+%E2%80%94+humans+decide%2C+not+a+black+box." alt="typing-svg"/>
 
-<br/>
+<br/><br/>
 
-<img src="https://img.shields.io/github/stars/Jenil05-web/ai-ops?style=for-the-badge&color=FFD700&labelColor=0d1117&logo=github&logoColor=white"/>
-<img src="https://img.shields.io/github/last-commit/Jenil05-web/ai-ops?style=for-the-badge&color=8A7FFF&labelColor=0d1117"/>
-<img src="https://img.shields.io/github/license/Jenil05-web/ai-ops?style=for-the-badge&color=4285F4&labelColor=0d1117"/>
-<img src="https://img.shields.io/badge/status-active-2ECC71?style=for-the-badge&labelColor=0d1117"/>
+<img src="assets/ai-network.svg" width="640"/>
 
 <br/><br/>
 
@@ -114,18 +111,18 @@ flowchart LR
 
 <div align="center">
 
-| Layer | Tools |
-|:---:|:---|
-| 📦 **Data** | pandas · NumPy |
-| 🧮 **Classical ML** | scikit-learn · XGBoost |
-| 🔍 **Retrieval** | OpenAI Embeddings · FAISS |
-| 🕸️ **Orchestration** | LangGraph |
-| ✍️ **Generation** | OpenAI GPT-4o-mini |
-| 📏 **Evaluation** | RAGAS |
-| 🌐 **Serving** | FastAPI · Pydantic · Uvicorn |
-| 🧪 **Testing** | pytest · unittest.mock |
-| 📦 **Packaging** | setuptools (`src/` layout, pip-installable) |
-| ⚙️ **Ops** | Docker · GitHub Actions |
+|        Layer         | Tools                                       |
+| :------------------: | :------------------------------------------ |
+|     📦 **Data**      | pandas · NumPy                              |
+| 🧮 **Classical ML**  | scikit-learn · XGBoost                      |
+|   🔍 **Retrieval**   | OpenAI Embeddings · FAISS                   |
+| 🕸️ **Orchestration** | LangGraph                                   |
+|  ✍️ **Generation**   | OpenAI GPT-4o-mini                          |
+|  📏 **Evaluation**   | RAGAS                                       |
+|    🌐 **Serving**    | FastAPI · Pydantic · Uvicorn                |
+|    🧪 **Testing**    | pytest · unittest.mock                      |
+|   📦 **Packaging**   | setuptools (`src/` layout, pip-installable) |
+|      ⚙️ **Ops**      | Docker · GitHub Actions                     |
 
 </div>
 
@@ -135,20 +132,20 @@ flowchart LR
 
 **Classifier — 10-class ticket routing (`queue` prediction)**
 
-| Model | Accuracy | Macro F1 |
-|---|:---:|:---:|
-| Logistic Regression + TF-IDF (baseline) | 46% | 0.37 |
-| **XGBoost + TF-IDF (final)** | 🟢 **50%** | 🟢 **0.44** |
+| Model                                   |  Accuracy  |  Macro F1   |
+| --------------------------------------- | :--------: | :---------: |
+| Logistic Regression + TF-IDF (baseline) |    46%     |    0.37     |
+| **XGBoost + TF-IDF (final)**            | 🟢 **50%** | 🟢 **0.44** |
 
 Weaker on the smallest classes (`General Inquiry`, `Sales and Pre-Sales`) — a direct effect of class imbalance, documented below rather than silently ignored.
 
 **RAG pipeline — RAGAS evaluation (20-sample eval set)**
 
-| Metric | Score | What it measures |
-|---|:---:|---|
-| Context Precision | 🟢 `1.00` | Are retrieved past tickets actually relevant? |
-| Faithfulness | 🟡 `_.__` | Does the draft stick to the retrieved context? |
-| Answer Relevancy | 🟡 `_.__` | Does the draft actually address the question asked? |
+| Metric            |   Score   | What it measures                                    |
+| ----------------- | :-------: | --------------------------------------------------- |
+| Context Precision | 🟢 `1.00` | Are retrieved past tickets actually relevant?       |
+| Faithfulness      | 🟡 `_.__` | Does the draft stick to the retrieved context?      |
+| Answer Relevancy  | 🟡 `_.__` | Does the draft actually address the question asked? |
 
 > _Fill in the final numbers from `notebooks/05_evaluation.ipynb` — retrieval was validated at a perfect context-precision score; faithfulness and relevancy improved materially after iterating on the drafting prompt._
 
@@ -230,7 +227,9 @@ curl -X POST http://127.0.0.1:8000/process-ticket \
 {
   "ticket_text": "My internet connection keeps dropping",
   "predicted_queue": "Technical Support",
-  "retrieved_context": [ { "subject": "...", "answer": "...", "distance": 0.76 } ],
+  "retrieved_context": [
+    { "subject": "...", "answer": "...", "distance": 0.76 }
+  ],
   "draft_response": "...",
   "escalated": false
 }
@@ -277,7 +276,7 @@ Deliberately scoped out of this MVP — not forgotten, just sequenced:
 
 ## 💡 Lessons Along the Way
 
-- My first dataset choice looked fine on paper — until I actually *read* the rows and found the labels had no real relationship to the text. Caught it before building three layers on top of broken data.
+- My first dataset choice looked fine on paper — until I actually _read_ the rows and found the labels had no real relationship to the text. Caught it before building three layers on top of broken data.
 - A perfect retrieval score doesn't mean a good system — my RAG context precision was `1.00` while the drafted answers still scored poorly, because the problem was prompt design, not retrieval.
 - "The metric didn't move" turned out to be a stale Jupyter kernel, not a bad idea — always verify your code is actually the code you think it is before trusting a number.
 
