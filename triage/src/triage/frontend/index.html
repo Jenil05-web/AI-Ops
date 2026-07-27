@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI-Ops — Ticket Intelligence</title>
+    <meta name="description"
+        content="AI-powered support ticket routing, retrieval and response drafting. Submit a ticket and watch the full pipeline run.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        /* ─── Tokens ───────────────────────────────────────── */
+        :root {
+            --bg: #090C10;
+            --bg-mesh: radial-gradient(ellipse 80% 50% at 50% -10%, #12202F 0%, transparent 70%);
+            --surface: #141A22;
+            --surface-2: #1C2530;
+            --border: rgba(255, 255, 255, 0.07);
+            --border-lit: rgba(184, 149, 106, 0.25);
+
+            --text: #F2EDEA;
+            --text-2: #9BA5AE;
+            --text-3: #5C6770;
+
+            --gold: #B8956A;
+            --gold-dim: rgba(184, 149, 106, 0.12);
+            --gold-glow: rgba(184, 149, 106, 0.25);
+
+            --teal: #1E7A6B;
+            --teal-lit: #28A090;
+            --teal-dim: rgba(30, 122, 107, 0.15);
+            --teal-glow: rgba(40, 160, 144, 0.3);
+
+            --coral: #E05A4E;
+            --coral-dim: rgba(224, 90, 78, 0.12);
+
+            --success: #4EC994;
+            --success-dim: rgba(78, 201, 148, 0.1);
+
+            --font-display: 'Syne', sans-serif;
+            --font-body: 'DM Sans', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+
+            --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-in-out: cubic-bezier(0.45, 0, 0.55, 1);
+        }
+
+        /* ─── Reset ────────────────────────────────────────── */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: var(--bg);
+            background-image: var(--bg-mesh);
+            color: var(--text);
+            font-family: var(--font-body);
+            font-weight: 300;
+            line-height: 1.6;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ─── Layout ────────────────────────────────────────── */
+        .app-shell {
+            display: grid;
+            grid-template-rows: auto 1fr;
+            min-height: 100vh;
+        }
+
+        /* ─── Header ─────────────────────────────────────────  */
+        header {
+            padding: 28px 48px 26px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: baseline;
+            gap: 14px;
+        }
+
+        .brand-wordmark {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 22px;
+            letter-spacing: -0.02em;
+            color: var(--text);
+        }
+
+        .brand-sep {
+            width: 1px;
+            height: 16px;
+            background: var(--border-lit);
+        }
+
+        .brand-label {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            letter-spacing: 0.1em;
+            color: var(--gold);
+            text-transform: uppercase;
+        }
+
+        .header-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--text-3);
+        }
+
+        .status-beacon {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--teal-lit);
+            box-shadow: 0 0 0 2px var(--teal-dim);
+            animation: pulse-beacon 2.4s ease-in-out infinite;
+        }
+
+        @keyframes pulse-beacon {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 2px var(--teal-dim);
+            }
+
+            50% {
+                box-shadow: 0 0 0 4px var(--teal-glow);
+            }
+        }
+
+        /* ─── Main canvas ────────────────────────────────────── */
+        main {
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            gap: 0;
+        }
+
+        /* ─── Input panel ────────────────────────────────────── */
+        .input-panel {
+            border-right: 1px solid var(--border);
+            padding: 36px 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+
+        .section-eyebrow {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 0.14em;
+            color: var(--text-3);
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 6px;
+        }
+
+        .section-sub {
+            font-size: 13px;
+            color: var(--text-2);
+            line-height: 1.5;
+        }
+
+        textarea#ticketInput {
+            width: 100%;
+            min-height: 148px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            font-family: var(--font-body);
+            font-weight: 300;
+            font-size: 14px;
+            padding: 16px;
+            resize: vertical;
+            line-height: 1.6;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        textarea#ticketInput::placeholder {
+            color: var(--text-3);
+        }
+
+        textarea#ticketInput:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px var(--gold-glow);
+        }
+
+        /* ─── Example chips ─────────────────────────────────── */
+        .examples-label {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 0.1em;
+            color: var(--text-3);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .chips {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .chip {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-2);
+            font-size: 12.5px;
+            font-family: var(--font-body);
+            padding: 9px 14px;
+            cursor: pointer;
+            text-align: left;
+            transition: border-color 0.18s, color 0.18s, background 0.18s;
+            line-height: 1.4;
+        }
+
+        .chip:hover {
+            border-color: var(--border-lit);
+            background: var(--surface-2);
+            color: var(--text);
+        }
+
+        .chip:focus-visible {
+            outline: 2px solid var(--gold);
+            outline-offset: 2px;
+        }
+
+        .chip-tag {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: var(--gold);
+            letter-spacing: 0.06em;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        /* ─── Submit ─────────────────────────────────────────── */
+        .submit-row {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        button#submit {
+            width: 100%;
+            background: var(--gold);
+            color: #16100A;
+            border: none;
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 13px;
+            letter-spacing: 0.04em;
+            padding: 14px 20px;
+            border-radius: 7px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: filter 0.18s, transform 0.1s;
+        }
+
+        button#submit:hover:not(:disabled) {
+            filter: brightness(1.08);
+        }
+
+        button#submit:active:not(:disabled) {
+            transform: scale(0.99);
+        }
+
+        button#submit:disabled {
+            background: var(--surface-2);
+            color: var(--text-3);
+            cursor: not-allowed;
+        }
+
+        button#submit:focus-visible {
+            outline: 2px solid var(--gold);
+            outline-offset: 3px;
+        }
+
+        .submit-icon {
+            font-size: 15px;
+            transition: transform 0.2s;
+        }
+
+        button#submit:not(:disabled):hover .submit-icon {
+            transform: translateX(2px);
+        }
+
+        .error-msg {
+            font-size: 13px;
+            color: var(--coral);
+            display: none;
+            padding: 10px 14px;
+            background: var(--coral-dim);
+            border: 1px solid rgba(224, 90, 78, 0.2);
+            border-radius: 6px;
+            line-height: 1.4;
+        }
+
+        /* ─── Pipeline panel ─────────────────────────────────── */
+        .pipeline-panel {
+            padding: 36px 48px;
+            overflow-y: auto;
+        }
+
+        .pipeline-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 36px;
+        }
+
+        /* ─── Vertical pipeline ───────────────────────────────── */
+        .workflow {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .stage {
+            display: grid;
+            grid-template-columns: 48px 1fr;
+            gap: 0 20px;
+            position: relative;
+        }
+
+        /* Connector line between stages */
+        .stage-connector {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stage-dot {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--surface);
+            border: 1.5px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            flex-shrink: 0;
+            transition: background 0.35s var(--ease-out),
+                border-color 0.35s var(--ease-out),
+                box-shadow 0.35s var(--ease-out);
+            position: relative;
+            z-index: 1;
+        }
+
+        .stage.active .stage-dot {
+            background: var(--teal-dim);
+            border-color: var(--teal-lit);
+            box-shadow: 0 0 0 4px var(--teal-glow);
+        }
+
+        .stage.done .stage-dot {
+            background: var(--teal-dim);
+            border-color: var(--teal-lit);
+        }
+
+        .stage.done .stage-dot .dot-icon {
+            opacity: 0;
+        }
+
+        .stage.done .stage-dot::after {
+            content: '✓';
+            position: absolute;
+            color: var(--teal-lit);
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .connector-line {
+            width: 1.5px;
+            flex: 1;
+            background: var(--border);
+            min-height: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Signal pulse traveling down the line */
+        .connector-line .signal {
+            position: absolute;
+            top: -100%;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            background: linear-gradient(to bottom, transparent, var(--teal-lit), transparent);
+            transition: none;
+        }
+
+        .connector-line.animate .signal {
+            top: 100%;
+            transition: top 0.6s var(--ease-in-out);
+        }
+
+        .stage:last-child .connector-line {
+            display: none;
+        }
+
+        /* Stage body */
+        .stage-body {
+            padding-bottom: 28px;
+        }
+
+        .stage-meta {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            height: 32px;
+            margin-bottom: 0;
+        }
+
+        .stage-name {
+            font-family: var(--font-display);
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-3);
+            transition: color 0.3s;
+        }
+
+        .stage.active .stage-name,
+        .stage.done .stage-name {
+            color: var(--text);
+        }
+
+        .stage-status {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 0.08em;
+            color: var(--text-3);
+            text-transform: uppercase;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .stage.active .stage-status {
+            opacity: 1;
+            color: var(--teal-lit);
+        }
+
+        .stage.done .stage-status {
+            opacity: 1;
+            color: var(--text-3);
+        }
+
+        /* Stage content card */
+        .stage-card {
+            margin-top: 12px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            max-height: 0;
+            opacity: 0;
+            transition: max-height 0.5s var(--ease-out),
+                opacity 0.4s var(--ease-out),
+                border-color 0.3s;
+        }
+
+        .stage-card.open {
+            max-height: 600px;
+            opacity: 1;
+        }
+
+        .stage.active .stage-card,
+        .stage.done .stage-card {
+            border-color: rgba(30, 122, 107, 0.2);
+        }
+
+        .stage-card-inner {
+            padding: 16px 18px;
+        }
+
+        /* Skeleton loader */
+        .skeleton-row {
+            height: 12px;
+            border-radius: 4px;
+            background: linear-gradient(90deg, var(--surface-2) 25%, var(--border) 50%, var(--surface-2) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.4s infinite;
+            margin-bottom: 8px;
+        }
+
+        .skeleton-row:last-child {
+            width: 60%;
+            margin-bottom: 0;
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        /* ─── Stage-specific content ─────────────────────────── */
+        .queue-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            background: var(--teal-dim);
+            color: var(--teal-lit);
+            border: 1px solid rgba(30, 122, 107, 0.3);
+            padding: 6px 14px;
+            border-radius: 5px;
+            letter-spacing: 0.04em;
+        }
+
+        .context-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .context-item {
+            padding: 11px 14px;
+            background: var(--surface-2);
+            border-radius: 6px;
+            border-left: 2px solid var(--teal);
+        }
+
+        .context-item-subject {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text);
+            margin-bottom: 3px;
+        }
+
+        .context-item-body {
+            font-size: 12px;
+            color: var(--text-2);
+            line-height: 1.5;
+        }
+
+        .context-similarity {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: var(--text-3);
+            margin-top: 4px;
+        }
+
+        .draft-text {
+            font-size: 13.5px;
+            line-height: 1.7;
+            color: var(--text);
+            white-space: pre-wrap;
+            margin-bottom: 14px;
+        }
+
+        .copy-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-ghost {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-2);
+            font-family: var(--font-mono);
+            font-size: 11px;
+            letter-spacing: 0.05em;
+            padding: 7px 14px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: border-color 0.18s, color 0.18s;
+        }
+
+        .btn-ghost:hover {
+            border-color: var(--gold);
+            color: var(--text);
+        }
+
+        /* Escalation */
+        .escalation-result {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .escalation-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .escalation-icon.ok {
+            background: var(--success-dim);
+            color: var(--success);
+        }
+
+        .escalation-icon.flag {
+            background: var(--coral-dim);
+            color: var(--coral);
+        }
+
+        .escalation-label {
+            font-family: var(--font-display);
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 3px;
+        }
+
+        .escalation-desc {
+            font-size: 12.5px;
+            color: var(--text-2);
+        }
+
+        /* ─── Empty state ────────────────────────────────────── */
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 0;
+            text-align: center;
+            gap: 12px;
+        }
+
+        .empty-icon {
+            font-size: 32px;
+            opacity: 0.15;
+        }
+
+        .empty-title {
+            font-family: var(--font-display);
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-3);
+        }
+
+        .empty-sub {
+            font-size: 13px;
+            color: var(--text-3);
+            max-width: 280px;
+            line-height: 1.5;
+        }
+
+        /* ─── Accessibility + responsiveness ─────────────────── */
+        @media (max-width: 800px) {
+            main {
+                grid-template-columns: 1fr;
+            }
+
+            header {
+                padding: 20px 24px;
+            }
+
+            .input-panel,
+            .pipeline-panel {
+                padding: 24px;
+            }
+
+            .input-panel {
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                transition-duration: 0.01ms !important;
+                animation-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-shell">
+
+        <!-- Header -->
+        <header>
+            <div class="brand">
+                <span class="brand-wordmark">AI-Ops</span>
+                <div class="brand-sep"></div>
+                <span class="brand-label">Ticket Intelligence</span>
+            </div>
+            <div class="header-meta">
+                <div class="status-beacon"></div>
+                <span>API Connected</span>
+            </div>
+        </header>
+
+        <!-- Main -->
+        <main>
+
+            <!-- ── Left: input panel ── -->
+            <div class="input-panel">
+
+                <div>
+                    <p class="section-eyebrow">Step 1</p>
+                    <h1 class="section-title">Submit a Support Ticket</h1>
+                    <p class="section-sub">Paste or type a customer ticket. The pipeline will route it, retrieve similar
+                        cases, draft a response, and flag whether it needs human escalation.</p>
+                </div>
+
+                <textarea id="ticketInput" placeholder="Describe the customer issue in plain language…"
+                    aria-label="Ticket text">My internet connection keeps dropping every few minutes and restarting the router hasn't helped.</textarea>
+
+                <div>
+                    <p class="examples-label">Try an example</p>
+                    <div class="chips">
+                        <button class="chip" type="button"
+                            data-text="I was charged twice for my monthly subscription this cycle — my invoice shows a duplicate payment. Can you refund one of them?">
+                            <span class="chip-tag">Billing</span>
+                            Duplicate charge on monthly subscription
+                        </button>
+                        <button class="chip" type="button"
+                            data-text="Our office internet has been dropping every few minutes since this morning. We've restarted the router twice and it hasn't helped.">
+                            <span class="chip-tag">Network</span>
+                            Office connection dropping repeatedly
+                        </button>
+                        <button class="chip" type="button"
+                            data-text="I can't log into my account — the password reset link in the email I received isn't working. It just redirects to a blank page.">
+                            <span class="chip-tag">Access</span>
+                            Password reset link not working
+                        </button>
+                    </div>
+                </div>
+
+                <div class="submit-row">
+                    <button id="submit" type="button">
+                        <span>Run Pipeline</span>
+                        <span class="submit-icon" aria-hidden="true">→</span>
+                    </button>
+                    <div class="error-msg" id="errorMsg" role="alert"></div>
+                </div>
+
+            </div>
+
+            <!-- ── Right: pipeline panel ── -->
+            <div class="pipeline-panel">
+
+                <div class="pipeline-header">
+                    <div>
+                        <p class="section-eyebrow">Workflow</p>
+                        <h2 class="section-title">Live Pipeline</h2>
+                        <p class="section-sub">Four agents run in sequence — each stage unlocks when the previous one
+                            completes.</p>
+                    </div>
+                </div>
+
+                <!-- Empty state -->
+                <div class="empty-state" id="emptyState">
+                    <div class="empty-icon">◎</div>
+                    <p class="empty-title">No ticket submitted yet</p>
+                    <p class="empty-sub">Submit a ticket on the left to watch each stage of the pipeline run in
+                        sequence.</p>
+                </div>
+
+                <!-- Workflow stages (hidden until first run) -->
+                <div class="workflow" id="workflow" style="display:none;">
+
+                    <!-- Stage 1: Triage -->
+                    <div class="stage" id="stage-triage">
+                        <div class="stage-connector">
+                            <div class="stage-dot" aria-hidden="true">
+                                <span class="dot-icon">◈</span>
+                            </div>
+                            <div class="connector-line" id="conn-0">
+                                <div class="signal"></div>
+                            </div>
+                        </div>
+                        <div class="stage-body">
+                            <div class="stage-meta">
+                                <span class="stage-name">Route</span>
+                                <span class="stage-status" id="status-triage">Running…</span>
+                            </div>
+                            <div class="stage-card" id="card-triage">
+                                <div class="stage-card-inner" id="content-triage">
+                                    <div class="skeleton-row"></div>
+                                    <div class="skeleton-row"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stage 2: Retrieve -->
+                    <div class="stage" id="stage-retrieve">
+                        <div class="stage-connector">
+                            <div class="stage-dot" aria-hidden="true">
+                                <span class="dot-icon">◈</span>
+                            </div>
+                            <div class="connector-line" id="conn-1">
+                                <div class="signal"></div>
+                            </div>
+                        </div>
+                        <div class="stage-body">
+                            <div class="stage-meta">
+                                <span class="stage-name">Retrieve</span>
+                                <span class="stage-status" id="status-retrieve">Waiting</span>
+                            </div>
+                            <div class="stage-card" id="card-retrieve">
+                                <div class="stage-card-inner" id="content-retrieve">
+                                    <div class="skeleton-row"></div>
+                                    <div class="skeleton-row"></div>
+                                    <div class="skeleton-row"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stage 3: Draft -->
+                    <div class="stage" id="stage-draft">
+                        <div class="stage-connector">
+                            <div class="stage-dot" aria-hidden="true">
+                                <span class="dot-icon">◈</span>
+                            </div>
+                            <div class="connector-line" id="conn-2">
+                                <div class="signal"></div>
+                            </div>
+                        </div>
+                        <div class="stage-body">
+                            <div class="stage-meta">
+                                <span class="stage-name">Draft Response</span>
+                                <span class="stage-status" id="status-draft">Waiting</span>
+                            </div>
+                            <div class="stage-card" id="card-draft">
+                                <div class="stage-card-inner" id="content-draft">
+                                    <div class="skeleton-row"></div>
+                                    <div class="skeleton-row"></div>
+                                    <div class="skeleton-row"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stage 4: Escalate -->
+                    <div class="stage" id="stage-escalate">
+                        <div class="stage-connector">
+                            <div class="stage-dot" aria-hidden="true">
+                                <span class="dot-icon">◈</span>
+                            </div>
+                            <div class="connector-line"></div>
+                        </div>
+                        <div class="stage-body">
+                            <div class="stage-meta">
+                                <span class="stage-name">Escalation Decision</span>
+                                <span class="stage-status" id="status-escalate">Waiting</span>
+                            </div>
+                            <div class="stage-card" id="card-escalate">
+                                <div class="stage-card-inner" id="content-escalate">
+                                    <div class="skeleton-row"></div>
+                                    <div class="skeleton-row"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div><!-- /workflow -->
+            </div><!-- /pipeline-panel -->
+        </main>
+    </div>
+
+    <script>
+        const API_URL = "/process-ticket";
+        const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+        const $ = id => document.getElementById(id);
+
+        const ticketInput = $('ticketInput');
+        const submitBtn = $('submit');
+        const errorMsg = $('errorMsg');
+        const emptyState = $('emptyState');
+        const workflow = $('workflow');
+
+        // ── Chip shortcuts ──────────────────────────────────
+        document.querySelectorAll('.chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                ticketInput.value = chip.dataset.text;
+                ticketInput.focus();
+            });
+        });
+
+        // ── Stage helpers ───────────────────────────────────
+        function resetStages() {
+            ['triage', 'retrieve', 'draft', 'escalate'].forEach(name => {
+                const stage = $(`stage-${name}`);
+                stage.className = 'stage';
+                $(`status-${name}`).textContent = name === 'triage' ? 'Running…' : 'Waiting';
+                const card = $(`card-${name}`);
+                card.className = 'stage-card';
+            });
+            // Reset connector signals
+            [0, 1, 2].forEach(i => {
+                const conn = $(`conn-${i}`);
+                if (conn) conn.className = 'connector-line';
+            });
+        }
+
+        function activateStage(name, statusText) {
+            const stage = $(`stage-${name}`);
+            stage.classList.add('active');
+            $(`status-${name}`).textContent = statusText || 'Running…';
+            const card = $(`card-${name}`);
+            card.classList.add('open');
+        }
+
+        function doneStage(name) {
+            const stage = $(`stage-${name}`);
+            stage.classList.remove('active');
+            stage.classList.add('done');
+            $(`status-${name}`).textContent = 'Complete';
+        }
+
+        function pulseConnector(index) {
+            const conn = $(`conn-${index}`);
+            if (!conn) return;
+            // Reset then animate
+            conn.className = 'connector-line';
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    conn.classList.add('animate');
+                });
+            });
+        }
+
+        // ── Content renderers ───────────────────────────────
+        function renderTriage(data) {
+            $('content-triage').innerHTML = `
+        <div style="margin-bottom:8px;font-size:11px;font-family:var(--font-mono);color:var(--text-3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px">Assigned Queue</div>
+        <div class="queue-tag">
+          <span>▸</span>
+          ${data.predicted_queue ?? '—'}
+        </div>
+      `;
+        }
+
+        function renderRetrieve(data) {
+            const items = (data.retrieved_context || []);
+            const html = items.length === 0
+                ? '<p style="font-size:13px;color:var(--text-3)">No similar cases found in the knowledge base.</p>'
+                : `
+          <div style="margin-bottom:10px;font-size:11px;font-family:var(--font-mono);color:var(--text-3);letter-spacing:.08em;text-transform:uppercase">${items.length} similar case${items.length !== 1 ? 's' : ''} retrieved</div>
+          <div class="context-list">
+            ${items.map((c, i) => `
+              <div class="context-item">
+                <div class="context-item-subject">${c.subject ?? 'Untitled case'}</div>
+                <div class="context-item-body">${(c.answer ?? '').slice(0, 160)}${(c.answer ?? '').length > 160 ? '…' : ''}</div>
+                <div class="context-similarity">Similarity distance: ${c.distance != null ? c.distance.toFixed(3) : '—'}</div>
+              </div>
+            `).join('')}
+          </div>
+        `;
+            $('content-retrieve').innerHTML = html;
+        }
+
+        function renderDraft(data) {
+            const draftId = 'draft-text-' + Date.now();
+            $('content-draft').innerHTML = `
+        <div style="margin-bottom:10px;font-size:11px;font-family:var(--font-mono);color:var(--text-3);letter-spacing:.08em;text-transform:uppercase">Drafted reply</div>
+        <p class="draft-text" id="${draftId}">${data.draft_response ?? '—'}</p>
+        <div class="copy-row">
+          <button class="btn-ghost" type="button" data-target="${draftId}">Copy reply</button>
+        </div>
+      `;
+            document.querySelector(`[data-target="${draftId}"]`).addEventListener('click', function () {
+                navigator.clipboard.writeText(data.draft_response ?? '').then(() => {
+                    this.textContent = 'Copied';
+                    setTimeout(() => this.textContent = 'Copy reply', 1400);
+                });
+            });
+        }
+
+        function renderEscalate(data) {
+            const escalated = !!data.escalated;
+            $('content-escalate').innerHTML = `
+        <div class="escalation-result">
+          <div class="escalation-icon ${escalated ? 'flag' : 'ok'}">${escalated ? '⚑' : '✓'}</div>
+          <div>
+            <div class="escalation-label">${escalated ? 'Flagged for human review' : 'Safe to send automatically'}</div>
+            <div class="escalation-desc">${escalated
+                    ? 'This ticket has been flagged and routed to a human agent for review before responding.'
+                    : 'The drafted response is grounded in verified past resolutions and can be sent without further review.'
+                }</div>
+          </div>
+        </div>
+      `;
+        }
+
+        // ── Main pipeline runner ────────────────────────────
+        async function runPipeline() {
+            const text = ticketInput.value.trim();
+            if (!text) { ticketInput.focus(); return; }
+
+            // Reset UI
+            errorMsg.style.display = 'none';
+            emptyState.style.display = 'none';
+            workflow.style.display = 'flex';
+            resetStages();
+            submitBtn.disabled = true;
+            submitBtn.querySelector('span').textContent = 'Running…';
+
+            let data;
+            try {
+                const res = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ ticket_text: text })
+                });
+                if (!res.ok) throw new Error(`Pipeline returned ${res.status}. Check that the API server is running.`);
+                data = await res.json();
+            } catch (err) {
+                errorMsg.textContent = err.message || 'Could not reach the API. Make sure the server is running on port 8000.';
+                errorMsg.style.display = 'block';
+                emptyState.style.display = 'flex';
+                workflow.style.display = 'none';
+                submitBtn.disabled = false;
+                submitBtn.querySelector('span').textContent = 'Run Pipeline';
+                return;
+            }
+
+            // ── Stage-by-stage reveal ──
+            // Stage 1: Triage
+            activateStage('triage', 'Running…');
+            await sleep(280);
+            renderTriage(data);
+            await sleep(300);
+            doneStage('triage');
+
+            // Connector 0 → Retrieve
+            pulseConnector(0);
+            await sleep(680);
+
+            // Stage 2: Retrieve
+            activateStage('retrieve', 'Searching knowledge base…');
+            await sleep(320);
+            renderRetrieve(data);
+            await sleep(300);
+            doneStage('retrieve');
+
+            // Connector 1 → Draft
+            pulseConnector(1);
+            await sleep(680);
+
+            // Stage 3: Draft
+            activateStage('draft', 'Generating response…');
+            await sleep(320);
+            renderDraft(data);
+            await sleep(300);
+            doneStage('draft');
+
+            // Connector 2 → Escalate
+            pulseConnector(2);
+            await sleep(680);
+
+            // Stage 4: Escalate
+            activateStage('escalate', 'Evaluating…');
+            await sleep(320);
+            renderEscalate(data);
+            await sleep(300);
+            doneStage('escalate');
+
+            // Done
+            submitBtn.disabled = false;
+            submitBtn.querySelector('span').textContent = 'Run Again';
+        }
+
+        submitBtn.addEventListener('click', runPipeline);
+
+        // Allow Ctrl+Enter to submit
+        ticketInput.addEventListener('keydown', e => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') runPipeline();
+        });
+    </script>
+
+</body>
+
+</html>
