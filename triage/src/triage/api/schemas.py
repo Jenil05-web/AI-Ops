@@ -19,5 +19,5 @@ class TicketResponse(BaseModel):
     predicted_queue: Optional[str]
     retrieved_context : Optional[List[RetrievedItem]]
     draft_response: Optional[str]
-    escalted: Optional[bool]
+    escalated: Optional[bool]
         

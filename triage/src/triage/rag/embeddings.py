@@ -6,7 +6,9 @@ from openai import OpenAI
 
 client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
 
-EMBEDDING_MODEL = "text-embedding-3-small"
+from triage.config import config
+
+EMBEDDING_MODEL = config['rag']['embedding_model']
 
 def get_embeddings_batch(texts: list[str], model: str = EMBEDDING_MODEL, batch_size: int = 100) -> list[list[float]]:
     """Embed a list of texts in batches using OpenAI's embedding API."""

@@ -27,13 +27,16 @@ INSTRUCTIONS:
 RESPONSE:"""
 
 
-def drafting_node(state: TicketState, model: str = "gpt-4o-mini") -> TicketState:
+from triage.config import config
+
+def drafting_node(state: TicketState, model: str = None) -> TicketState:
     """Generate a grounded draft response using retrieved context."""
+    draft_model = model if model is not None else config['llm']['draft_model']
     prompt = build_draft_prompt(state['ticket_text'], state['retrieved_context'])
     response = llm_client.chat.completions.create(
-        model=model,
+        model=draft_model,
         messages=[{"role": "user", "content": prompt}],
-        temperature=0.3
+        temperature=config['llm']['temperature']
     )
 
     state['draft_response'] = response.choices[0].message.content

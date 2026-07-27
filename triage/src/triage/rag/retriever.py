@@ -20,10 +20,13 @@ def load_index(path:str)-> faiss.IndexFlatL2:
     return faiss.read_index(path)    
 
 
-def search(query: str, index: faiss.IndexFlatL2, df: pd.DataFrame, k: int = 3) -> pd.DataFrame:
+from triage.config import config
+
+def search(query: str, index: faiss.IndexFlatL2, df: pd.DataFrame, k: int = None) -> pd.DataFrame:
     """Search the index for the top-k most relevant tickets, return their subject/body/answer."""
+    top_k = k if k is not None else config['rag']['top_k']
     query_vec = embed_query(query)
-    distances, indices = index.search(query_vec, k)
+    distances, indices = index.search(query_vec, top_k)
     results = df.iloc[indices[0]][['subject', 'body', 'answer']].copy()
     results['distance'] = distances[0]
     return results

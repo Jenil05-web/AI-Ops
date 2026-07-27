@@ -6,6 +6,18 @@ build-backend = "setuptools.build_meta"
 name = "triage"
 version = "0.1.0"
 requires-python = ">=3.9"
+dependencies = [
+    "langgraph",
+    "langchain",
+    "langchain-openai",
+    "openai",
+    "python-dotenv",
+    "pandas",
+    "xgboost",
+    "scikit-learn",
+    "faiss-cpu",
+    "joblib"
+]
 
 [tool.setuptools.packages.find]
 where = ["src"]

@@ -7,14 +7,17 @@ import xgboost as xgb
 from sklearn.metrics import classification_report
 from sklearn.feature_extraction.text import TfidfVectorizer
 
-def build_vectorizer(max_features: int=5000)-> TfidfVectorizer:
-  return TfidfVectorizer(max_features=max_features, stop_words='english')
+from triage.config import config
+
+def build_vectorizer(max_features: int=None)-> TfidfVectorizer:
+  features = max_features if max_features is not None else config['model']['max_features']
+  return TfidfVectorizer(max_features=features, stop_words='english')
 
 def build_model() -> xgb.XGBClassifier: # We have used XGBoost to address the multi-class text classification problem 
     return xgb.XGBClassifier(
-        n_estimators=200,
-        max_depth=6,
-        learning_rate=0.1,
+        n_estimators=config['model']['n_estimators'],
+        max_depth=config['model']['max_depth'],
+        learning_rate=config['model']['learning_rate'],
         objective='multi:softmax',
         eval_metric='mlogloss',
         random_state=42 
