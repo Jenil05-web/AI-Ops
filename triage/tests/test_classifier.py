@@ -28,5 +28,6 @@ def test_predict_returns_known_label():
     model = build_model()
     model.fit(X, y)
 
-    result = predict("invoice billing question", model, vectorizer, le)
+    result, confidence = predict("invoice billing question", model, vectorizer, le)
     assert result in labels
+    assert isinstance(confidence, float)

@@ -10,7 +10,8 @@ def test_triage_node_sets_predicted_queue():
     fake_label_encoder = MagicMock()
 
     fake_vectorizer.transform.return_value = "fake_vector"
-    fake_model.predict.return_value = [0]
+    import numpy as np
+    fake_model.predict_proba.return_value = np.array([[0.9, 0.1]])
     fake_label_encoder.inverse_transform.return_value = ["Technical Support"]
 
     state = {"ticket_text": "internet keeps dropping"}

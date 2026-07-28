@@ -34,8 +34,10 @@ def load_artifacts(model_dir: str):
     label_encoder = joblib.load(f"{model_dir}/label_encoder.pkl")
     return model, vectorizer, label_encoder
 
-def predict(text: str, model, vectorizer, label_encoder) -> str:
-    """Predict the queue for a single raw ticket text string."""    
+def predict(text: str, model, vectorizer, label_encoder) -> tuple[str, float]:
     vec = vectorizer.transform([text])
-    pred_encoded = model.predict(vec)
-    return label_encoder.inverse_transform(pred_encoded)[0]
+    proba = model.predict_proba(vec)[0]
+    pred_idx = proba.argmax()
+    confidence = float(proba[pred_idx])
+    label = label_encoder.inverse_transform([pred_idx])[0]
+    return label, confidence

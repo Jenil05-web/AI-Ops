@@ -5,6 +5,7 @@ from triage.models.classifier import load_artifacts, predict as classify_predict
 class TicketState(TypedDict):
     ticket_text: str
     predicted_queue: Optional[str]
+    classifier_confidence: Optional[float]
     predicted_priority: Optional[str]
     retrieved_context: Optional[list]
     draft_response: Optional[str]
@@ -13,8 +14,9 @@ class TicketState(TypedDict):
 
 def triage_node(state: TicketState, model, vectorizer, label_encoder) -> TicketState:
     """Predict the queue for a ticket using the trained classifier."""
-    predicted_queue = classify_predict(state['ticket_text'], model, vectorizer, label_encoder)
+    predicted_queue, confidence = classify_predict(state['ticket_text'], model, vectorizer, label_encoder)
     state['predicted_queue'] = predicted_queue
+    state['classifier_confidence'] = confidence
     return state
 
 
