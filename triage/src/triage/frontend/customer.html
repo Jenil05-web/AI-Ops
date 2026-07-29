@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Support — Get Help</title>
+  <meta name="description" content="Submit a support request or check the status of an existing one.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ─────────────────────────────────────────────────
+     Light, calm, ordinary — nothing "AI" about it
+  ───────────────────────────────────────────────── */
+    :root {
+      --bg: #F8F8F6;
+      --surface: #FFFFFF;
+      --border: #E5E4E1;
+      --border-2: #EDECE9;
+
+      --text: #1A1A1A;
+      --text-2: #6B6966;
+      --text-3: #A3A09B;
+
+      --brand: #2563EB;
+      --brand-dim: rgba(37, 99, 235, 0.06);
+      --brand-ring: rgba(37, 99, 235, 0.15);
+
+      --green: #16A34A;
+      --green-dim: rgba(22, 163, 74, 0.06);
+      --amber: #D97706;
+      --amber-dim: rgba(217, 119, 6, 0.06);
+
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      --shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+      --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    button {
+      font: inherit;
+      cursor: pointer;
+      border: none;
+      background: none;
+    }
+
+    input,
+    textarea {
+      font: inherit;
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--brand);
+      outline-offset: 2px;
+    }
+
+    body {
+      font-family: var(--font);
+      font-size: 15px;
+      color: var(--text);
+      background: var(--bg);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ─────────────────────────────────────────────────
+     HEADER
+  ───────────────────────────────────────────────── */
+    .header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-dot {
+      width: 28px;
+      height: 28px;
+      background: var(--brand);
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .brand-name {
+      font-weight: 600;
+      font-size: 16px;
+      letter-spacing: -0.02em;
+    }
+
+    .header-nav {
+      display: flex;
+      gap: 4px;
+    }
+
+    .header-link {
+      font-size: 14px;
+      color: var(--text-2);
+      padding: 6px 12px;
+      border-radius: 7px;
+      transition: background 0.12s, color 0.12s;
+    }
+
+    .header-link:hover {
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .header-link.active {
+      background: var(--brand-dim);
+      color: var(--brand);
+      font-weight: 500;
+    }
+
+    /* ─────────────────────────────────────────────────
+     MAIN CONTAINER
+  ───────────────────────────────────────────────── */
+    .page {
+      flex: 1;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 48px 24px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      width: 100%;
+      max-width: 520px;
+      padding: 36px;
+    }
+
+    .card-title {
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+
+    .card-sub {
+      font-size: 14px;
+      color: var(--text-2);
+      line-height: 1.5;
+      margin-bottom: 28px;
+    }
+
+    /* ─────────────────────────────────────────────────
+     FORM ELEMENTS
+  ───────────────────────────────────────────────── */
+    .field {
+      margin-bottom: 18px;
+    }
+
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .field-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-2);
+      margin-bottom: 6px;
+    }
+
+    .field-input {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 14px;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .field-input::placeholder {
+      color: var(--text-3);
+    }
+
+    .field-input:focus {
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px var(--brand-ring);
+    }
+
+    .field-textarea {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--text);
+      outline: none;
+      resize: vertical;
+      min-height: 120px;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .field-textarea::placeholder {
+      color: var(--text-3);
+    }
+
+    .field-textarea:focus {
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px var(--brand-ring);
+    }
+
+    .btn-primary {
+      width: 100%;
+      background: var(--brand);
+      color: white;
+      padding: 11px 20px;
+      border-radius: 9px;
+      font-size: 15px;
+      font-weight: 500;
+      transition: filter 0.12s, transform 0.1s;
+      margin-top: 6px;
+    }
+
+    .btn-primary:hover {
+      filter: brightness(1.06);
+    }
+
+    .btn-primary:active {
+      transform: scale(0.99);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      filter: none;
+    }
+
+    .btn-secondary {
+      width: 100%;
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 10px 20px;
+      border-radius: 9px;
+      font-size: 14px;
+      font-weight: 500;
+      transition: border-color 0.12s, background 0.12s;
+      margin-top: 10px;
+    }
+
+    .btn-secondary:hover {
+      background: var(--bg);
+      border-color: var(--text-3);
+    }
+
+    /* ─────────────────────────────────────────────────
+     VIEWS
+  ───────────────────────────────────────────────── */
+    .view {
+      display: none;
+    }
+
+    .view.active {
+      display: block;
+    }
+
+    /* ─────────────────────────────────────────────────
+     RESPONSE VIEW (Screen B)
+  ───────────────────────────────────────────────── */
+    .response-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .response-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .response-icon.ok {
+      background: var(--green-dim);
+      color: var(--green);
+    }
+
+    .response-icon.pending {
+      background: var(--brand-dim);
+      color: var(--brand);
+    }
+
+    .response-title {
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    .ref-tag {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-2);
+      background: var(--bg);
+      border: 1px solid var(--border-2);
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-variant-numeric: tabular-nums;
+      margin-bottom: 18px;
+      letter-spacing: 0.02em;
+    }
+
+    .response-message {
+      background: var(--bg);
+      border: 1px solid var(--border-2);
+      border-radius: 10px;
+      padding: 18px 20px;
+      font-size: 14.5px;
+      line-height: 1.7;
+      color: var(--text);
+      white-space: pre-wrap;
+      margin-bottom: 20px;
+    }
+
+    .response-note {
+      font-size: 13px;
+      color: var(--text-3);
+      line-height: 1.5;
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--border-2);
+      margin: 20px 0;
+    }
+
+    /* ─────────────────────────────────────────────────
+     LOADING SPINNER
+  ───────────────────────────────────────────────── */
+    .spinner-area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 0;
+      gap: 14px;
+    }
+
+    .spinner {
+      width: 28px;
+      height: 28px;
+      border: 3px solid var(--border);
+      border-top-color: var(--brand);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .spinner-text {
+      font-size: 14px;
+      color: var(--text-2);
+    }
+
+    /* ─────────────────────────────────────────────────
+     LOOKUP STATUS
+  ───────────────────────────────────────────────── */
+    .status-card {
+      border-radius: 10px;
+      padding: 16px 18px;
+      margin-bottom: 16px;
+    }
+
+    .status-card.resolved {
+      background: var(--green-dim);
+      border: 1px solid rgba(22, 163, 74, 0.12);
+    }
+
+    .status-card.pending {
+      background: var(--amber-dim);
+      border: 1px solid rgba(217, 119, 6, 0.12);
+    }
+
+    .status-label {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .status-label.resolved {
+      color: var(--green);
+    }
+
+    .status-label.pending {
+      color: var(--amber);
+    }
+
+    .status-desc {
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    /* ─────────────────────────────────────────────────
+     FOOTER
+  ───────────────────────────────────────────────── */
+    .footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 12.5px;
+      color: var(--text-3);
+    }
+
+    /* ─────────────────────────────────────────────────
+     RESPONSIVE
+  ───────────────────────────────────────────────── */
+    @media (max-width: 560px) {
+      .card {
+        padding: 24px;
+      }
+
+      .field-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+
+      .page {
+        padding: 24px 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <div class="header-brand">
+      <div class="brand-dot">T</div>
+      <span class="brand-name">Support</span>
+    </div>
+    <nav class="header-nav">
+      <button class="header-link active" id="navSubmit" onclick="showView('submit')">Get help</button>
+      <button class="header-link" id="navLookup" onclick="showView('lookup')">Check request</button>
+    </nav>
+  </header>
+
+  <main class="page">
+
+    <!-- ═══ SCREEN A: Submit a request ═══ -->
+    <div class="card view active" id="viewSubmit">
+      <h1 class="card-title">How can we help?</h1>
+      <p class="card-sub">Describe your issue below. We'll get back to you as quickly as possible.</p>
+
+      <div class="field-row">
+        <div class="field">
+          <label class="field-label" for="fName">Your name</label>
+          <input class="field-input" id="fName" type="text" placeholder="Alex Johnson">
+        </div>
+        <div class="field">
+          <label class="field-label" for="fEmail">Email address</label>
+          <input class="field-input" id="fEmail" type="email" placeholder="alex@example.com">
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="fSubject">Subject</label>
+        <input class="field-input" id="fSubject" type="text" placeholder="Brief summary of your issue">
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="fBody">Message</label>
+        <textarea class="field-textarea" id="fBody"
+          placeholder="Tell us what's happening. Include any details that might help us resolve this faster."></textarea>
+      </div>
+
+      <button class="btn-primary" id="btnSubmit">Submit request</button>
+    </div>
+
+    <!-- ═══ SCREEN B: Processing / Response ═══ -->
+    <div class="card view" id="viewProcessing">
+      <div class="spinner-area">
+        <div class="spinner"></div>
+        <span class="spinner-text">We're looking into this…</span>
+      </div>
+    </div>
+
+    <div class="card view" id="viewResponse">
+      <div id="responseContent"></div>
+      <div class="divider"></div>
+      <button class="btn-secondary" onclick="showView('submit')">Submit another request</button>
+      <button class="btn-secondary" onclick="showView('lookup')" style="margin-top:6px">Check on a request</button>
+    </div>
+
+    <!-- ═══ SCREEN C: Check existing request ═══ -->
+    <div class="card view" id="viewLookup">
+      <h1 class="card-title">Check on your request</h1>
+      <p class="card-sub">Enter your reference number and email to see the current status.</p>
+
+      <div class="field-row">
+        <div class="field">
+          <label class="field-label" for="lRef">Reference number</label>
+          <input class="field-input" id="lRef" type="text" placeholder="e.g. A3F9D2">
+        </div>
+        <div class="field">
+          <label class="field-label" for="lEmail">Email used</label>
+          <input class="field-input" id="lEmail" type="email" placeholder="alex@example.com">
+        </div>
+      </div>
+
+      <button class="btn-primary" id="btnLookup">Look up request</button>
+
+      <div id="lookupResult" style="margin-top:24px"></div>
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    Powered by Triage · Response times may vary
+  </footer>
+
+  <script>
+    /* ================================================================
+       VIEW MANAGEMENT
+    ================================================================ */
+    function showView(name) {
+      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+
+      document.getElementById('navSubmit').classList.remove('active');
+      document.getElementById('navLookup').classList.remove('active');
+
+      if (name === 'submit') {
+        document.getElementById('viewSubmit').classList.add('active');
+        document.getElementById('navSubmit').classList.add('active');
+      } else if (name === 'processing') {
+        document.getElementById('viewProcessing').classList.add('active');
+      } else if (name === 'response') {
+        document.getElementById('viewResponse').classList.add('active');
+      } else if (name === 'lookup') {
+        document.getElementById('viewLookup').classList.add('active');
+        document.getElementById('navLookup').classList.add('active');
+        document.getElementById('lookupResult').innerHTML = '';
+      }
+    }
+
+    /* ================================================================
+       SUBMIT REQUEST
+    ================================================================ */
+    document.getElementById('btnSubmit').onclick = async () => {
+      const name = document.getElementById('fName').value.trim() || 'there';
+      const email = document.getElementById('fEmail').value.trim();
+      const subj = document.getElementById('fSubject').value.trim();
+      const body = document.getElementById('fBody').value.trim();
+
+      if (!email) { alert('Please enter your email address.'); return; }
+      if (!subj && !body) { alert('Please describe your issue.'); return; }
+
+      showView('processing');
+
+      try {
+        const r = await fetch(
+          `/tickets?customer_email=${enc(email)}&subject=${enc(subj || 'Support request')}&body=${enc(body || subj)}`,
+          { method: 'POST' }
+        );
+        if (!r.ok) throw new Error('Request failed');
+        const ticket = await r.json();
+
+        const ref = (ticket.id || '').toUpperCase();
+        const content = document.getElementById('responseContent');
+
+        if (ticket.status === 'auto_resolved') {
+          // Branch 1: System resolved it — show the actual answer
+          const reply = ticket.final_reply || ticket.draft_response || '';
+          content.innerHTML = `
+        <div class="response-header">
+          <div class="response-icon ok">✓</div>
+          <div class="response-title">We've resolved your request</div>
+        </div>
+        <div class="ref-tag">Reference #${ref}</div>
+        <div class="response-message">Hi ${esc(name)},\n\nThanks for reaching out. ${esc(reply)}\n\nIf this doesn't fully resolve your issue, you can check back using your reference number and we'll take another look.</div>
+        <p class="response-note">This response was generated based on our knowledge base. You can check on this request anytime using your reference number.</p>
+      `;
+        } else {
+          // Branch 2: Needs human review or escalated — holding message only
+          content.innerHTML = `
+        <div class="response-header">
+          <div class="response-icon pending">✉</div>
+          <div class="response-title">We've received your request</div>
+        </div>
+        <div class="ref-tag">Reference #${ref}</div>
+        <div class="response-message">Hi ${esc(name)},\n\nThanks for reaching out — we've received your request and someone from our team will follow up shortly at ${esc(email)}.\n\nYou can check on the status of your request anytime using the reference number above.</div>
+        <p class="response-note">Our team typically responds within a few hours. You can check on this request using the "Check request" tab above.</p>
+      `;
+        }
+
+        showView('response');
+
+        // Clear form for next use
+        document.getElementById('fName').value = '';
+        document.getElementById('fEmail').value = '';
+        document.getElementById('fSubject').value = '';
+        document.getElementById('fBody').value = '';
+
+      } catch (e) {
+        showView('submit');
+        alert('Something went wrong submitting your request. Please try again.');
+      }
+    };
+
+    /* ================================================================
+       LOOKUP REQUEST
+    ================================================================ */
+    document.getElementById('btnLookup').onclick = async () => {
+      const ref = document.getElementById('lRef').value.trim().replace('#', '').toLowerCase();
+      const email = document.getElementById('lEmail').value.trim();
+      const result = document.getElementById('lookupResult');
+
+      if (!ref) { alert('Please enter your reference number.'); return; }
+
+      result.innerHTML = `
+    <div class="spinner-area" style="padding:24px 0">
+      <div class="spinner"></div>
+      <span class="spinner-text">Looking up your request…</span>
+    </div>`;
+
+      try {
+        const r = await fetch(`/tickets/${enc(ref)}`);
+        if (!r.ok) {
+          result.innerHTML = `
+        <div class="status-card pending">
+          <div class="status-label pending">Not found</div>
+          <div class="status-desc">We couldn't find a request with that reference number. Please double-check and try again.</div>
+        </div>`;
+          return;
+        }
+
+        const ticket = await r.json();
+
+        // Optional: verify email matches
+        if (email && ticket.customer_email && ticket.customer_email.toLowerCase() !== email.toLowerCase()) {
+          result.innerHTML = `
+        <div class="status-card pending">
+          <div class="status-label pending">Email doesn't match</div>
+          <div class="status-desc">The email address you entered doesn't match the one on this request. Please check and try again.</div>
+        </div>`;
+          return;
+        }
+
+        if (ticket.status === 'auto_resolved' || ticket.status === 'resolved') {
+          const reply = ticket.final_reply || ticket.draft_response || '';
+          result.innerHTML = `
+        <div class="status-card resolved">
+          <div class="status-label resolved">Resolved</div>
+          <div class="status-desc">Your request has been resolved.</div>
+        </div>
+        ${reply ? `
+          <div style="font-size:13px;font-weight:500;color:var(--text-2);margin-bottom:8px">Our response:</div>
+          <div class="response-message">${esc(reply)}</div>
+        ` : ''}
+        <p class="response-note" style="margin-top:12px">Resolved on ${ticket.resolved_at ? new Date(ticket.resolved_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : 'recently'}.</p>
+      `;
+        } else {
+          result.innerHTML = `
+        <div class="status-card pending">
+          <div class="status-label pending">Still with our team</div>
+          <div class="status-desc">Your request is being reviewed. A member of our support team will reach out to you at <strong>${esc(ticket.customer_email || email)}</strong> once we have a response.</div>
+        </div>
+        <p class="response-note">Submitted ${ticket.created_at ? new Date(ticket.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : 'recently'}.</p>
+      `;
+        }
+
+      } catch (e) {
+        result.innerHTML = `
+      <div class="status-card pending">
+        <div class="status-label pending">Something went wrong</div>
+        <div class="status-desc">We couldn't look up your request right now. Please try again later.</div>
+      </div>`;
+      }
+    };
+
+    /* ================================================================
+       UTILS
+    ================================================================ */
+    function enc(s) { return encodeURIComponent(s); }
+
+    function esc(s) {
+      const d = document.createElement('div');
+      d.textContent = s;
+      return d.innerHTML;
+    }
+  </script>
+</body>
+
+</html>

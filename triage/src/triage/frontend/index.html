@@ -4,19 +4,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Triage — Support Intelligence</title>
+  <title>AI-Ops — Agent Console</title>
   <meta name="description"
-    content="AI-powered support inbox. Most tickets resolve themselves — you only see the ones that need you.">
+    content="Internal support console. Review AI-drafted replies, handle escalations, monitor automation.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300..700;1,14..32,300..700&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&display=swap" rel="stylesheet">
 
   <style>
-    /* ─────────────────────────────────────────────────
-     TOKENS
-  ───────────────────────────────────────────────── */
     :root {
       --bg: #0F1117;
       --raised: #161822;
@@ -49,9 +44,6 @@
       --shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
     }
 
-    /* ─────────────────────────────────────────────────
-     RESET
-  ───────────────────────────────────────────────── */
     *,
     *::before,
     *::after {
@@ -102,124 +94,121 @@
       border-radius: 8px;
     }
 
-    /* ─────────────────────────────────────────────────
-     SHELL
-  ───────────────────────────────────────────────── */
     .shell {
       display: grid;
       grid-template-rows: auto 1fr;
       height: 100vh;
     }
 
-    /* ─────────────────────────────────────────────────
-     STATS BAR — hero element
-  ───────────────────────────────────────────────── */
-    .stats-bar {
+    /* ═══════════════════════════════════════════════
+     TOP BAR — the single most important strip
+  ═══════════════════════════════════════════════ */
+    .topbar {
       background: var(--raised);
       border-bottom: 1px solid var(--border);
-      padding: 12px 24px;
+      padding: 10px 20px;
       display: flex;
       align-items: center;
-      gap: 20px;
+      gap: 16px;
     }
 
-    .stats-brand {
+    .tb-brand {
       display: flex;
       align-items: center;
       gap: 10px;
-      padding-right: 20px;
+      padding-right: 18px;
       border-right: 1px solid var(--border);
-      margin-right: 4px;
     }
 
-    .brand-mark {
-      width: 30px;
-      height: 30px;
+    .tb-mark {
+      width: 28px;
+      height: 28px;
       background: linear-gradient(135deg, var(--indigo), #818CF8);
       border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 700;
-      font-size: 14px;
+      font-size: 13px;
       color: white;
     }
 
-    .brand-name {
+    .tb-name {
       font-weight: 600;
-      font-size: 16px;
+      font-size: 15px;
       letter-spacing: -0.03em;
     }
 
-    /* The hero number */
-    .hero-stat {
+    .tb-stats {
       display: flex;
-      align-items: baseline;
-      gap: 6px;
-      margin-left: auto;
-      padding: 6px 16px;
-      background: var(--indigo-dim);
-      border: 1px solid rgba(99, 102, 241, 0.18);
-      border-radius: 10px;
+      align-items: center;
+      gap: 12px;
     }
 
-    .hero-val {
-      font-size: 26px;
-      font-weight: 700;
-      color: var(--indigo);
-      letter-spacing: -0.03em;
-      font-variant-numeric: tabular-nums;
-      line-height: 1;
-    }
-
-    .hero-label {
-      font-size: 12px;
-      color: rgba(99, 102, 241, 0.7);
-      font-weight: 500;
-    }
-
-    .stat-chips {
-      display: flex;
-      gap: 10px;
-    }
-
-    .s-chip {
+    .tb-chip {
       display: flex;
       align-items: center;
       gap: 5px;
       font-size: 12.5px;
       color: var(--text-2);
-      padding: 5px 12px;
+      padding: 4px 11px;
       border-radius: 7px;
       background: var(--card);
       border: 1px solid var(--border);
     }
 
-    .s-dot {
+    .tb-dot {
       width: 6px;
       height: 6px;
       border-radius: 50%;
       flex-shrink: 0;
     }
 
-    .s-val {
+    .tb-val {
       font-weight: 600;
       color: var(--text);
       font-variant-numeric: tabular-nums;
     }
 
-    /* ─────────────────────────────────────────────────
-     BODY: sidebar · list · detail
-  ───────────────────────────────────────────────── */
-    .body-grid {
+    /* Hero: automation rate */
+    .tb-hero {
+      margin-left: auto;
+      display: flex;
+      align-items: baseline;
+      gap: 7px;
+      padding: 7px 18px;
+      background: var(--indigo-dim);
+      border: 1px solid rgba(99, 102, 241, 0.18);
+      border-radius: 10px;
+    }
+
+    .tb-hero-val {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--indigo);
+      letter-spacing: -0.04em;
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+    }
+
+    .tb-hero-label {
+      font-size: 12px;
+      color: rgba(99, 102, 241, 0.7);
+      font-weight: 500;
+    }
+
+    /* ═══════════════════════════════════════════════
+     BODY GRID
+  ═══════════════════════════════════════════════ */
+    .body {
       display: grid;
       grid-template-columns: 210px 330px 1fr;
       overflow: hidden;
     }
 
-    /* ─────────────────────────────────────────────────
+    /* ═══════════════════════════════════════════════
      SIDEBAR
-  ───────────────────────────────────────────────── */
+  ═══════════════════════════════════════════════ */
     .sidebar {
       background: var(--raised);
       border-right: 1px solid var(--border);
@@ -247,7 +236,6 @@
       font-size: 13px;
       color: var(--text-2);
       transition: background 0.12s, color 0.12s;
-      user-select: none;
     }
 
     .sb-btn:hover {
@@ -268,7 +256,7 @@
       flex-shrink: 0;
     }
 
-    .sb-count {
+    .sb-cnt {
       margin-left: auto;
       font-size: 11px;
       font-weight: 600;
@@ -279,21 +267,21 @@
       color: white;
     }
 
-    .sb-count.c-amber {
+    .sb-cnt.c-amber {
       background: var(--amber);
       color: #1A1500;
     }
 
-    .sb-count.c-rose {
+    .sb-cnt.c-rose {
       background: var(--rose);
     }
 
-    .sb-count.c-emerald {
+    .sb-cnt.c-emerald {
       background: var(--emerald);
       color: #001A0A;
     }
 
-    .sb-divider {
+    .sb-sep {
       height: 1px;
       background: var(--border);
       margin: 10px 10px;
@@ -303,7 +291,7 @@
       flex: 1;
     }
 
-    .sb-new-btn {
+    .sb-new {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -317,39 +305,36 @@
       transition: filter 0.15s, transform 0.1s;
     }
 
-    .sb-new-btn:hover {
+    .sb-new:hover {
       filter: brightness(1.12);
     }
 
-    .sb-new-btn:active {
+    .sb-new:active {
       transform: scale(0.97);
     }
 
-    .sb-cust-btn {
+    .sb-portal-link {
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
-      background: transparent;
-      color: var(--text-2);
-      border: 1px solid var(--border-2);
-      padding: 8px 14px;
-      border-radius: 8px;
-      font-size: 12.5px;
-      font-weight: 500;
+      color: var(--text-3);
+      font-size: 12px;
+      padding: 8px;
       margin-top: 6px;
-      transition: border-color 0.15s, color 0.15s, background 0.15s;
+      border-radius: 7px;
+      transition: color 0.15s, background 0.15s;
+      text-decoration: none;
     }
 
-    .sb-cust-btn:hover {
-      border-color: var(--text-3);
-      color: var(--text);
+    .sb-portal-link:hover {
+      color: var(--text-2);
       background: var(--hover);
     }
 
-    /* ─────────────────────────────────────────────────
+    /* ═══════════════════════════════════════════════
      TICKET LIST
-  ───────────────────────────────────────────────── */
+  ═══════════════════════════════════════════════ */
     .list-panel {
       background: var(--raised);
       border-right: 1px solid var(--border);
@@ -358,7 +343,7 @@
       overflow: hidden;
     }
 
-    .list-head {
+    .lp-head {
       padding: 14px 16px 10px;
       border-bottom: 1px solid var(--border);
       display: flex;
@@ -367,12 +352,12 @@
       flex-shrink: 0;
     }
 
-    .list-title {
+    .lp-title {
       font-weight: 600;
       font-size: 13.5px;
     }
 
-    .list-count {
+    .lp-count {
       font-size: 11.5px;
       color: var(--text-3);
       background: var(--card);
@@ -380,38 +365,38 @@
       border-radius: 10px;
     }
 
-    .ticket-list {
+    .tlist {
       flex: 1;
       overflow-y: auto;
       padding: 4px 0;
     }
 
     /* row */
-    .t-row {
+    .tr {
       padding: 12px 16px;
       border-bottom: 1px solid var(--border);
       cursor: pointer;
       transition: background 0.1s;
     }
 
-    .t-row:hover {
+    .tr:hover {
       background: var(--hover);
     }
 
-    .t-row.sel {
+    .tr.sel {
       background: var(--selected);
       border-left: 2px solid var(--indigo);
       padding-left: 14px;
     }
 
-    .t-top {
+    .tr-top {
       display: flex;
       align-items: center;
       gap: 8px;
       margin-bottom: 4px;
     }
 
-    .t-av {
+    .tr-av {
       width: 28px;
       height: 28px;
       border-radius: 50%;
@@ -424,7 +409,7 @@
       flex-shrink: 0;
     }
 
-    .t-sender {
+    .tr-sender {
       font-weight: 500;
       font-size: 13px;
       flex: 1;
@@ -434,13 +419,13 @@
       text-overflow: ellipsis;
     }
 
-    .t-time {
+    .tr-time {
       font-size: 11px;
       color: var(--text-3);
       flex-shrink: 0;
     }
 
-    .t-subj {
+    .tr-subj {
       font-size: 12.5px;
       color: var(--text-2);
       white-space: nowrap;
@@ -449,13 +434,12 @@
       margin-bottom: 6px;
     }
 
-    .t-foot {
+    .tr-foot {
       display: flex;
       align-items: center;
       gap: 6px;
     }
 
-    /* pills */
     .pill {
       font-size: 10.5px;
       font-weight: 500;
@@ -490,45 +474,35 @@
       color: var(--slate);
     }
 
-    .pill-processing {
-      background: var(--indigo-dim);
-      color: var(--indigo);
-    }
-
-    .t-conf {
+    .tr-conf {
       margin-left: auto;
       font-size: 10.5px;
       color: var(--text-3);
       font-variant-numeric: tabular-nums;
     }
 
-    /* empty list */
     .list-empty {
       padding: 50px 16px;
       text-align: center;
       color: var(--text-3);
     }
 
-    .list-empty-icon {
+    .le-icon {
       font-size: 28px;
       opacity: 0.15;
       margin-bottom: 8px;
     }
 
-    .list-empty-text {
-      font-size: 13px;
-    }
-
-    /* ─────────────────────────────────────────────────
+    /* ═══════════════════════════════════════════════
      DETAIL PANEL
-  ───────────────────────────────────────────────── */
-    .detail-panel {
+  ═══════════════════════════════════════════════ */
+    .detail {
       display: flex;
       flex-direction: column;
       overflow: hidden;
     }
 
-    .detail-empty {
+    .d-empty {
       flex: 1;
       display: flex;
       flex-direction: column;
@@ -540,24 +514,24 @@
       padding: 40px;
     }
 
-    .de-icon {
+    .d-empty-icon {
       font-size: 36px;
       opacity: 0.15;
     }
 
-    .de-title {
+    .d-empty-title {
       font-weight: 600;
       font-size: 15px;
       color: var(--text-2);
     }
 
-    .de-sub {
+    .d-empty-sub {
       font-size: 13px;
       max-width: 260px;
       line-height: 1.5;
     }
 
-    .detail-view {
+    .d-view {
       display: none;
       flex-direction: column;
       height: 100%;
@@ -570,7 +544,7 @@
       flex-shrink: 0;
     }
 
-    .d-subject {
+    .d-subj {
       font-size: 16px;
       font-weight: 600;
       letter-spacing: -0.02em;
@@ -603,14 +577,14 @@
       gap: 16px;
     }
 
-    .msg-bubble {
+    .msg {
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 10px;
       padding: 16px 20px;
     }
 
-    .msg-bubble.reply-bubble {
+    .msg.reply {
       background: var(--hover);
       border-color: var(--border-2);
       margin-left: 20px;
@@ -653,11 +627,11 @@
     }
 
     /* context accordion */
-    .ctx-box {
+    .ctx {
       margin-top: 12px;
     }
 
-    .ctx-toggle {
+    .ctx-btn {
       display: flex;
       align-items: center;
       gap: 5px;
@@ -667,28 +641,28 @@
       transition: color 0.15s;
     }
 
-    .ctx-toggle:hover {
+    .ctx-btn:hover {
       color: var(--text-2);
     }
 
-    .ctx-arrow {
+    .ctx-arr {
       font-size: 9px;
       display: inline-block;
       transition: transform 0.2s var(--ease);
     }
 
-    .ctx-toggle.open .ctx-arrow {
+    .ctx-btn.open .ctx-arr {
       transform: rotate(90deg);
     }
 
-    .ctx-items {
+    .ctx-list {
       display: none;
       margin-top: 8px;
       flex-direction: column;
       gap: 6px;
     }
 
-    .ctx-items.open {
+    .ctx-list.open {
       display: flex;
     }
 
@@ -711,9 +685,7 @@
       line-height: 1.5;
     }
 
-    /* ─────────────────────────────────────────────────
-     COMPOSER
-  ───────────────────────────────────────────────── */
+    /* composer */
     .composer {
       background: var(--raised);
       border-top: 1px solid var(--border);
@@ -721,7 +693,7 @@
       flex-shrink: 0;
     }
 
-    .comp-head {
+    .c-head {
       display: flex;
       align-items: center;
       gap: 8px;
@@ -748,7 +720,7 @@
       border-radius: 6px;
     }
 
-    .comp-hint {
+    .c-hint {
       font-size: 11px;
       color: var(--text-3);
       margin-left: auto;
@@ -773,7 +745,7 @@
       box-shadow: 0 0 0 3px var(--indigo-glow);
     }
 
-    .comp-foot {
+    .c-foot {
       display: flex;
       align-items: center;
       justify-content: flex-end;
@@ -818,7 +790,6 @@
       color: var(--text);
     }
 
-    /* escalation notice */
     .esc-banner {
       background: var(--rose-dim);
       border: 1px solid rgba(251, 113, 133, 0.15);
@@ -830,10 +801,8 @@
       margin-bottom: 12px;
     }
 
-    .esc-banner-icon {
-      font-size: 18px;
-      flex-shrink: 0;
-      margin-top: 1px;
+    .esc-banner strong {
+      color: var(--rose);
     }
 
     .esc-banner-text {
@@ -841,11 +810,6 @@
       line-height: 1.5;
     }
 
-    .esc-banner-text strong {
-      color: var(--rose);
-    }
-
-    /* auto-resolved read-only notice */
     .auto-banner {
       background: var(--emerald-dim);
       border: 1px solid rgba(52, 211, 153, 0.15);
@@ -856,23 +820,16 @@
       gap: 10px;
     }
 
-    .auto-banner-icon {
-      font-size: 18px;
+    .auto-banner strong {
+      color: var(--emerald);
     }
 
     .auto-banner-text {
       font-size: 13px;
-      color: var(--text);
       line-height: 1.4;
     }
 
-    .auto-banner-text strong {
-      color: var(--emerald);
-    }
-
-    /* ─────────────────────────────────────────────────
-     MODAL (New Ticket + Customer Portal)
-  ───────────────────────────────────────────────── */
+    /* modal */
     .modal-bg {
       position: fixed;
       inset: 0;
@@ -898,7 +855,7 @@
       border-radius: 14px;
       padding: 28px;
       width: 100%;
-      max-width: 520px;
+      max-width: 500px;
       box-shadow: var(--shadow);
       transform: translateY(10px) scale(0.98);
       transition: transform 0.25s var(--ease);
@@ -908,14 +865,14 @@
       transform: translateY(0) scale(1);
     }
 
-    .modal-title {
+    .m-title {
       font-size: 16px;
       font-weight: 600;
       letter-spacing: -0.02em;
       margin-bottom: 4px;
     }
 
-    .modal-sub {
+    .m-sub {
       font-size: 13px;
       color: var(--text-2);
       margin-bottom: 20px;
@@ -966,92 +923,14 @@
       box-shadow: 0 0 0 3px var(--indigo-glow);
     }
 
-    .modal-foot {
+    .m-foot {
       display: flex;
       justify-content: flex-end;
       gap: 8px;
       margin-top: 18px;
     }
 
-    /* ── Customer portal modal (wider) ── */
-    .modal.cust-modal {
-      max-width: 560px;
-    }
-
-    .cust-response-area {
-      display: none;
-      margin-top: 20px;
-      border-top: 1px solid var(--border);
-      padding-top: 18px;
-    }
-
-    .cust-response-area.show {
-      display: block;
-    }
-
-    .cust-status-bar {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 14px;
-    }
-
-    .cust-spinner {
-      width: 18px;
-      height: 18px;
-      border: 2px solid var(--border-2);
-      border-top-color: var(--indigo);
-      border-radius: 50%;
-      animation: spin 0.7s linear infinite;
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    .cust-status-text {
-      font-size: 13px;
-      color: var(--text-2);
-    }
-
-    .cust-reply-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 16px 18px;
-    }
-
-    .cust-reply-head {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 10px;
-    }
-
-    .cust-reply-label {
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--text-2);
-    }
-
-    .cust-reply-body {
-      font-size: 14px;
-      line-height: 1.7;
-      white-space: pre-wrap;
-    }
-
-    .cust-meta-row {
-      display: flex;
-      gap: 8px;
-      margin-top: 12px;
-      flex-wrap: wrap;
-    }
-
-    /* ─────────────────────────────────────────────────
-     TOAST
-  ───────────────────────────────────────────────── */
+    /* toast */
     .toast-shelf {
       position: fixed;
       bottom: 20px;
@@ -1083,25 +962,22 @@
       opacity: 1;
     }
 
-    /* ─────────────────────────────────────────────────
-     RESPONSIVE
-  ───────────────────────────────────────────────── */
     @media (max-width: 960px) {
-      .body-grid {
+      .body {
         grid-template-columns: 190px 1fr;
       }
 
-      .detail-panel {
+      .detail {
         display: none;
       }
 
-      .hero-stat {
+      .tb-hero {
         display: none;
       }
     }
 
     @media (max-width: 640px) {
-      .body-grid {
+      .body {
         grid-template-columns: 1fr;
       }
 
@@ -1109,7 +985,7 @@
         display: none;
       }
 
-      .stat-chips {
+      .tb-stats {
         display: none;
       }
     }
@@ -1129,110 +1005,105 @@
 <body>
   <div class="shell">
 
-    <!-- ═══════════ STATS BAR ═══════════ -->
-    <header class="stats-bar">
-      <div class="stats-brand">
-        <div class="brand-mark">T</div>
-        <span class="brand-name">Triage</span>
+    <!-- ═══ TOP BAR ═══ -->
+    <header class="topbar">
+      <div class="tb-brand">
+        <div class="tb-mark">T</div>
+        <span class="tb-name">AI-Ops</span>
       </div>
 
-      <div class="stat-chips">
-        <div class="s-chip">
-          <div class="s-dot" style="background:var(--emerald)"></div>
-          <span class="s-val" id="sAR">–</span>
+      <div class="tb-stats">
+        <div class="tb-chip">
+          <div class="tb-dot" style="background:var(--emerald)"></div>
+          <span class="tb-val" id="sAR">–</span>
           <span>auto-resolved today</span>
         </div>
-        <div class="s-chip">
-          <div class="s-dot" style="background:var(--amber)"></div>
-          <span class="s-val" id="sNR">–</span>
+        <div class="tb-chip">
+          <div class="tb-dot" style="background:var(--amber)"></div>
+          <span class="tb-val" id="sNR">–</span>
           <span>need review</span>
         </div>
-        <div class="s-chip">
-          <div class="s-dot" style="background:var(--rose)"></div>
-          <span class="s-val" id="sES">–</span>
+        <div class="tb-chip">
+          <div class="tb-dot" style="background:var(--rose)"></div>
+          <span class="tb-val" id="sES">–</span>
           <span>flagged</span>
         </div>
       </div>
 
-      <div class="hero-stat">
-        <span class="hero-val" id="sRATE">–</span>
-        <span class="hero-label">automation rate</span>
+      <div class="tb-hero">
+        <span class="tb-hero-val" id="sRATE">–</span>
+        <span class="tb-hero-label">automation rate</span>
       </div>
     </header>
 
-    <!-- ═══════════ BODY ═══════════ -->
-    <div class="body-grid">
+    <!-- ═══ BODY ═══ -->
+    <div class="body">
 
-      <!-- ── SIDEBAR ── -->
-      <nav class="sidebar" aria-label="Queues">
+      <!-- SIDEBAR -->
+      <nav class="sidebar">
         <div class="sb-label">Agent Inbox</div>
 
         <button class="sb-btn active" data-q="needs_review">
-          <span class="sb-icon">✉</span>
-          <span>Inbox</span>
-          <span class="sb-count c-amber" id="cntNR">–</span>
+          <span class="sb-icon">✉</span><span>Needs review</span>
+          <span class="sb-cnt c-amber" id="cNR">–</span>
         </button>
 
         <button class="sb-btn" data-q="escalated">
-          <span class="sb-icon">⚑</span>
-          <span>Flagged</span>
-          <span class="sb-count c-rose" id="cntES">–</span>
-        </button>
-
-        <button class="sb-btn" data-q="auto_resolved">
-          <span class="sb-icon">✦</span>
-          <span>Auto-resolved</span>
-          <span class="sb-count c-emerald" id="cntAU">–</span>
+          <span class="sb-icon">⚑</span><span>Flagged</span>
+          <span class="sb-cnt c-rose" id="cES">–</span>
         </button>
 
         <button class="sb-btn" data-q="resolved">
-          <span class="sb-icon">✓</span>
-          <span>Resolved</span>
+          <span class="sb-icon">✓</span><span>Resolved</span>
         </button>
 
-        <div class="sb-divider"></div>
+        <button class="sb-btn" data-q="auto_resolved">
+          <span class="sb-icon">✦</span><span>Auto-resolved</span>
+          <span class="sb-cnt c-emerald" id="cAU">–</span>
+        </button>
+
+        <div class="sb-sep"></div>
 
         <button class="sb-btn" data-q="">
-          <span class="sb-icon">☰</span>
-          <span>All tickets</span>
+          <span class="sb-icon">☰</span><span>All tickets</span>
         </button>
 
         <div class="sb-spacer"></div>
 
-        <button class="sb-new-btn" id="btnNewTicket">
+        <button class="sb-new" id="btnNew">
           <span>+</span> Simulate incoming ticket
         </button>
 
-        <button class="sb-cust-btn" id="btnCustPortal">
-          <span>👤</span> Customer portal
-        </button>
+        <a class="sb-portal-link" href="/customer.html" target="_blank">
+          👤 Open customer portal ↗
+        </a>
       </nav>
 
-      <!-- ── TICKET LIST ── -->
+      <!-- LIST -->
       <div class="list-panel">
-        <div class="list-head">
-          <span class="list-title" id="listTitle">Inbox</span>
-          <span class="list-count" id="listCount">–</span>
+        <div class="lp-head">
+          <span class="lp-title" id="lpTitle">Needs review</span>
+          <span class="lp-count" id="lpCount">–</span>
         </div>
-        <div class="ticket-list" id="ticketList" role="listbox"></div>
+        <div class="tlist" id="tlist" role="listbox"></div>
       </div>
 
-      <!-- ── DETAIL ── -->
-      <div class="detail-panel" id="detailPanel">
-        <div class="detail-empty" id="detailEmpty">
-          <div class="de-icon">✉</div>
-          <p class="de-title">No ticket selected</p>
-          <p class="de-sub">Click a ticket to view details, AI-drafted reply, and similar cases from your knowledge
-            base.</p>
+      <!-- DETAIL -->
+      <div class="detail" id="detail">
+        <div class="d-empty" id="dEmpty">
+          <div class="d-empty-icon">✉</div>
+          <p class="d-empty-title">No ticket selected</p>
+          <p class="d-empty-sub">Click a ticket to view the customer's message, AI-drafted reply, and similar past
+            cases.</p>
         </div>
 
-        <div class="detail-view" id="detailView">
+        <div class="d-view" id="dView">
           <div class="d-head">
-            <div class="d-subject" id="dSubject">—</div>
+            <div class="d-subj" id="dSubj">—</div>
             <div class="d-meta" id="dMeta"></div>
           </div>
           <div class="msg-scroll" id="msgScroll"></div>
-          <div class="composer" id="composer">
+          <div class="composer" id="comp">
             <div id="compInner"></div>
           </div>
         </div>
@@ -1241,12 +1112,12 @@
     </div>
   </div>
 
-  <!-- ═══════════ MODAL: NEW TICKET ═══════════ -->
+  <!-- MODAL -->
   <div class="modal-bg" id="modalBg">
     <div class="modal">
-      <h2 class="modal-title">Simulate incoming ticket</h2>
-      <p class="modal-sub">Enter a customer message. The system will route it through the classifier, retrieve similar
-        cases, draft a reply, and decide whether to auto-send, hold for review, or escalate — live.</p>
+      <h2 class="m-title">Simulate incoming ticket</h2>
+      <p class="m-sub">Enter a customer message. The pipeline will route it through the classifier, retrieve similar
+        cases, and decide whether to auto-resolve, hold for review, or escalate.</p>
 
       <label class="f-label" for="mEmail">Customer email</label>
       <input class="f-input" id="mEmail" type="email" placeholder="customer@example.com">
@@ -1255,159 +1126,45 @@
       <input class="f-input" id="mSubj" type="text" placeholder="e.g. Password reset not working">
 
       <label class="f-label" for="mBody">Message body</label>
-      <textarea class="f-textarea" id="mBody" placeholder="Paste or type the customer's message…"></textarea>
+      <textarea class="f-textarea" id="mBody" placeholder="Paste the customer's message…"></textarea>
 
-      <div class="modal-foot">
+      <div class="m-foot">
         <button class="btn-ghost" id="mCancel">Cancel</button>
         <button class="btn-send" id="mSubmit">Submit ticket</button>
       </div>
     </div>
   </div>
 
-  <!-- ═══════════ MODAL: CUSTOMER PORTAL ═══════════ -->
-  <div class="modal-bg" id="custBg">
-    <div class="modal cust-modal">
-      <h2 class="modal-title">Customer Support</h2>
-      <p class="modal-sub">Describe your issue below and we'll get back to you. Our AI-powered system will analyze your
-        request and provide a response.</p>
-
-      <label class="f-label" for="cEmail">Your email</label>
-      <input class="f-input" id="cEmail" type="email" placeholder="you@example.com">
-
-      <label class="f-label" for="cSubj">Subject</label>
-      <input class="f-input" id="cSubj" type="text" placeholder="What's your issue about?">
-
-      <label class="f-label" for="cBody">Describe your issue</label>
-      <textarea class="f-textarea" id="cBody" placeholder="Tell us what happened…"></textarea>
-
-      <div class="modal-foot" id="custFooter">
-        <button class="btn-ghost" id="cCancel">Close</button>
-        <button class="btn-send" id="cSubmit">Submit request</button>
-      </div>
-
-      <!-- Response area (hidden until submitted) -->
-      <div class="cust-response-area" id="custResponse">
-        <div class="cust-status-bar" id="custStatusBar">
-          <div class="cust-spinner" id="custSpinner"></div>
-          <span class="cust-status-text" id="custStatusText">Processing your request…</span>
-        </div>
-
-        <div class="cust-reply-card" id="custReplyCard" style="display:none">
-          <div class="cust-reply-head">
-            <div class="msg-av" style="background:var(--indigo);width:24px;height:24px;font-size:10px">T</div>
-            <span class="cust-reply-label">Support Response</span>
-          </div>
-          <div class="cust-reply-body" id="custReplyBody"></div>
-          <div class="cust-meta-row" id="custMetaRow"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ═══════════ TOAST ═══════════ -->
   <div class="toast-shelf" id="toastShelf"></div>
 
   <script>
-    /* ================================================================
-       UTILS
-    ================================================================ */
+    /* ─── utils ─── */
     const COLORS = ['#6366F1', '#7C3AED', '#0EA5E9', '#10B981', '#F59E0B', '#EF4444', '#EC4899', '#14B8A6'];
+    function avCol(s) { let h = 0; for (let i = 0; i < (s || '').length; i++) h = (h * 31 + s.charCodeAt(i)) | 0; return COLORS[Math.abs(h) % COLORS.length]; }
+    function ini(s) { if (!s) return '?'; const p = s.trim().split(/[\s@]+/); return p.length >= 2 ? (p[0][0] + p[1][0]).toUpperCase() : s.slice(0, 2).toUpperCase(); }
+    function rel(iso) { if (!iso) return ''; const d = (Date.now() - new Date(iso).getTime()) / 1000; if (d < 60) return 'now'; if (d < 3600) return Math.floor(d / 60) + 'm'; if (d < 86400) return Math.floor(d / 3600) + 'h'; return Math.floor(d / 86400) + 'd'; }
+    function fmt(iso) { if (!iso) return ''; return new Date(iso).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }); }
+    function sPill(s) { const m = { needs_review: ['pill-review', 'Needs review'], auto_resolved: ['pill-auto', 'Auto-resolved'], escalated: ['pill-esc', 'Flagged'], resolved: ['pill-resolved', 'Resolved'] }; const [c, l] = m[s] || ['pill-queue', s || '—']; return `<span class="pill ${c}">${l}</span>`; }
+    function sQ(q) { return q ? q.replace(/ and /g, ' & ') : ''; }
+    function cPct(c) { return c != null ? (c * 100).toFixed(0) + '%' : ''; }
+    function escH(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+    function toast(msg, ms = 3500) { const el = document.createElement('div'); el.className = 'toast'; el.textContent = msg; document.getElementById('toastShelf').appendChild(el); requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('show'))); setTimeout(() => { el.classList.remove('show'); setTimeout(() => el.remove(), 300) }, ms); }
 
-    function avColor(s) {
-      let h = 0;
-      for (let i = 0; i < (s || '').length; i++) h = (h * 31 + s.charCodeAt(i)) | 0;
-      return COLORS[Math.abs(h) % COLORS.length];
-    }
-
-    function initials(s) {
-      if (!s) return '?';
-      const p = s.trim().split(/[\s@]+/);
-      return p.length >= 2 ? (p[0][0] + p[1][0]).toUpperCase() : s.slice(0, 2).toUpperCase();
-    }
-
-    function relTime(iso) {
-      if (!iso) return '';
-      const diff = (Date.now() - new Date(iso).getTime()) / 1000;
-      if (diff < 60) return 'now';
-      if (diff < 3600) return Math.floor(diff / 60) + 'm';
-      if (diff < 86400) return Math.floor(diff / 3600) + 'h';
-      return Math.floor(diff / 86400) + 'd';
-    }
-
-    function fmtDate(iso) {
-      if (!iso) return '';
-      return new Date(iso).toLocaleDateString('en-US', {
-        weekday: 'short', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
-      });
-    }
-
-    function statusPillHtml(s) {
-      const m = {
-        needs_review: ['pill-review', 'Needs review'],
-        auto_resolved: ['pill-auto', 'Auto-resolved'],
-        escalated: ['pill-esc', 'Flagged'],
-        resolved: ['pill-resolved', 'Resolved'],
-        processing: ['pill-processing', 'Processing…']
-      };
-      const [c, l] = m[s] || ['pill-queue', s || '—'];
-      return `<span class="pill ${c}">${l}</span>`;
-    }
-
-    function shortQ(q) { return q ? q.replace(/ and /g, ' & ') : ''; }
-
-    function confPct(c) { return c != null ? (c * 100).toFixed(0) + '%' : ''; }
-
-    function toast(msg, ms = 3500) {
-      const el = document.createElement('div');
-      el.className = 'toast'; el.textContent = msg;
-      document.getElementById('toastShelf').appendChild(el);
-      requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('show')));
-      setTimeout(() => { el.classList.remove('show'); setTimeout(() => el.remove(), 300); }, ms);
-    }
-
-    /* ================================================================
-       STATE
-    ================================================================ */
+    /* ─── state ─── */
     let filter = 'needs_review';
     let tickets = [];
-    let selectedId = null;
+    let selId = null;
 
-    /* ================================================================
-       API
-    ================================================================ */
+    /* ─── api ─── */
     const api = {
-      async stats() {
-        const r = await fetch('/stats'); return r.ok ? r.json() : {};
-      },
-      async list(status) {
-        const url = status ? `/tickets?status=${encodeURIComponent(status)}` : '/tickets';
-        const r = await fetch(url); return r.ok ? r.json() : [];
-      },
-      async get(id) {
-        const r = await fetch(`/tickets/${encodeURIComponent(id)}`);
-        return r.ok ? r.json() : null;
-      },
-      async submit(email, subject, body) {
-        const r = await fetch(
-          `/tickets?customer_email=${encodeURIComponent(email)}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`,
-          { method: 'POST' }
-        );
-        if (!r.ok) throw new Error(await r.text());
-        return r.json();
-      },
-      async reply(id, text) {
-        const r = await fetch(
-          `/tickets/${encodeURIComponent(id)}/reply?final_reply=${encodeURIComponent(text)}`,
-          { method: 'POST' }
-        );
-        if (!r.ok) throw new Error(await r.text());
-        return r.json();
-      }
+      async stats() { const r = await fetch('/stats'); return r.ok ? r.json() : {}; },
+      async list(s) { const u = s ? `/tickets?status=${encodeURIComponent(s)}` : '/tickets'; const r = await fetch(u); return r.ok ? r.json() : []; },
+      async get(id) { const r = await fetch(`/tickets/${encodeURIComponent(id)}`); return r.ok ? r.json() : null; },
+      async submit(e, s, b) { const r = await fetch(`/tickets?customer_email=${encodeURIComponent(e)}&subject=${encodeURIComponent(s)}&body=${encodeURIComponent(b)}`, { method: 'POST' }); if (!r.ok) throw new Error(await r.text()); return r.json(); },
+      async reply(id, t) { const r = await fetch(`/tickets/${encodeURIComponent(id)}/reply?final_reply=${encodeURIComponent(t)}`, { method: 'POST' }); if (!r.ok) throw new Error(await r.text()); return r.json(); }
     };
 
-    /* ================================================================
-       RENDER: STATS
-    ================================================================ */
+    /* ─── render stats ─── */
     async function renderStats() {
       try {
         const s = await api.stats();
@@ -1415,406 +1172,182 @@
         document.getElementById('sNR').textContent = s.needs_review ?? 0;
         document.getElementById('sES').textContent = s.escalated ?? 0;
         document.getElementById('sRATE').textContent = (s.automation_rate ?? 0) + '%';
-
-        const setCount = (id, n) => {
-          const el = document.getElementById(id);
-          el.textContent = n || 0;
-          el.style.display = n ? '' : 'none';
-        };
-        setCount('cntNR', s.needs_review);
-        setCount('cntES', s.escalated);
-        setCount('cntAU', s.auto_resolved);
-      } catch (e) { /* silent */ }
+        const sc = (id, n) => { const el = document.getElementById(id); el.textContent = n || 0; el.style.display = n ? '' : 'none'; };
+        sc('cNR', s.needs_review);
+        sc('cES', s.escalated);
+        sc('cAU', s.auto_resolved);
+      } catch (e) { }
     }
 
-    /* ================================================================
-       RENDER: LIST
-    ================================================================ */
+    /* ─── render list ─── */
     async function renderList() {
-      try {
-        tickets = await api.list(filter || undefined);
-      } catch (e) { tickets = []; }
-
-      const el = document.getElementById('ticketList');
+      try { tickets = await api.list(filter || undefined); } catch (e) { tickets = []; }
+      const el = document.getElementById('tlist');
       el.innerHTML = '';
-
-      document.getElementById('listCount').textContent =
-        tickets.length + ' ticket' + (tickets.length !== 1 ? 's' : '');
-
-      if (!tickets.length) {
-        el.innerHTML = `
-      <div class="list-empty">
-        <div class="list-empty-icon">◎</div>
-        <div class="list-empty-text">No tickets in this queue</div>
-      </div>`;
-        return;
-      }
+      document.getElementById('lpCount').textContent = tickets.length + ' ticket' + (tickets.length !== 1 ? 's' : '');
+      if (!tickets.length) { el.innerHTML = '<div class="list-empty"><div class="le-icon">◎</div><div>No tickets in this queue</div></div>'; return; }
 
       tickets.forEach(t => {
         const row = document.createElement('div');
-        row.className = 't-row' + (t.id === selectedId ? ' sel' : '');
-        row.setAttribute('role', 'option');
-
+        row.className = 'tr' + (t.id === selId ? ' sel' : '');
         const name = t.customer_email || 'unknown';
-        const col = avColor(name);
-        const ini = initials(name);
-        const cf = confPct(t.confidence);
-
         row.innerHTML = `
-      <div class="t-top">
-        <div class="t-av" style="background:${col}">${ini}</div>
-        <span class="t-sender">${name}</span>
-        <span class="t-time">${relTime(t.created_at)}</span>
+      <div class="tr-top">
+        <div class="tr-av" style="background:${avCol(name)}">${ini(name)}</div>
+        <span class="tr-sender">${name}</span>
+        <span class="tr-time">${rel(t.created_at)}</span>
       </div>
-      <div class="t-subj">${t.subject || (t.body || '').slice(0, 70)}</div>
-      <div class="t-foot">
-        ${t.predicted_queue ? `<span class="pill pill-queue">${shortQ(t.predicted_queue)}</span>` : ''}
-        ${statusPillHtml(t.status)}
-        ${cf ? `<span class="t-conf">${cf}</span>` : ''}
+      <div class="tr-subj">${t.subject || (t.body || '').slice(0, 70)}</div>
+      <div class="tr-foot">
+        ${t.predicted_queue ? `<span class="pill pill-queue">${sQ(t.predicted_queue)}</span>` : ''}
+        ${sPill(t.status)}
+        ${cPct(t.confidence) ? `<span class="tr-conf">${cPct(t.confidence)}</span>` : ''}
       </div>`;
-
         row.addEventListener('click', () => openTicket(t.id));
         el.appendChild(row);
       });
     }
 
-    /* ================================================================
-       RENDER: DETAIL
-    ================================================================ */
+    /* ─── open ticket ─── */
     async function openTicket(id) {
-      selectedId = id;
-
-      // Update list selection
-      document.querySelectorAll('.t-row').forEach((r, i) => {
-        r.classList.toggle('sel', tickets[i] && tickets[i].id === id);
-      });
+      selId = id;
+      document.querySelectorAll('.tr').forEach((r, i) => r.classList.toggle('sel', tickets[i] && tickets[i].id === id));
 
       const t = await api.get(id);
       if (!t) { toast('Failed to load ticket'); return; }
 
-      document.getElementById('detailEmpty').style.display = 'none';
-      const view = document.getElementById('detailView');
-      view.style.display = 'flex';
+      document.getElementById('dEmpty').style.display = 'none';
+      document.getElementById('dView').style.display = 'flex';
 
-      // Header
-      document.getElementById('dSubject').textContent = t.subject || (t.body || '').split('.')[0].slice(0, 60);
-
-      const meta = document.getElementById('dMeta');
-      meta.innerHTML = `
+      document.getElementById('dSubj').textContent = t.subject || (t.body || '').split('.')[0].slice(0, 60);
+      document.getElementById('dMeta').innerHTML = `
     <span class="d-tag">✉ ${t.customer_email || '—'}</span>
-    <span class="d-tag">· ${fmtDate(t.created_at)}</span>
-    ${t.predicted_queue ? `<span class="d-tag">· <span class="pill pill-queue" style="font-size:11px">${shortQ(t.predicted_queue)}</span></span>` : ''}
-    <span class="d-tag">· ${statusPillHtml(t.status)}</span>
+    <span class="d-tag">· ${fmt(t.created_at)}</span>
+    ${t.predicted_queue ? `<span class="d-tag">· <span class="pill pill-queue" style="font-size:11px">${sQ(t.predicted_queue)}</span></span>` : ''}
+    <span class="d-tag">· ${sPill(t.status)}</span>
     ${t.confidence != null ? `<span class="d-tag">· ${(t.confidence * 100).toFixed(1)}% confidence</span>` : ''}
+    <span class="d-tag">· #${(t.id || '').toUpperCase()}</span>
   `;
 
-      // Parse context
       let ctx = [];
-      if (t.retrieved_context) {
-        try { ctx = typeof t.retrieved_context === 'string' ? JSON.parse(t.retrieved_context) : t.retrieved_context; }
-        catch (e) { }
-      }
+      if (t.retrieved_context) { try { ctx = typeof t.retrieved_context === 'string' ? JSON.parse(t.retrieved_context) : t.retrieved_context; } catch (e) { } }
 
       let ctxHtml = '';
       if (ctx.length) {
-        const items = ctx.map(c => `
-      <div class="ctx-card">
-        <div class="ctx-card-t">${c.subject || 'Similar ticket'}</div>
-        <div class="ctx-card-b">${(c.answer || c.body || '').slice(0, 160)}…</div>
-      </div>`).join('');
-        ctxHtml = `
-      <div class="ctx-box">
-        <button class="ctx-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
-          <span class="ctx-arrow">▶</span>&nbsp;Based on ${ctx.length} similar resolved ticket${ctx.length !== 1 ? 's' : ''}
-        </button>
-        <div class="ctx-items">${items}</div>
-      </div>`;
+        const items = ctx.map(c => `<div class="ctx-card"><div class="ctx-card-t">${c.subject || 'Similar ticket'}</div><div class="ctx-card-b">${(c.answer || c.body || '').slice(0, 160)}…</div></div>`).join('');
+        ctxHtml = `<div class="ctx"><button class="ctx-btn" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')"><span class="ctx-arr">▶</span>&nbsp;Based on ${ctx.length} similar resolved ticket${ctx.length !== 1 ? 's' : ''}</button><div class="ctx-list">${items}</div></div>`;
       }
 
-      // Messages
       const scroll = document.getElementById('msgScroll');
-      const col = avColor(t.customer_email || '');
-      const ini = initials(t.customer_email || '');
-
       scroll.innerHTML = `
-    <div class="msg-bubble">
+    <div class="msg">
       <div class="msg-head">
-        <div class="msg-av" style="background:${col}">${ini}</div>
-        <div>
-          <div class="msg-name">${t.customer_email || 'Customer'}</div>
-          <div class="msg-ts">${fmtDate(t.created_at)}</div>
-        </div>
+        <div class="msg-av" style="background:${avCol(t.customer_email || '')}">${ini(t.customer_email || '')}</div>
+        <div><div class="msg-name">${t.customer_email || 'Customer'}</div><div class="msg-ts">${fmt(t.created_at)}</div></div>
       </div>
-      <div class="msg-body">${t.body || t.subject || ''}</div>
+      <div class="msg-body">${escH(t.body || t.subject || '')}</div>
       ${ctxHtml}
     </div>`;
 
-      // Show sent reply as a bubble if resolved or auto-resolved
       if (t.status === 'auto_resolved' || t.status === 'resolved') {
         const reply = t.final_reply || t.draft_response || '';
         if (reply) {
           const isAuto = t.status === 'auto_resolved';
           scroll.innerHTML += `
-        <div class="msg-bubble reply-bubble">
+        <div class="msg reply">
           <div class="msg-head">
             <div class="msg-av" style="background:var(--indigo)">T</div>
             <div>
-              <div class="msg-name">Triage Support
-                ${isAuto
-              ? '<span style="color:var(--emerald);font-size:11px;margin-left:6px">✦ Auto-sent</span>'
-              : '<span style="color:var(--slate);font-size:11px;margin-left:6px">Sent by agent</span>'}
-              </div>
-              <div class="msg-ts">${t.resolved_at ? fmtDate(t.resolved_at) : ''}</div>
+              <div class="msg-name">AI-Ops Support ${isAuto ? '<span style="color:var(--emerald);font-size:11px;margin-left:6px">✦ Auto-sent</span>' : '<span style="color:var(--slate);font-size:11px;margin-left:6px">Sent by agent</span>'}</div>
+              <div class="msg-ts">${t.resolved_at ? fmt(t.resolved_at) : ''}</div>
             </div>
           </div>
-          <div class="msg-body">${reply}</div>
+          <div class="msg-body">${escH(reply)}</div>
         </div>`;
         }
       }
 
-      // Composer
       const comp = document.getElementById('compInner');
-      const compWrap = document.getElementById('composer');
+      const compW = document.getElementById('comp');
 
       if (t.status === 'auto_resolved') {
-        compWrap.style.display = '';
-        comp.innerHTML = `
-      <div class="auto-banner">
-        <span class="auto-banner-icon">✦</span>
-        <div class="auto-banner-text">
-          <strong>Auto-resolved.</strong> The system handled this ticket automatically — confidence was ${confPct(t.confidence)} with a strong knowledge base match. No human action was needed.
-        </div>
-      </div>`;
-
+        compW.style.display = '';
+        comp.innerHTML = `<div class="auto-banner"><span style="font-size:18px">✦</span><div class="auto-banner-text"><strong>Auto-resolved.</strong> Confidence was ${cPct(t.confidence)} with a strong knowledge base match. No human action needed.</div></div>`;
       } else if (t.status === 'resolved') {
-        compWrap.style.display = 'none';
-
+        compW.style.display = 'none';
       } else if (t.status === 'escalated') {
-        compWrap.style.display = '';
-        comp.innerHTML = `
-      <div class="esc-banner">
-        <span class="esc-banner-icon">⚠</span>
-        <div class="esc-banner-text">
-          <strong>Flagged for human attention.</strong> Classifier confidence was low or the retrieved context didn't match well enough. Write a manual response below.
-        </div>
-      </div>
-      <textarea class="reply-box" id="replyBox" placeholder="Write a reply…"></textarea>
-      <div class="comp-foot">
-        <button class="btn-send" id="btnSend">Send reply</button>
-      </div>`;
+        compW.style.display = '';
+        comp.innerHTML = `<div class="esc-banner"><span style="font-size:18px">⚠</span><div class="esc-banner-text"><strong>Flagged for human attention.</strong> Classifier confidence was too low or the retrieved context didn't match well enough to draft reliably. Write a manual response below.</div></div><textarea class="reply-box" id="replyBox" placeholder="Write a reply…"></textarea><div class="c-foot"><button class="btn-send" id="btnSend">Send reply</button></div>`;
         document.getElementById('btnSend').onclick = () => sendReply(t.id);
-
       } else if (t.status === 'needs_review') {
-        compWrap.style.display = '';
-        const cf = confPct(t.confidence);
-        comp.innerHTML = `
-      <div class="comp-head">
-        <span class="ai-pill">✦ AI-drafted</span>
-        <span class="conf-pill">${cf} confidence</span>
-        <span class="comp-hint">Review and edit before sending</span>
-      </div>
-      <textarea class="reply-box" id="replyBox">${escHtml(t.draft_response || '')}</textarea>
-      <div class="comp-foot">
-        <button class="btn-ghost" id="btnReset">Reset draft</button>
-        <button class="btn-send" id="btnSend">Send reply</button>
-      </div>`;
+        compW.style.display = '';
+        comp.innerHTML = `<div class="c-head"><span class="ai-pill">✦ AI-drafted</span><span class="conf-pill">${cPct(t.confidence)} confidence</span><span class="c-hint">Review and edit before sending</span></div><textarea class="reply-box" id="replyBox">${escH(t.draft_response || '')}</textarea><div class="c-foot"><button class="btn-ghost" id="btnReset">Discard edits</button><button class="btn-send" id="btnSend">Send reply</button></div>`;
         document.getElementById('btnSend').onclick = () => sendReply(t.id);
-        document.getElementById('btnReset').onclick = () => {
-          document.getElementById('replyBox').value = t.draft_response || '';
-          toast('Draft restored');
-        };
-
+        document.getElementById('btnReset').onclick = () => { document.getElementById('replyBox').value = t.draft_response || ''; toast('Draft restored'); };
       } else {
-        compWrap.style.display = 'none';
+        compW.style.display = 'none';
       }
     }
 
-    function escHtml(s) {
-      return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    }
-
-    /* ================================================================
-       ACTIONS
-    ================================================================ */
     async function sendReply(id) {
       const box = document.getElementById('replyBox');
       const text = box ? box.value.trim() : '';
       if (!text) { toast('Reply cannot be empty'); return; }
-
       const btn = document.getElementById('btnSend');
       btn.disabled = true; btn.textContent = 'Sending…';
-
       try {
         await api.reply(id, text);
-        toast('✓ Reply sent successfully');
-        selectedId = null;
-        document.getElementById('detailView').style.display = 'none';
-        document.getElementById('detailEmpty').style.display = 'flex';
+        toast('✓ Reply sent — ticket resolved');
+        selId = null;
+        document.getElementById('dView').style.display = 'none';
+        document.getElementById('dEmpty').style.display = 'flex';
         await refresh();
-      } catch (e) {
-        toast('Failed: ' + e.message);
-        btn.disabled = false; btn.textContent = 'Send reply';
-      }
+      } catch (e) { toast('Failed: ' + e.message); btn.disabled = false; btn.textContent = 'Send reply'; }
     }
 
-    /* ================================================================
-       NAV
-    ================================================================ */
-    const NAV_LABELS = {
-      needs_review: 'Inbox', escalated: 'Flagged',
-      auto_resolved: 'Auto-resolved', resolved: 'Resolved', '': 'All tickets'
-    };
+    /* ─── nav ─── */
+    const NAV_LABELS = { needs_review: 'Needs review', escalated: 'Flagged', auto_resolved: 'Auto-resolved', resolved: 'Resolved', '': 'All tickets' };
 
     document.querySelectorAll('.sb-btn[data-q]').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.sb-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         filter = btn.dataset.q;
-        document.getElementById('listTitle').textContent = NAV_LABELS[filter] || 'Tickets';
-        selectedId = null;
-        document.getElementById('detailView').style.display = 'none';
-        document.getElementById('detailEmpty').style.display = 'flex';
+        document.getElementById('lpTitle').textContent = NAV_LABELS[filter] || 'Tickets';
+        selId = null;
+        document.getElementById('dView').style.display = 'none';
+        document.getElementById('dEmpty').style.display = 'flex';
         renderList();
       });
     });
 
-    /* ================================================================
-       MODAL: NEW TICKET (agent simulation)
-    ================================================================ */
-    document.getElementById('btnNewTicket').onclick = () => {
-      document.getElementById('modalBg').classList.add('open');
-      document.getElementById('mEmail').value = '';
-      document.getElementById('mSubj').value = '';
-      document.getElementById('mBody').value = '';
-      setTimeout(() => document.getElementById('mEmail').focus(), 80);
-    };
-
-    document.getElementById('mCancel').onclick = () => {
-      document.getElementById('modalBg').classList.remove('open');
-    };
+    /* ─── modal ─── */
+    document.getElementById('btnNew').onclick = () => { document.getElementById('modalBg').classList.add('open'); document.getElementById('mEmail').value = ''; document.getElementById('mSubj').value = ''; document.getElementById('mBody').value = ''; setTimeout(() => document.getElementById('mEmail').focus(), 80); };
+    document.getElementById('mCancel').onclick = () => { document.getElementById('modalBg').classList.remove('open'); };
 
     document.getElementById('mSubmit').onclick = async () => {
       const email = document.getElementById('mEmail').value.trim() || 'demo@example.com';
       const subj = document.getElementById('mSubj').value.trim();
       const body = document.getElementById('mBody').value.trim();
       if (!subj && !body) { toast('Enter a subject or message'); return; }
-
       const btn = document.getElementById('mSubmit');
       btn.disabled = true; btn.textContent = 'Processing…';
       document.getElementById('modalBg').classList.remove('open');
       toast('📥 Ticket submitted — routing through pipeline…');
-
       try {
         const result = await api.submit(email, subj || 'No subject', body || subj);
-        const msgs = {
-          auto_resolved: `✦ Auto-resolved (${confPct(result.confidence)} confidence)`,
-          needs_review: `✉ Routed to ${result.predicted_queue || 'queue'} — ready for review`,
-          escalated: '⚑ Escalated — needs human attention'
-        };
+        const msgs = { auto_resolved: `✦ Auto-resolved (${cPct(result.confidence)} confidence)`, needs_review: `✉ Routed to ${result.predicted_queue || 'queue'} — ready for review`, escalated: '⚑ Escalated — needs human attention' };
         toast(msgs[result.status] || `Ticket ${result.id} created`);
-
-        // Navigate to the matching tab
         const target = result.status;
-        if (target !== filter) {
-          document.querySelectorAll('.sb-btn').forEach(b => {
-            b.classList.toggle('active', b.dataset.q === target);
-          });
-          filter = target;
-          document.getElementById('listTitle').textContent = NAV_LABELS[target] || 'Tickets';
-        }
-
+        if (target !== filter) { document.querySelectorAll('.sb-btn').forEach(b => b.classList.toggle('active', b.dataset.q === target)); filter = target; document.getElementById('lpTitle').textContent = NAV_LABELS[target] || 'Tickets'; }
         await refresh();
         openTicket(result.id);
-      } catch (e) {
-        toast('Error: ' + e.message);
-      } finally {
-        btn.disabled = false; btn.textContent = 'Submit ticket';
-      }
+      } catch (e) { toast('Error: ' + e.message); }
+      finally { btn.disabled = false; btn.textContent = 'Submit ticket'; }
     };
 
-    /* ================================================================
-       MODAL: CUSTOMER PORTAL
-    ================================================================ */
-    document.getElementById('btnCustPortal').onclick = () => {
-      const bg = document.getElementById('custBg');
-      bg.classList.add('open');
-      document.getElementById('cEmail').value = '';
-      document.getElementById('cSubj').value = '';
-      document.getElementById('cBody').value = '';
-      document.getElementById('custResponse').classList.remove('show');
-      document.getElementById('custReplyCard').style.display = 'none';
-      document.getElementById('custSpinner').style.display = '';
-      document.getElementById('custFooter').style.display = 'flex';
-      setTimeout(() => document.getElementById('cEmail').focus(), 80);
-    };
-
-    document.getElementById('cCancel').onclick = () => {
-      document.getElementById('custBg').classList.remove('open');
-    };
-
-    document.getElementById('cSubmit').onclick = async () => {
-      const email = document.getElementById('cEmail').value.trim() || 'customer@example.com';
-      const subj = document.getElementById('cSubj').value.trim();
-      const body = document.getElementById('cBody').value.trim();
-      if (!subj && !body) { toast('Please describe your issue'); return; }
-
-      // Hide form footer, show processing
-      document.getElementById('custFooter').style.display = 'none';
-      const resp = document.getElementById('custResponse');
-      resp.classList.add('show');
-      document.getElementById('custSpinner').style.display = '';
-      document.getElementById('custStatusText').textContent = 'Processing your request…';
-      document.getElementById('custReplyCard').style.display = 'none';
-
-      // Disable inputs
-      document.getElementById('cEmail').disabled = true;
-      document.getElementById('cSubj').disabled = true;
-      document.getElementById('cBody').disabled = true;
-
-      try {
-        const result = await api.submit(email, subj || 'Support request', body || subj);
-
-        // Show response
-        document.getElementById('custSpinner').style.display = 'none';
-
-        if (result.status === 'auto_resolved' || result.draft_response) {
-          document.getElementById('custStatusText').textContent = 'We\'ve reviewed your request:';
-          document.getElementById('custReplyCard').style.display = '';
-          document.getElementById('custReplyBody').textContent = result.final_reply || result.draft_response || '';
-          document.getElementById('custMetaRow').innerHTML = `
-        <span class="pill pill-queue">${shortQ(result.predicted_queue || '')}</span>
-        ${statusPillHtml(result.status)}
-      `;
-        } else if (result.status === 'escalated') {
-          document.getElementById('custStatusText').innerHTML =
-            '⚑ Your request has been flagged for our team. A support agent will reach out to you shortly at <strong>' + email + '</strong>.';
-        } else {
-          document.getElementById('custStatusText').innerHTML =
-            '✉ Your request is being reviewed by our support team. We\'ll respond to <strong>' + email + '</strong> shortly.';
-        }
-
-        // Also refresh the agent inbox in the background
-        await refresh();
-
-      } catch (e) {
-        document.getElementById('custSpinner').style.display = 'none';
-        document.getElementById('custStatusText').textContent = 'Something went wrong. Please try again later.';
-      }
-
-      // Show close button
-      const closeBtn = document.createElement('div');
-      closeBtn.style.cssText = 'display:flex;justify-content:flex-end;margin-top:14px';
-      closeBtn.innerHTML = '<button class="btn-ghost" onclick="document.getElementById(\'custBg\').classList.remove(\'open\');document.getElementById(\'cEmail\').disabled=false;document.getElementById(\'cSubj\').disabled=false;document.getElementById(\'cBody\').disabled=false;">Close</button>';
-      resp.appendChild(closeBtn);
-    };
-
-    /* ================================================================
-       REFRESH & INIT
-    ================================================================ */
-    async function refresh() {
-      await Promise.all([renderStats(), renderList()]);
-    }
-
+    /* ─── refresh ─── */
+    async function refresh() { await Promise.all([renderStats(), renderList()]); }
     refresh();
     setInterval(refresh, 12000);
   </script>

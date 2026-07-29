@@ -1,4 +1,5 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
 from triage.api.schemas import TicketRequest, TicketResponse
 from triage.utils.logger import get_logger
 from triage.db import crud
@@ -30,8 +31,7 @@ def process_ticket(request: TicketRequest):
 
 
 @router.post("/tickets")
-def submit_ticket(customer_email:str , subject:str ,body :str):
-    session = get_session()
+def submit_ticket(customer_email:str , subject:str ,body :str, session: Session = Depends(get_session)):
     ticket = crud.create_ticket(session, customer_email, subject, body)
 
     result = graph.invoke({"ticket_text": f"{subject} {body}"})
@@ -48,25 +48,21 @@ def submit_ticket(customer_email:str , subject:str ,body :str):
 
 
 @router.get("/tickets")
-def get_tickes(status:str = None):
-    session = get_session()
+def get_tickes(status:str = None, session: Session = Depends(get_session)):
     return crud.list_tickets(session, status)
 
 
 @router.post("/tickets/{ticket_id}/reply")
-def reply_to_ticket(ticket_id: str, final_reply: str):
-    session = get_session()
+def reply_to_ticket(ticket_id: str, final_reply: str, session: Session = Depends(get_session)):
     return crud.send_reply(session, ticket_id, final_reply)
 
 
 @router.get("/tickets/{ticket_id}") 
-def get_single_ticket(ticket_id: str):
-    session = get_session()
+def get_single_ticket(ticket_id: str, session: Session = Depends(get_session)):
     return crud.get_ticket(session, ticket_id)
 
 @router.get("/stats")
-def get_stats():
-    session = get_session()
+def get_stats(session: Session = Depends(get_session)):
     return crud.get_today_stats(session)            
 
 

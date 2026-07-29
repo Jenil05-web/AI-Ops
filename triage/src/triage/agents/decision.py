@@ -1,7 +1,7 @@
 HIGH_RISK_QUEUES = {"Billing and Payments", "Service Outages and Maintenance", "Human Resources"}
 
-CONFIDENCE_AUTO_RESOLVE_THRESHOLD = 0.59
-DISTANCE_GOOD_MATCH_THRESHOLD = 0.85
+CONFIDENCE_AUTO_RESOLVE_THRESHOLD = 0.35
+DISTANCE_GOOD_MATCH_THRESHOLD = 1.0
 
 def decide_status(predicted_queue: str, confidence: float, top_context_distance: float) -> str:
     """
