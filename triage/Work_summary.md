@@ -1,6 +1,6 @@
-#  Quick summary so far
+# Quick summary so far
 
- Week 1 (Day 1-3)
+Week 1 (Day 1-3)
 
 Explored & validated 2 datasets, ditched first (fake labels), committed to real ticketing dataset
 Cleaned data → cleaning.py (filter, dedupe, strip HTML, build text_input)
@@ -10,7 +10,7 @@ Rewrote notebooks to call the package instead of holding raw logic
 Wrote & passed tests/test_data.py
 Wrote & passed test_classifer.py file
 
- # Week 1 — Complete Summary -- completed
+# Week 1 — Complete Summary -- completed
 
 Data : ( Basically model ne load karvu pachi ema apada needs na according changes karva etc... ( to make the data relevant to use))
 
@@ -30,7 +30,6 @@ Extracted notebook logic into a real package: src/triage/data/cleaning.py, src/t
 Made the project pip-installable (pyproject.toml, pip install -e .)
 Rewrote notebooks to import from the package instead of holding raw logic — notebooks are now thin demos, .py files hold the real logic
 Wrote and passed unit tests for both cleaning (test_data.py) and classifier (test_classifier.py)
-
 
 # Week 2 - Complete Summary :
 
@@ -54,10 +53,38 @@ Iterated on the drafting prompt — improved faithfulness and relevancy after fi
 
 Documented final scores as the project's baseline evaluation numbers (put actual final numbers here in your notebook)
 
+# Week 4 — From Pipeline to Product
 
+Context: After finishing the core pipeline (classifier → RAG → agents → API → Docker → frontend), I realized the project still felt like a chatbot — type text in, get text back — even though real ML/RAG/agent engineering was happening underneath. The issue wasn't the engineering, it was that nothing in the product surfaced the fact that the system was making real decisions. This week was about fixing that.
 
+1. Added persistence (SQLite + SQLAlchemy)
 
+The pipeline was stateless — every request vanished after returning a response. I built a real data layer:
 
+models.py — a Ticket table (ID, customer info, pipeline outputs, status, timestamps)
+database.py — SQLite engine/session setup, including the check_same_thread=False fix required for FastAPI's multi-threaded request handling
+crud.py — create/update/fetch/list functions, plus a get_today_stats() query for automation metrics
 
+This gave tickets an actual lifecycle instead of being one-shot request/response calls.
 
+2. Exposed classifier confidence, not just the predicted label
 
+Updated classifier.py's predict() to return (label, confidence) using predict_proba(), and propagated that change through the agent state and every downstream caller. This surfaced a signal that already existed inside the model but was previously being thrown away.
+
+3. Built real decision logic (decision.py)
+
+Wrote decide_status() — a function that uses predicted queue, classifier confidence, and RAG retrieval distance to route each ticket into one of three outcomes: auto_resolved, needs_review, or escalated. High-risk queues (billing, HR, outages) are never auto-sent regardless of confidence; low confidence with a weak retrieval match escalates immediately; strong confidence with a close match auto-resolves. This is the core fix — the system now decides for itself instead of routing every single ticket to a human by default.
+
+4. Wired everything into real API endpoints
+
+Added POST /tickets (submit → run pipeline → decide outcome → persist), GET /tickets (filterable by status), GET /tickets/{id}, POST /tickets/{id}/reply, and GET /stats — turning the system from "an endpoint that runs a pipeline" into "a system with a real inbox and an audit trail."
+
+5. Debugged two real production bugs
+   A stale routes.py file caused a false Method Not Allowed — traced back to an edit that never got saved before restarting the server.
+   A KeyError: 'confidence' 500 error, traced through the actual traceback to a missing state field in triage_node that hadn't been updated during the confidence refactor.
+
+Both were resolved by reading real tracebacks rather than guessing — same debugging discipline used earlier when diagnosing the bad first dataset.
+
+6. Validated the decision logic against real requests
+
+Ran multiple test tickets (billing, password reset, router issues) through the live API and confirmed: high-risk queues always route to review regardless of confidence, low-confidence tickets get flagged appropriately, and auto-resolution is genuinely reachable — checked against the classifier's actual confidence distribution rather than an arbitrary threshold.

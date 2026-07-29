@@ -23,6 +23,8 @@ def build_model() -> xgb.XGBClassifier: # We have used XGBoost to address the mu
         random_state=42 
     )
 
+
+
 def save_artifacts(model, vectorizer, label_encoder, model_dir: str) -> None:
     joblib.dump(model, f"{model_dir}/xgb_classifier.pkl")
     joblib.dump(vectorizer, f"{model_dir}/tfidf_vectorizer.pkl")

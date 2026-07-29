@@ -2,1113 +2,1822 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AI-Ops — Ticket Intelligence</title>
-    <meta name="description"
-        content="AI-powered support ticket routing, retrieval and response drafting. Submit a ticket and watch the full pipeline run.">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=JetBrains+Mono:wght@400;500&display=swap"
-        rel="stylesheet">
-    <style>
-        /* ─── Tokens ───────────────────────────────────────── */
-        :root {
-            --bg: #090C10;
-            --bg-mesh: radial-gradient(ellipse 80% 50% at 50% -10%, #12202F 0%, transparent 70%);
-            --surface: #141A22;
-            --surface-2: #1C2530;
-            --border: rgba(255, 255, 255, 0.07);
-            --border-lit: rgba(184, 149, 106, 0.25);
-
-            --text: #F2EDEA;
-            --text-2: #9BA5AE;
-            --text-3: #5C6770;
-
-            --gold: #B8956A;
-            --gold-dim: rgba(184, 149, 106, 0.12);
-            --gold-glow: rgba(184, 149, 106, 0.25);
-
-            --teal: #1E7A6B;
-            --teal-lit: #28A090;
-            --teal-dim: rgba(30, 122, 107, 0.15);
-            --teal-glow: rgba(40, 160, 144, 0.3);
-
-            --coral: #E05A4E;
-            --coral-dim: rgba(224, 90, 78, 0.12);
-
-            --success: #4EC994;
-            --success-dim: rgba(78, 201, 148, 0.1);
-
-            --font-display: 'Syne', sans-serif;
-            --font-body: 'DM Sans', sans-serif;
-            --font-mono: 'JetBrains Mono', monospace;
-
-            --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-            --ease-in-out: cubic-bezier(0.45, 0, 0.55, 1);
-        }
-
-        /* ─── Reset ────────────────────────────────────────── */
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            background: var(--bg);
-            background-image: var(--bg-mesh);
-            color: var(--text);
-            font-family: var(--font-body);
-            font-weight: 300;
-            line-height: 1.6;
-            min-height: 100vh;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        /* ─── Layout ────────────────────────────────────────── */
-        .app-shell {
-            display: grid;
-            grid-template-rows: auto 1fr;
-            min-height: 100vh;
-        }
-
-        /* ─── Header ─────────────────────────────────────────  */
-        header {
-            padding: 28px 48px 26px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 24px;
-        }
-
-        .brand {
-            display: flex;
-            align-items: baseline;
-            gap: 14px;
-        }
-
-        .brand-wordmark {
-            font-family: var(--font-display);
-            font-weight: 700;
-            font-size: 22px;
-            letter-spacing: -0.02em;
-            color: var(--text);
-        }
-
-        .brand-sep {
-            width: 1px;
-            height: 16px;
-            background: var(--border-lit);
-        }
-
-        .brand-label {
-            font-family: var(--font-mono);
-            font-size: 11px;
-            letter-spacing: 0.1em;
-            color: var(--gold);
-            text-transform: uppercase;
-        }
-
-        .header-meta {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-family: var(--font-mono);
-            font-size: 11px;
-            color: var(--text-3);
-        }
-
-        .status-beacon {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background: var(--teal-lit);
-            box-shadow: 0 0 0 2px var(--teal-dim);
-            animation: pulse-beacon 2.4s ease-in-out infinite;
-        }
-
-        @keyframes pulse-beacon {
-
-            0%,
-            100% {
-                box-shadow: 0 0 0 2px var(--teal-dim);
-            }
-
-            50% {
-                box-shadow: 0 0 0 4px var(--teal-glow);
-            }
-        }
-
-        /* ─── Main canvas ────────────────────────────────────── */
-        main {
-            display: grid;
-            grid-template-columns: 400px 1fr;
-            gap: 0;
-        }
-
-        /* ─── Input panel ────────────────────────────────────── */
-        .input-panel {
-            border-right: 1px solid var(--border);
-            padding: 36px 40px;
-            display: flex;
-            flex-direction: column;
-            gap: 28px;
-        }
-
-        .section-eyebrow {
-            font-family: var(--font-mono);
-            font-size: 10px;
-            letter-spacing: 0.14em;
-            color: var(--text-3);
-            text-transform: uppercase;
-            margin-bottom: 12px;
-        }
-
-        .section-title {
-            font-family: var(--font-display);
-            font-size: 17px;
-            font-weight: 600;
-            color: var(--text);
-            margin-bottom: 6px;
-        }
-
-        .section-sub {
-            font-size: 13px;
-            color: var(--text-2);
-            line-height: 1.5;
-        }
-
-        textarea#ticketInput {
-            width: 100%;
-            min-height: 148px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            color: var(--text);
-            font-family: var(--font-body);
-            font-weight: 300;
-            font-size: 14px;
-            padding: 16px;
-            resize: vertical;
-            line-height: 1.6;
-            transition: border-color 0.2s, box-shadow 0.2s;
-        }
-
-        textarea#ticketInput::placeholder {
-            color: var(--text-3);
-        }
-
-        textarea#ticketInput:focus {
-            outline: none;
-            border-color: var(--gold);
-            box-shadow: 0 0 0 3px var(--gold-glow);
-        }
-
-        /* ─── Example chips ─────────────────────────────────── */
-        .examples-label {
-            font-family: var(--font-mono);
-            font-size: 10px;
-            letter-spacing: 0.1em;
-            color: var(--text-3);
-            text-transform: uppercase;
-            margin-bottom: 10px;
-        }
-
-        .chips {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .chip {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            color: var(--text-2);
-            font-size: 12.5px;
-            font-family: var(--font-body);
-            padding: 9px 14px;
-            cursor: pointer;
-            text-align: left;
-            transition: border-color 0.18s, color 0.18s, background 0.18s;
-            line-height: 1.4;
-        }
-
-        .chip:hover {
-            border-color: var(--border-lit);
-            background: var(--surface-2);
-            color: var(--text);
-        }
-
-        .chip:focus-visible {
-            outline: 2px solid var(--gold);
-            outline-offset: 2px;
-        }
-
-        .chip-tag {
-            font-family: var(--font-mono);
-            font-size: 10px;
-            color: var(--gold);
-            letter-spacing: 0.06em;
-            display: block;
-            margin-bottom: 2px;
-        }
-
-        /* ─── Submit ─────────────────────────────────────────── */
-        .submit-row {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        button#submit {
-            width: 100%;
-            background: var(--gold);
-            color: #16100A;
-            border: none;
-            font-family: var(--font-display);
-            font-weight: 600;
-            font-size: 13px;
-            letter-spacing: 0.04em;
-            padding: 14px 20px;
-            border-radius: 7px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: filter 0.18s, transform 0.1s;
-        }
-
-        button#submit:hover:not(:disabled) {
-            filter: brightness(1.08);
-        }
-
-        button#submit:active:not(:disabled) {
-            transform: scale(0.99);
-        }
-
-        button#submit:disabled {
-            background: var(--surface-2);
-            color: var(--text-3);
-            cursor: not-allowed;
-        }
-
-        button#submit:focus-visible {
-            outline: 2px solid var(--gold);
-            outline-offset: 3px;
-        }
-
-        .submit-icon {
-            font-size: 15px;
-            transition: transform 0.2s;
-        }
-
-        button#submit:not(:disabled):hover .submit-icon {
-            transform: translateX(2px);
-        }
-
-        .error-msg {
-            font-size: 13px;
-            color: var(--coral);
-            display: none;
-            padding: 10px 14px;
-            background: var(--coral-dim);
-            border: 1px solid rgba(224, 90, 78, 0.2);
-            border-radius: 6px;
-            line-height: 1.4;
-        }
-
-        /* ─── Pipeline panel ─────────────────────────────────── */
-        .pipeline-panel {
-            padding: 36px 48px;
-            overflow-y: auto;
-        }
-
-        .pipeline-header {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            margin-bottom: 36px;
-        }
-
-        /* ─── Vertical pipeline ───────────────────────────────── */
-        .workflow {
-            display: flex;
-            flex-direction: column;
-            gap: 0;
-        }
-
-        .stage {
-            display: grid;
-            grid-template-columns: 48px 1fr;
-            gap: 0 20px;
-            position: relative;
-        }
-
-        /* Connector line between stages */
-        .stage-connector {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .stage-dot {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: var(--surface);
-            border: 1.5px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            flex-shrink: 0;
-            transition: background 0.35s var(--ease-out),
-                border-color 0.35s var(--ease-out),
-                box-shadow 0.35s var(--ease-out);
-            position: relative;
-            z-index: 1;
-        }
-
-        .stage.active .stage-dot {
-            background: var(--teal-dim);
-            border-color: var(--teal-lit);
-            box-shadow: 0 0 0 4px var(--teal-glow);
-        }
-
-        .stage.done .stage-dot {
-            background: var(--teal-dim);
-            border-color: var(--teal-lit);
-        }
-
-        .stage.done .stage-dot .dot-icon {
-            opacity: 0;
-        }
-
-        .stage.done .stage-dot::after {
-            content: '✓';
-            position: absolute;
-            color: var(--teal-lit);
-            font-size: 13px;
-            font-weight: 600;
-        }
-
-        .connector-line {
-            width: 1.5px;
-            flex: 1;
-            background: var(--border);
-            min-height: 20px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Signal pulse traveling down the line */
-        .connector-line .signal {
-            position: absolute;
-            top: -100%;
-            left: 0;
-            width: 100%;
-            height: 40px;
-            background: linear-gradient(to bottom, transparent, var(--teal-lit), transparent);
-            transition: none;
-        }
-
-        .connector-line.animate .signal {
-            top: 100%;
-            transition: top 0.6s var(--ease-in-out);
-        }
-
-        .stage:last-child .connector-line {
-            display: none;
-        }
-
-        /* Stage body */
-        .stage-body {
-            padding-bottom: 28px;
-        }
-
-        .stage-meta {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            height: 32px;
-            margin-bottom: 0;
-        }
-
-        .stage-name {
-            font-family: var(--font-display);
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--text-3);
-            transition: color 0.3s;
-        }
-
-        .stage.active .stage-name,
-        .stage.done .stage-name {
-            color: var(--text);
-        }
-
-        .stage-status {
-            font-family: var(--font-mono);
-            font-size: 10px;
-            letter-spacing: 0.08em;
-            color: var(--text-3);
-            text-transform: uppercase;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .stage.active .stage-status {
-            opacity: 1;
-            color: var(--teal-lit);
-        }
-
-        .stage.done .stage-status {
-            opacity: 1;
-            color: var(--text-3);
-        }
-
-        /* Stage content card */
-        .stage-card {
-            margin-top: 12px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            overflow: hidden;
-            max-height: 0;
-            opacity: 0;
-            transition: max-height 0.5s var(--ease-out),
-                opacity 0.4s var(--ease-out),
-                border-color 0.3s;
-        }
-
-        .stage-card.open {
-            max-height: 600px;
-            opacity: 1;
-        }
-
-        .stage.active .stage-card,
-        .stage.done .stage-card {
-            border-color: rgba(30, 122, 107, 0.2);
-        }
-
-        .stage-card-inner {
-            padding: 16px 18px;
-        }
-
-        /* Skeleton loader */
-        .skeleton-row {
-            height: 12px;
-            border-radius: 4px;
-            background: linear-gradient(90deg, var(--surface-2) 25%, var(--border) 50%, var(--surface-2) 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1.4s infinite;
-            margin-bottom: 8px;
-        }
-
-        .skeleton-row:last-child {
-            width: 60%;
-            margin-bottom: 0;
-        }
-
-        @keyframes shimmer {
-            0% {
-                background-position: 200% 0;
-            }
-
-            100% {
-                background-position: -200% 0;
-            }
-        }
-
-        /* ─── Stage-specific content ─────────────────────────── */
-        .queue-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-family: var(--font-mono);
-            font-size: 12px;
-            background: var(--teal-dim);
-            color: var(--teal-lit);
-            border: 1px solid rgba(30, 122, 107, 0.3);
-            padding: 6px 14px;
-            border-radius: 5px;
-            letter-spacing: 0.04em;
-        }
-
-        .context-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .context-item {
-            padding: 11px 14px;
-            background: var(--surface-2);
-            border-radius: 6px;
-            border-left: 2px solid var(--teal);
-        }
-
-        .context-item-subject {
-            font-size: 13px;
-            font-weight: 500;
-            color: var(--text);
-            margin-bottom: 3px;
-        }
-
-        .context-item-body {
-            font-size: 12px;
-            color: var(--text-2);
-            line-height: 1.5;
-        }
-
-        .context-similarity {
-            font-family: var(--font-mono);
-            font-size: 10px;
-            color: var(--text-3);
-            margin-top: 4px;
-        }
-
-        .draft-text {
-            font-size: 13.5px;
-            line-height: 1.7;
-            color: var(--text);
-            white-space: pre-wrap;
-            margin-bottom: 14px;
-        }
-
-        .copy-row {
-            display: flex;
-            gap: 8px;
-        }
-
-        .btn-ghost {
-            background: transparent;
-            border: 1px solid var(--border);
-            color: var(--text-2);
-            font-family: var(--font-mono);
-            font-size: 11px;
-            letter-spacing: 0.05em;
-            padding: 7px 14px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: border-color 0.18s, color 0.18s;
-        }
-
-        .btn-ghost:hover {
-            border-color: var(--gold);
-            color: var(--text);
-        }
-
-        /* Escalation */
-        .escalation-result {
-            display: flex;
-            align-items: flex-start;
-            gap: 14px;
-        }
-
-        .escalation-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            flex-shrink: 0;
-        }
-
-        .escalation-icon.ok {
-            background: var(--success-dim);
-            color: var(--success);
-        }
-
-        .escalation-icon.flag {
-            background: var(--coral-dim);
-            color: var(--coral);
-        }
-
-        .escalation-label {
-            font-family: var(--font-display);
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text);
-            margin-bottom: 3px;
-        }
-
-        .escalation-desc {
-            font-size: 12.5px;
-            color: var(--text-2);
-        }
-
-        /* ─── Empty state ────────────────────────────────────── */
-        .empty-state {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 60px 0;
-            text-align: center;
-            gap: 12px;
-        }
-
-        .empty-icon {
-            font-size: 32px;
-            opacity: 0.15;
-        }
-
-        .empty-title {
-            font-family: var(--font-display);
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--text-3);
-        }
-
-        .empty-sub {
-            font-size: 13px;
-            color: var(--text-3);
-            max-width: 280px;
-            line-height: 1.5;
-        }
-
-        /* ─── Accessibility + responsiveness ─────────────────── */
-        @media (max-width: 800px) {
-            main {
-                grid-template-columns: 1fr;
-            }
-
-            header {
-                padding: 20px 24px;
-            }
-
-            .input-panel,
-            .pipeline-panel {
-                padding: 24px;
-            }
-
-            .input-panel {
-                border-right: none;
-                border-bottom: 1px solid var(--border);
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-
-            *,
-            *::before,
-            *::after {
-                transition-duration: 0.01ms !important;
-                animation-duration: 0.01ms !important;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Triage — Support Intelligence</title>
+  <meta name="description"
+    content="AI-powered support inbox. Most tickets resolve themselves — you only see the ones that need you.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300..700;1,14..32,300..700&display=swap"
+    rel="stylesheet">
+
+  <style>
+    /* ─────────────────────────────────────────────────
+     TOKENS
+  ───────────────────────────────────────────────── */
+    :root {
+      --bg: #0F1117;
+      --raised: #161822;
+      --card: #1C1F2E;
+      --hover: #222639;
+      --selected: rgba(99, 102, 241, 0.10);
+
+      --border: rgba(255, 255, 255, 0.06);
+      --border-2: rgba(255, 255, 255, 0.10);
+
+      --text: #E8E9ED;
+      --text-2: #9196A1;
+      --text-3: #5C6170;
+
+      --indigo: #6366F1;
+      --indigo-dim: rgba(99, 102, 241, 0.12);
+      --indigo-glow: rgba(99, 102, 241, 0.25);
+
+      --emerald: #34D399;
+      --emerald-dim: rgba(52, 211, 153, 0.10);
+      --amber: #FBBF24;
+      --amber-dim: rgba(251, 191, 36, 0.10);
+      --rose: #FB7185;
+      --rose-dim: rgba(251, 113, 133, 0.10);
+      --slate: #94A3B8;
+      --slate-dim: rgba(148, 163, 184, 0.10);
+
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+      --shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+    }
+
+    /* ─────────────────────────────────────────────────
+     RESET
+  ───────────────────────────────────────────────── */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    button {
+      font: inherit;
+      cursor: pointer;
+      border: none;
+      background: none;
+      color: inherit;
+    }
+
+    input,
+    textarea {
+      font: inherit;
+      color: inherit;
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--indigo);
+      outline-offset: 2px;
+    }
+
+    body {
+      font-family: var(--font);
+      font-size: 13.5px;
+      background: var(--bg);
+      color: var(--text);
+      height: 100vh;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    ::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--border-2);
+      border-radius: 8px;
+    }
+
+    /* ─────────────────────────────────────────────────
+     SHELL
+  ───────────────────────────────────────────────── */
+    .shell {
+      display: grid;
+      grid-template-rows: auto 1fr;
+      height: 100vh;
+    }
+
+    /* ─────────────────────────────────────────────────
+     STATS BAR — hero element
+  ───────────────────────────────────────────────── */
+    .stats-bar {
+      background: var(--raised);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .stats-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-right: 20px;
+      border-right: 1px solid var(--border);
+      margin-right: 4px;
+    }
+
+    .brand-mark {
+      width: 30px;
+      height: 30px;
+      background: linear-gradient(135deg, var(--indigo), #818CF8);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      color: white;
+    }
+
+    .brand-name {
+      font-weight: 600;
+      font-size: 16px;
+      letter-spacing: -0.03em;
+    }
+
+    /* The hero number */
+    .hero-stat {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      margin-left: auto;
+      padding: 6px 16px;
+      background: var(--indigo-dim);
+      border: 1px solid rgba(99, 102, 241, 0.18);
+      border-radius: 10px;
+    }
+
+    .hero-val {
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--indigo);
+      letter-spacing: -0.03em;
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+    }
+
+    .hero-label {
+      font-size: 12px;
+      color: rgba(99, 102, 241, 0.7);
+      font-weight: 500;
+    }
+
+    .stat-chips {
+      display: flex;
+      gap: 10px;
+    }
+
+    .s-chip {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12.5px;
+      color: var(--text-2);
+      padding: 5px 12px;
+      border-radius: 7px;
+      background: var(--card);
+      border: 1px solid var(--border);
+    }
+
+    .s-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .s-val {
+      font-weight: 600;
+      color: var(--text);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ─────────────────────────────────────────────────
+     BODY: sidebar · list · detail
+  ───────────────────────────────────────────────── */
+    .body-grid {
+      display: grid;
+      grid-template-columns: 210px 330px 1fr;
+      overflow: hidden;
+    }
+
+    /* ─────────────────────────────────────────────────
+     SIDEBAR
+  ───────────────────────────────────────────────── */
+    .sidebar {
+      background: var(--raised);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      padding: 14px 10px;
+      gap: 2px;
+    }
+
+    .sb-label {
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      padding: 10px 10px 6px;
+    }
+
+    .sb-btn {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 7px 10px;
+      border-radius: 7px;
+      font-size: 13px;
+      color: var(--text-2);
+      transition: background 0.12s, color 0.12s;
+      user-select: none;
+    }
+
+    .sb-btn:hover {
+      background: var(--hover);
+      color: var(--text);
+    }
+
+    .sb-btn.active {
+      background: var(--indigo-dim);
+      color: var(--indigo);
+      font-weight: 500;
+    }
+
+    .sb-icon {
+      width: 18px;
+      text-align: center;
+      font-size: 13px;
+      flex-shrink: 0;
+    }
+
+    .sb-count {
+      margin-left: auto;
+      font-size: 11px;
+      font-weight: 600;
+      min-width: 18px;
+      text-align: center;
+      padding: 1px 6px;
+      border-radius: 10px;
+      color: white;
+    }
+
+    .sb-count.c-amber {
+      background: var(--amber);
+      color: #1A1500;
+    }
+
+    .sb-count.c-rose {
+      background: var(--rose);
+    }
+
+    .sb-count.c-emerald {
+      background: var(--emerald);
+      color: #001A0A;
+    }
+
+    .sb-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 10px 10px;
+    }
+
+    .sb-spacer {
+      flex: 1;
+    }
+
+    .sb-new-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: var(--indigo);
+      color: white;
+      padding: 9px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      transition: filter 0.15s, transform 0.1s;
+    }
+
+    .sb-new-btn:hover {
+      filter: brightness(1.12);
+    }
+
+    .sb-new-btn:active {
+      transform: scale(0.97);
+    }
+
+    .sb-cust-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: transparent;
+      color: var(--text-2);
+      border: 1px solid var(--border-2);
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-weight: 500;
+      margin-top: 6px;
+      transition: border-color 0.15s, color 0.15s, background 0.15s;
+    }
+
+    .sb-cust-btn:hover {
+      border-color: var(--text-3);
+      color: var(--text);
+      background: var(--hover);
+    }
+
+    /* ─────────────────────────────────────────────────
+     TICKET LIST
+  ───────────────────────────────────────────────── */
+    .list-panel {
+      background: var(--raised);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .list-head {
+      padding: 14px 16px 10px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+
+    .list-title {
+      font-weight: 600;
+      font-size: 13.5px;
+    }
+
+    .list-count {
+      font-size: 11.5px;
+      color: var(--text-3);
+      background: var(--card);
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+
+    .ticket-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 4px 0;
+    }
+
+    /* row */
+    .t-row {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: background 0.1s;
+    }
+
+    .t-row:hover {
+      background: var(--hover);
+    }
+
+    .t-row.sel {
+      background: var(--selected);
+      border-left: 2px solid var(--indigo);
+      padding-left: 14px;
+    }
+
+    .t-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .t-av {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 600;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .t-sender {
+      font-weight: 500;
+      font-size: 13px;
+      flex: 1;
+      min-width: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .t-time {
+      font-size: 11px;
+      color: var(--text-3);
+      flex-shrink: 0;
+    }
+
+    .t-subj {
+      font-size: 12.5px;
+      color: var(--text-2);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 6px;
+    }
+
+    .t-foot {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* pills */
+    .pill {
+      font-size: 10.5px;
+      font-weight: 500;
+      padding: 2px 8px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+
+    .pill-queue {
+      background: var(--card);
+      color: var(--text-2);
+      border: 1px solid var(--border);
+    }
+
+    .pill-review {
+      background: var(--amber-dim);
+      color: var(--amber);
+    }
+
+    .pill-auto {
+      background: var(--emerald-dim);
+      color: var(--emerald);
+    }
+
+    .pill-esc {
+      background: var(--rose-dim);
+      color: var(--rose);
+    }
+
+    .pill-resolved {
+      background: var(--slate-dim);
+      color: var(--slate);
+    }
+
+    .pill-processing {
+      background: var(--indigo-dim);
+      color: var(--indigo);
+    }
+
+    .t-conf {
+      margin-left: auto;
+      font-size: 10.5px;
+      color: var(--text-3);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* empty list */
+    .list-empty {
+      padding: 50px 16px;
+      text-align: center;
+      color: var(--text-3);
+    }
+
+    .list-empty-icon {
+      font-size: 28px;
+      opacity: 0.15;
+      margin-bottom: 8px;
+    }
+
+    .list-empty-text {
+      font-size: 13px;
+    }
+
+    /* ─────────────────────────────────────────────────
+     DETAIL PANEL
+  ───────────────────────────────────────────────── */
+    .detail-panel {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .detail-empty {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: var(--text-3);
+      text-align: center;
+      padding: 40px;
+    }
+
+    .de-icon {
+      font-size: 36px;
+      opacity: 0.15;
+    }
+
+    .de-title {
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--text-2);
+    }
+
+    .de-sub {
+      font-size: 13px;
+      max-width: 260px;
+      line-height: 1.5;
+    }
+
+    .detail-view {
+      display: none;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .d-head {
+      background: var(--raised);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 24px;
+      flex-shrink: 0;
+    }
+
+    .d-subject {
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+      line-height: 1.3;
+    }
+
+    .d-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .d-tag {
+      font-size: 11.5px;
+      color: var(--text-3);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* messages */
+    .msg-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .msg-bubble {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 20px;
+    }
+
+    .msg-bubble.reply-bubble {
+      background: var(--hover);
+      border-color: var(--border-2);
+      margin-left: 20px;
+    }
+
+    .msg-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .msg-av {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 600;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .msg-name {
+      font-weight: 600;
+      font-size: 13px;
+    }
+
+    .msg-ts {
+      font-size: 11.5px;
+      color: var(--text-3);
+    }
+
+    .msg-body {
+      font-size: 14px;
+      line-height: 1.7;
+      white-space: pre-wrap;
+    }
+
+    /* context accordion */
+    .ctx-box {
+      margin-top: 12px;
+    }
+
+    .ctx-toggle {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11.5px;
+      color: var(--text-3);
+      padding: 4px 0;
+      transition: color 0.15s;
+    }
+
+    .ctx-toggle:hover {
+      color: var(--text-2);
+    }
+
+    .ctx-arrow {
+      font-size: 9px;
+      display: inline-block;
+      transition: transform 0.2s var(--ease);
+    }
+
+    .ctx-toggle.open .ctx-arrow {
+      transform: rotate(90deg);
+    }
+
+    .ctx-items {
+      display: none;
+      margin-top: 8px;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .ctx-items.open {
+      display: flex;
+    }
+
+    .ctx-card {
+      background: var(--hover);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: 10px 12px;
+      font-size: 12px;
+    }
+
+    .ctx-card-t {
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 3px;
+    }
+
+    .ctx-card-b {
+      color: var(--text-2);
+      line-height: 1.5;
+    }
+
+    /* ─────────────────────────────────────────────────
+     COMPOSER
+  ───────────────────────────────────────────────── */
+    .composer {
+      background: var(--raised);
+      border-top: 1px solid var(--border);
+      padding: 14px 24px 18px;
+      flex-shrink: 0;
+    }
+
+    .comp-head {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .ai-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10.5px;
+      font-weight: 500;
+      color: var(--indigo);
+      background: var(--indigo-dim);
+      padding: 2px 8px;
+      border-radius: 14px;
+    }
+
+    .conf-pill {
+      font-size: 10.5px;
+      color: var(--text-3);
+      border: 1px solid var(--border);
+      padding: 1px 7px;
+      border-radius: 6px;
+    }
+
+    .comp-hint {
+      font-size: 11px;
+      color: var(--text-3);
+      margin-left: auto;
+    }
+
+    .reply-box {
+      width: 100%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-size: 13.5px;
+      line-height: 1.65;
+      resize: none;
+      min-height: 90px;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .reply-box:focus {
+      border-color: var(--indigo);
+      box-shadow: 0 0 0 3px var(--indigo-glow);
+    }
+
+    .comp-foot {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      margin-top: 10px;
+      gap: 8px;
+    }
+
+    .btn-send {
+      background: var(--indigo);
+      color: white;
+      padding: 8px 20px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      transition: filter 0.15s, transform 0.1s;
+    }
+
+    .btn-send:hover {
+      filter: brightness(1.1);
+    }
+
+    .btn-send:active {
+      transform: scale(0.97);
+    }
+
+    .btn-send:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .btn-ghost {
+      color: var(--text-2);
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      border: 1px solid var(--border);
+      transition: border-color 0.15s, color 0.15s;
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--text-3);
+      color: var(--text);
+    }
+
+    /* escalation notice */
+    .esc-banner {
+      background: var(--rose-dim);
+      border: 1px solid rgba(251, 113, 133, 0.15);
+      border-radius: 8px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .esc-banner-icon {
+      font-size: 18px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .esc-banner-text {
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .esc-banner-text strong {
+      color: var(--rose);
+    }
+
+    /* auto-resolved read-only notice */
+    .auto-banner {
+      background: var(--emerald-dim);
+      border: 1px solid rgba(52, 211, 153, 0.15);
+      border-radius: 8px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .auto-banner-icon {
+      font-size: 18px;
+    }
+
+    .auto-banner-text {
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.4;
+    }
+
+    .auto-banner-text strong {
+      color: var(--emerald);
+    }
+
+    /* ─────────────────────────────────────────────────
+     MODAL (New Ticket + Customer Portal)
+  ───────────────────────────────────────────────── */
+    .modal-bg {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+
+    .modal-bg.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal {
+      background: var(--raised);
+      border: 1px solid var(--border-2);
+      border-radius: 14px;
+      padding: 28px;
+      width: 100%;
+      max-width: 520px;
+      box-shadow: var(--shadow);
+      transform: translateY(10px) scale(0.98);
+      transition: transform 0.25s var(--ease);
+    }
+
+    .modal-bg.open .modal {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-title {
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 4px;
+    }
+
+    .modal-sub {
+      font-size: 13px;
+      color: var(--text-2);
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    .f-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-2);
+      margin-bottom: 5px;
+      display: block;
+    }
+
+    .f-input {
+      width: 100%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 9px 14px;
+      font-size: 13.5px;
+      outline: none;
+      margin-bottom: 14px;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .f-input:focus {
+      border-color: var(--indigo);
+      box-shadow: 0 0 0 3px var(--indigo-glow);
+    }
+
+    .f-textarea {
+      width: 100%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 13.5px;
+      outline: none;
+      resize: vertical;
+      min-height: 100px;
+      line-height: 1.6;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .f-textarea:focus {
+      border-color: var(--indigo);
+      box-shadow: 0 0 0 3px var(--indigo-glow);
+    }
+
+    .modal-foot {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    /* ── Customer portal modal (wider) ── */
+    .modal.cust-modal {
+      max-width: 560px;
+    }
+
+    .cust-response-area {
+      display: none;
+      margin-top: 20px;
+      border-top: 1px solid var(--border);
+      padding-top: 18px;
+    }
+
+    .cust-response-area.show {
+      display: block;
+    }
+
+    .cust-status-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .cust-spinner {
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--border-2);
+      border-top-color: var(--indigo);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .cust-status-text {
+      font-size: 13px;
+      color: var(--text-2);
+    }
+
+    .cust-reply-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 18px;
+    }
+
+    .cust-reply-head {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .cust-reply-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-2);
+    }
+
+    .cust-reply-body {
+      font-size: 14px;
+      line-height: 1.7;
+      white-space: pre-wrap;
+    }
+
+    .cust-meta-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    /* ─────────────────────────────────────────────────
+     TOAST
+  ───────────────────────────────────────────────── */
+    .toast-shelf {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      z-index: 200;
+    }
+
+    .toast {
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid var(--border-2);
+      padding: 10px 16px;
+      border-radius: 9px;
+      font-size: 13px;
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transform: translateY(8px);
+      opacity: 0;
+      transition: transform 0.25s var(--ease), opacity 0.25s;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* ─────────────────────────────────────────────────
+     RESPONSIVE
+  ───────────────────────────────────────────────── */
+    @media (max-width: 960px) {
+      .body-grid {
+        grid-template-columns: 190px 1fr;
+      }
+
+      .detail-panel {
+        display: none;
+      }
+
+      .hero-stat {
+        display: none;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .body-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        display: none;
+      }
+
+      .stat-chips {
+        display: none;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      *,
+      *::before,
+      *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+      }
+    }
+  </style>
 </head>
 
 <body>
-    <div class="app-shell">
+  <div class="shell">
 
-        <!-- Header -->
-        <header>
-            <div class="brand">
-                <span class="brand-wordmark">AI-Ops</span>
-                <div class="brand-sep"></div>
-                <span class="brand-label">Ticket Intelligence</span>
-            </div>
-            <div class="header-meta">
-                <div class="status-beacon"></div>
-                <span>API Connected</span>
-            </div>
-        </header>
+    <!-- ═══════════ STATS BAR ═══════════ -->
+    <header class="stats-bar">
+      <div class="stats-brand">
+        <div class="brand-mark">T</div>
+        <span class="brand-name">Triage</span>
+      </div>
 
-        <!-- Main -->
-        <main>
+      <div class="stat-chips">
+        <div class="s-chip">
+          <div class="s-dot" style="background:var(--emerald)"></div>
+          <span class="s-val" id="sAR">–</span>
+          <span>auto-resolved today</span>
+        </div>
+        <div class="s-chip">
+          <div class="s-dot" style="background:var(--amber)"></div>
+          <span class="s-val" id="sNR">–</span>
+          <span>need review</span>
+        </div>
+        <div class="s-chip">
+          <div class="s-dot" style="background:var(--rose)"></div>
+          <span class="s-val" id="sES">–</span>
+          <span>flagged</span>
+        </div>
+      </div>
 
-            <!-- ── Left: input panel ── -->
-            <div class="input-panel">
+      <div class="hero-stat">
+        <span class="hero-val" id="sRATE">–</span>
+        <span class="hero-label">automation rate</span>
+      </div>
+    </header>
 
-                <div>
-                    <p class="section-eyebrow">Step 1</p>
-                    <h1 class="section-title">Submit a Support Ticket</h1>
-                    <p class="section-sub">Paste or type a customer ticket. The pipeline will route it, retrieve similar
-                        cases, draft a response, and flag whether it needs human escalation.</p>
-                </div>
+    <!-- ═══════════ BODY ═══════════ -->
+    <div class="body-grid">
 
-                <textarea id="ticketInput" placeholder="Describe the customer issue in plain language…"
-                    aria-label="Ticket text">My internet connection keeps dropping every few minutes and restarting the router hasn't helped.</textarea>
+      <!-- ── SIDEBAR ── -->
+      <nav class="sidebar" aria-label="Queues">
+        <div class="sb-label">Agent Inbox</div>
 
-                <div>
-                    <p class="examples-label">Try an example</p>
-                    <div class="chips">
-                        <button class="chip" type="button"
-                            data-text="I was charged twice for my monthly subscription this cycle — my invoice shows a duplicate payment. Can you refund one of them?">
-                            <span class="chip-tag">Billing</span>
-                            Duplicate charge on monthly subscription
-                        </button>
-                        <button class="chip" type="button"
-                            data-text="Our office internet has been dropping every few minutes since this morning. We've restarted the router twice and it hasn't helped.">
-                            <span class="chip-tag">Network</span>
-                            Office connection dropping repeatedly
-                        </button>
-                        <button class="chip" type="button"
-                            data-text="I can't log into my account — the password reset link in the email I received isn't working. It just redirects to a blank page.">
-                            <span class="chip-tag">Access</span>
-                            Password reset link not working
-                        </button>
-                    </div>
-                </div>
+        <button class="sb-btn active" data-q="needs_review">
+          <span class="sb-icon">✉</span>
+          <span>Inbox</span>
+          <span class="sb-count c-amber" id="cntNR">–</span>
+        </button>
 
-                <div class="submit-row">
-                    <button id="submit" type="button">
-                        <span>Run Pipeline</span>
-                        <span class="submit-icon" aria-hidden="true">→</span>
-                    </button>
-                    <div class="error-msg" id="errorMsg" role="alert"></div>
-                </div>
+        <button class="sb-btn" data-q="escalated">
+          <span class="sb-icon">⚑</span>
+          <span>Flagged</span>
+          <span class="sb-count c-rose" id="cntES">–</span>
+        </button>
 
-            </div>
+        <button class="sb-btn" data-q="auto_resolved">
+          <span class="sb-icon">✦</span>
+          <span>Auto-resolved</span>
+          <span class="sb-count c-emerald" id="cntAU">–</span>
+        </button>
 
-            <!-- ── Right: pipeline panel ── -->
-            <div class="pipeline-panel">
+        <button class="sb-btn" data-q="resolved">
+          <span class="sb-icon">✓</span>
+          <span>Resolved</span>
+        </button>
 
-                <div class="pipeline-header">
-                    <div>
-                        <p class="section-eyebrow">Workflow</p>
-                        <h2 class="section-title">Live Pipeline</h2>
-                        <p class="section-sub">Four agents run in sequence — each stage unlocks when the previous one
-                            completes.</p>
-                    </div>
-                </div>
+        <div class="sb-divider"></div>
 
-                <!-- Empty state -->
-                <div class="empty-state" id="emptyState">
-                    <div class="empty-icon">◎</div>
-                    <p class="empty-title">No ticket submitted yet</p>
-                    <p class="empty-sub">Submit a ticket on the left to watch each stage of the pipeline run in
-                        sequence.</p>
-                </div>
+        <button class="sb-btn" data-q="">
+          <span class="sb-icon">☰</span>
+          <span>All tickets</span>
+        </button>
 
-                <!-- Workflow stages (hidden until first run) -->
-                <div class="workflow" id="workflow" style="display:none;">
+        <div class="sb-spacer"></div>
 
-                    <!-- Stage 1: Triage -->
-                    <div class="stage" id="stage-triage">
-                        <div class="stage-connector">
-                            <div class="stage-dot" aria-hidden="true">
-                                <span class="dot-icon">◈</span>
-                            </div>
-                            <div class="connector-line" id="conn-0">
-                                <div class="signal"></div>
-                            </div>
-                        </div>
-                        <div class="stage-body">
-                            <div class="stage-meta">
-                                <span class="stage-name">Route</span>
-                                <span class="stage-status" id="status-triage">Running…</span>
-                            </div>
-                            <div class="stage-card" id="card-triage">
-                                <div class="stage-card-inner" id="content-triage">
-                                    <div class="skeleton-row"></div>
-                                    <div class="skeleton-row"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+        <button class="sb-new-btn" id="btnNewTicket">
+          <span>+</span> Simulate incoming ticket
+        </button>
 
-                    <!-- Stage 2: Retrieve -->
-                    <div class="stage" id="stage-retrieve">
-                        <div class="stage-connector">
-                            <div class="stage-dot" aria-hidden="true">
-                                <span class="dot-icon">◈</span>
-                            </div>
-                            <div class="connector-line" id="conn-1">
-                                <div class="signal"></div>
-                            </div>
-                        </div>
-                        <div class="stage-body">
-                            <div class="stage-meta">
-                                <span class="stage-name">Retrieve</span>
-                                <span class="stage-status" id="status-retrieve">Waiting</span>
-                            </div>
-                            <div class="stage-card" id="card-retrieve">
-                                <div class="stage-card-inner" id="content-retrieve">
-                                    <div class="skeleton-row"></div>
-                                    <div class="skeleton-row"></div>
-                                    <div class="skeleton-row"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+        <button class="sb-cust-btn" id="btnCustPortal">
+          <span>👤</span> Customer portal
+        </button>
+      </nav>
 
-                    <!-- Stage 3: Draft -->
-                    <div class="stage" id="stage-draft">
-                        <div class="stage-connector">
-                            <div class="stage-dot" aria-hidden="true">
-                                <span class="dot-icon">◈</span>
-                            </div>
-                            <div class="connector-line" id="conn-2">
-                                <div class="signal"></div>
-                            </div>
-                        </div>
-                        <div class="stage-body">
-                            <div class="stage-meta">
-                                <span class="stage-name">Draft Response</span>
-                                <span class="stage-status" id="status-draft">Waiting</span>
-                            </div>
-                            <div class="stage-card" id="card-draft">
-                                <div class="stage-card-inner" id="content-draft">
-                                    <div class="skeleton-row"></div>
-                                    <div class="skeleton-row"></div>
-                                    <div class="skeleton-row"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+      <!-- ── TICKET LIST ── -->
+      <div class="list-panel">
+        <div class="list-head">
+          <span class="list-title" id="listTitle">Inbox</span>
+          <span class="list-count" id="listCount">–</span>
+        </div>
+        <div class="ticket-list" id="ticketList" role="listbox"></div>
+      </div>
 
-                    <!-- Stage 4: Escalate -->
-                    <div class="stage" id="stage-escalate">
-                        <div class="stage-connector">
-                            <div class="stage-dot" aria-hidden="true">
-                                <span class="dot-icon">◈</span>
-                            </div>
-                            <div class="connector-line"></div>
-                        </div>
-                        <div class="stage-body">
-                            <div class="stage-meta">
-                                <span class="stage-name">Escalation Decision</span>
-                                <span class="stage-status" id="status-escalate">Waiting</span>
-                            </div>
-                            <div class="stage-card" id="card-escalate">
-                                <div class="stage-card-inner" id="content-escalate">
-                                    <div class="skeleton-row"></div>
-                                    <div class="skeleton-row"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+      <!-- ── DETAIL ── -->
+      <div class="detail-panel" id="detailPanel">
+        <div class="detail-empty" id="detailEmpty">
+          <div class="de-icon">✉</div>
+          <p class="de-title">No ticket selected</p>
+          <p class="de-sub">Click a ticket to view details, AI-drafted reply, and similar cases from your knowledge
+            base.</p>
+        </div>
 
-                </div><!-- /workflow -->
-            </div><!-- /pipeline-panel -->
-        </main>
+        <div class="detail-view" id="detailView">
+          <div class="d-head">
+            <div class="d-subject" id="dSubject">—</div>
+            <div class="d-meta" id="dMeta"></div>
+          </div>
+          <div class="msg-scroll" id="msgScroll"></div>
+          <div class="composer" id="composer">
+            <div id="compInner"></div>
+          </div>
+        </div>
+      </div>
+
     </div>
+  </div>
 
-    <script>
-        const API_URL = "/process-ticket";
-        const sleep = ms => new Promise(r => setTimeout(r, ms));
+  <!-- ═══════════ MODAL: NEW TICKET ═══════════ -->
+  <div class="modal-bg" id="modalBg">
+    <div class="modal">
+      <h2 class="modal-title">Simulate incoming ticket</h2>
+      <p class="modal-sub">Enter a customer message. The system will route it through the classifier, retrieve similar
+        cases, draft a reply, and decide whether to auto-send, hold for review, or escalate — live.</p>
 
-        const $ = id => document.getElementById(id);
+      <label class="f-label" for="mEmail">Customer email</label>
+      <input class="f-input" id="mEmail" type="email" placeholder="customer@example.com">
 
-        const ticketInput = $('ticketInput');
-        const submitBtn = $('submit');
-        const errorMsg = $('errorMsg');
-        const emptyState = $('emptyState');
-        const workflow = $('workflow');
+      <label class="f-label" for="mSubj">Subject</label>
+      <input class="f-input" id="mSubj" type="text" placeholder="e.g. Password reset not working">
 
-        // ── Chip shortcuts ──────────────────────────────────
-        document.querySelectorAll('.chip').forEach(chip => {
-            chip.addEventListener('click', () => {
-                ticketInput.value = chip.dataset.text;
-                ticketInput.focus();
-            });
-        });
+      <label class="f-label" for="mBody">Message body</label>
+      <textarea class="f-textarea" id="mBody" placeholder="Paste or type the customer's message…"></textarea>
 
-        // ── Stage helpers ───────────────────────────────────
-        function resetStages() {
-            ['triage', 'retrieve', 'draft', 'escalate'].forEach(name => {
-                const stage = $(`stage-${name}`);
-                stage.className = 'stage';
-                $(`status-${name}`).textContent = name === 'triage' ? 'Running…' : 'Waiting';
-                const card = $(`card-${name}`);
-                card.className = 'stage-card';
-            });
-            // Reset connector signals
-            [0, 1, 2].forEach(i => {
-                const conn = $(`conn-${i}`);
-                if (conn) conn.className = 'connector-line';
-            });
-        }
+      <div class="modal-foot">
+        <button class="btn-ghost" id="mCancel">Cancel</button>
+        <button class="btn-send" id="mSubmit">Submit ticket</button>
+      </div>
+    </div>
+  </div>
 
-        function activateStage(name, statusText) {
-            const stage = $(`stage-${name}`);
-            stage.classList.add('active');
-            $(`status-${name}`).textContent = statusText || 'Running…';
-            const card = $(`card-${name}`);
-            card.classList.add('open');
-        }
+  <!-- ═══════════ MODAL: CUSTOMER PORTAL ═══════════ -->
+  <div class="modal-bg" id="custBg">
+    <div class="modal cust-modal">
+      <h2 class="modal-title">Customer Support</h2>
+      <p class="modal-sub">Describe your issue below and we'll get back to you. Our AI-powered system will analyze your
+        request and provide a response.</p>
 
-        function doneStage(name) {
-            const stage = $(`stage-${name}`);
-            stage.classList.remove('active');
-            stage.classList.add('done');
-            $(`status-${name}`).textContent = 'Complete';
-        }
+      <label class="f-label" for="cEmail">Your email</label>
+      <input class="f-input" id="cEmail" type="email" placeholder="you@example.com">
 
-        function pulseConnector(index) {
-            const conn = $(`conn-${index}`);
-            if (!conn) return;
-            // Reset then animate
-            conn.className = 'connector-line';
-            requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-                    conn.classList.add('animate');
-                });
-            });
-        }
+      <label class="f-label" for="cSubj">Subject</label>
+      <input class="f-input" id="cSubj" type="text" placeholder="What's your issue about?">
 
-        // ── Content renderers ───────────────────────────────
-        function renderTriage(data) {
-            $('content-triage').innerHTML = `
-        <div style="margin-bottom:8px;font-size:11px;font-family:var(--font-mono);color:var(--text-3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px">Assigned Queue</div>
-        <div class="queue-tag">
-          <span>▸</span>
-          ${data.predicted_queue ?? '—'}
+      <label class="f-label" for="cBody">Describe your issue</label>
+      <textarea class="f-textarea" id="cBody" placeholder="Tell us what happened…"></textarea>
+
+      <div class="modal-foot" id="custFooter">
+        <button class="btn-ghost" id="cCancel">Close</button>
+        <button class="btn-send" id="cSubmit">Submit request</button>
+      </div>
+
+      <!-- Response area (hidden until submitted) -->
+      <div class="cust-response-area" id="custResponse">
+        <div class="cust-status-bar" id="custStatusBar">
+          <div class="cust-spinner" id="custSpinner"></div>
+          <span class="cust-status-text" id="custStatusText">Processing your request…</span>
         </div>
-      `;
-        }
 
-        function renderRetrieve(data) {
-            const items = (data.retrieved_context || []);
-            const html = items.length === 0
-                ? '<p style="font-size:13px;color:var(--text-3)">No similar cases found in the knowledge base.</p>'
-                : `
-          <div style="margin-bottom:10px;font-size:11px;font-family:var(--font-mono);color:var(--text-3);letter-spacing:.08em;text-transform:uppercase">${items.length} similar case${items.length !== 1 ? 's' : ''} retrieved</div>
-          <div class="context-list">
-            ${items.map((c, i) => `
-              <div class="context-item">
-                <div class="context-item-subject">${c.subject ?? 'Untitled case'}</div>
-                <div class="context-item-body">${(c.answer ?? '').slice(0, 160)}${(c.answer ?? '').length > 160 ? '…' : ''}</div>
-                <div class="context-similarity">Similarity distance: ${c.distance != null ? c.distance.toFixed(3) : '—'}</div>
+        <div class="cust-reply-card" id="custReplyCard" style="display:none">
+          <div class="cust-reply-head">
+            <div class="msg-av" style="background:var(--indigo);width:24px;height:24px;font-size:10px">T</div>
+            <span class="cust-reply-label">Support Response</span>
+          </div>
+          <div class="cust-reply-body" id="custReplyBody"></div>
+          <div class="cust-meta-row" id="custMetaRow"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ TOAST ═══════════ -->
+  <div class="toast-shelf" id="toastShelf"></div>
+
+  <script>
+    /* ================================================================
+       UTILS
+    ================================================================ */
+    const COLORS = ['#6366F1', '#7C3AED', '#0EA5E9', '#10B981', '#F59E0B', '#EF4444', '#EC4899', '#14B8A6'];
+
+    function avColor(s) {
+      let h = 0;
+      for (let i = 0; i < (s || '').length; i++) h = (h * 31 + s.charCodeAt(i)) | 0;
+      return COLORS[Math.abs(h) % COLORS.length];
+    }
+
+    function initials(s) {
+      if (!s) return '?';
+      const p = s.trim().split(/[\s@]+/);
+      return p.length >= 2 ? (p[0][0] + p[1][0]).toUpperCase() : s.slice(0, 2).toUpperCase();
+    }
+
+    function relTime(iso) {
+      if (!iso) return '';
+      const diff = (Date.now() - new Date(iso).getTime()) / 1000;
+      if (diff < 60) return 'now';
+      if (diff < 3600) return Math.floor(diff / 60) + 'm';
+      if (diff < 86400) return Math.floor(diff / 3600) + 'h';
+      return Math.floor(diff / 86400) + 'd';
+    }
+
+    function fmtDate(iso) {
+      if (!iso) return '';
+      return new Date(iso).toLocaleDateString('en-US', {
+        weekday: 'short', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+      });
+    }
+
+    function statusPillHtml(s) {
+      const m = {
+        needs_review: ['pill-review', 'Needs review'],
+        auto_resolved: ['pill-auto', 'Auto-resolved'],
+        escalated: ['pill-esc', 'Flagged'],
+        resolved: ['pill-resolved', 'Resolved'],
+        processing: ['pill-processing', 'Processing…']
+      };
+      const [c, l] = m[s] || ['pill-queue', s || '—'];
+      return `<span class="pill ${c}">${l}</span>`;
+    }
+
+    function shortQ(q) { return q ? q.replace(/ and /g, ' & ') : ''; }
+
+    function confPct(c) { return c != null ? (c * 100).toFixed(0) + '%' : ''; }
+
+    function toast(msg, ms = 3500) {
+      const el = document.createElement('div');
+      el.className = 'toast'; el.textContent = msg;
+      document.getElementById('toastShelf').appendChild(el);
+      requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('show')));
+      setTimeout(() => { el.classList.remove('show'); setTimeout(() => el.remove(), 300); }, ms);
+    }
+
+    /* ================================================================
+       STATE
+    ================================================================ */
+    let filter = 'needs_review';
+    let tickets = [];
+    let selectedId = null;
+
+    /* ================================================================
+       API
+    ================================================================ */
+    const api = {
+      async stats() {
+        const r = await fetch('/stats'); return r.ok ? r.json() : {};
+      },
+      async list(status) {
+        const url = status ? `/tickets?status=${encodeURIComponent(status)}` : '/tickets';
+        const r = await fetch(url); return r.ok ? r.json() : [];
+      },
+      async get(id) {
+        const r = await fetch(`/tickets/${encodeURIComponent(id)}`);
+        return r.ok ? r.json() : null;
+      },
+      async submit(email, subject, body) {
+        const r = await fetch(
+          `/tickets?customer_email=${encodeURIComponent(email)}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`,
+          { method: 'POST' }
+        );
+        if (!r.ok) throw new Error(await r.text());
+        return r.json();
+      },
+      async reply(id, text) {
+        const r = await fetch(
+          `/tickets/${encodeURIComponent(id)}/reply?final_reply=${encodeURIComponent(text)}`,
+          { method: 'POST' }
+        );
+        if (!r.ok) throw new Error(await r.text());
+        return r.json();
+      }
+    };
+
+    /* ================================================================
+       RENDER: STATS
+    ================================================================ */
+    async function renderStats() {
+      try {
+        const s = await api.stats();
+        document.getElementById('sAR').textContent = s.auto_resolved ?? 0;
+        document.getElementById('sNR').textContent = s.needs_review ?? 0;
+        document.getElementById('sES').textContent = s.escalated ?? 0;
+        document.getElementById('sRATE').textContent = (s.automation_rate ?? 0) + '%';
+
+        const setCount = (id, n) => {
+          const el = document.getElementById(id);
+          el.textContent = n || 0;
+          el.style.display = n ? '' : 'none';
+        };
+        setCount('cntNR', s.needs_review);
+        setCount('cntES', s.escalated);
+        setCount('cntAU', s.auto_resolved);
+      } catch (e) { /* silent */ }
+    }
+
+    /* ================================================================
+       RENDER: LIST
+    ================================================================ */
+    async function renderList() {
+      try {
+        tickets = await api.list(filter || undefined);
+      } catch (e) { tickets = []; }
+
+      const el = document.getElementById('ticketList');
+      el.innerHTML = '';
+
+      document.getElementById('listCount').textContent =
+        tickets.length + ' ticket' + (tickets.length !== 1 ? 's' : '');
+
+      if (!tickets.length) {
+        el.innerHTML = `
+      <div class="list-empty">
+        <div class="list-empty-icon">◎</div>
+        <div class="list-empty-text">No tickets in this queue</div>
+      </div>`;
+        return;
+      }
+
+      tickets.forEach(t => {
+        const row = document.createElement('div');
+        row.className = 't-row' + (t.id === selectedId ? ' sel' : '');
+        row.setAttribute('role', 'option');
+
+        const name = t.customer_email || 'unknown';
+        const col = avColor(name);
+        const ini = initials(name);
+        const cf = confPct(t.confidence);
+
+        row.innerHTML = `
+      <div class="t-top">
+        <div class="t-av" style="background:${col}">${ini}</div>
+        <span class="t-sender">${name}</span>
+        <span class="t-time">${relTime(t.created_at)}</span>
+      </div>
+      <div class="t-subj">${t.subject || (t.body || '').slice(0, 70)}</div>
+      <div class="t-foot">
+        ${t.predicted_queue ? `<span class="pill pill-queue">${shortQ(t.predicted_queue)}</span>` : ''}
+        ${statusPillHtml(t.status)}
+        ${cf ? `<span class="t-conf">${cf}</span>` : ''}
+      </div>`;
+
+        row.addEventListener('click', () => openTicket(t.id));
+        el.appendChild(row);
+      });
+    }
+
+    /* ================================================================
+       RENDER: DETAIL
+    ================================================================ */
+    async function openTicket(id) {
+      selectedId = id;
+
+      // Update list selection
+      document.querySelectorAll('.t-row').forEach((r, i) => {
+        r.classList.toggle('sel', tickets[i] && tickets[i].id === id);
+      });
+
+      const t = await api.get(id);
+      if (!t) { toast('Failed to load ticket'); return; }
+
+      document.getElementById('detailEmpty').style.display = 'none';
+      const view = document.getElementById('detailView');
+      view.style.display = 'flex';
+
+      // Header
+      document.getElementById('dSubject').textContent = t.subject || (t.body || '').split('.')[0].slice(0, 60);
+
+      const meta = document.getElementById('dMeta');
+      meta.innerHTML = `
+    <span class="d-tag">✉ ${t.customer_email || '—'}</span>
+    <span class="d-tag">· ${fmtDate(t.created_at)}</span>
+    ${t.predicted_queue ? `<span class="d-tag">· <span class="pill pill-queue" style="font-size:11px">${shortQ(t.predicted_queue)}</span></span>` : ''}
+    <span class="d-tag">· ${statusPillHtml(t.status)}</span>
+    ${t.confidence != null ? `<span class="d-tag">· ${(t.confidence * 100).toFixed(1)}% confidence</span>` : ''}
+  `;
+
+      // Parse context
+      let ctx = [];
+      if (t.retrieved_context) {
+        try { ctx = typeof t.retrieved_context === 'string' ? JSON.parse(t.retrieved_context) : t.retrieved_context; }
+        catch (e) { }
+      }
+
+      let ctxHtml = '';
+      if (ctx.length) {
+        const items = ctx.map(c => `
+      <div class="ctx-card">
+        <div class="ctx-card-t">${c.subject || 'Similar ticket'}</div>
+        <div class="ctx-card-b">${(c.answer || c.body || '').slice(0, 160)}…</div>
+      </div>`).join('');
+        ctxHtml = `
+      <div class="ctx-box">
+        <button class="ctx-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
+          <span class="ctx-arrow">▶</span>&nbsp;Based on ${ctx.length} similar resolved ticket${ctx.length !== 1 ? 's' : ''}
+        </button>
+        <div class="ctx-items">${items}</div>
+      </div>`;
+      }
+
+      // Messages
+      const scroll = document.getElementById('msgScroll');
+      const col = avColor(t.customer_email || '');
+      const ini = initials(t.customer_email || '');
+
+      scroll.innerHTML = `
+    <div class="msg-bubble">
+      <div class="msg-head">
+        <div class="msg-av" style="background:${col}">${ini}</div>
+        <div>
+          <div class="msg-name">${t.customer_email || 'Customer'}</div>
+          <div class="msg-ts">${fmtDate(t.created_at)}</div>
+        </div>
+      </div>
+      <div class="msg-body">${t.body || t.subject || ''}</div>
+      ${ctxHtml}
+    </div>`;
+
+      // Show sent reply as a bubble if resolved or auto-resolved
+      if (t.status === 'auto_resolved' || t.status === 'resolved') {
+        const reply = t.final_reply || t.draft_response || '';
+        if (reply) {
+          const isAuto = t.status === 'auto_resolved';
+          scroll.innerHTML += `
+        <div class="msg-bubble reply-bubble">
+          <div class="msg-head">
+            <div class="msg-av" style="background:var(--indigo)">T</div>
+            <div>
+              <div class="msg-name">Triage Support
+                ${isAuto
+              ? '<span style="color:var(--emerald);font-size:11px;margin-left:6px">✦ Auto-sent</span>'
+              : '<span style="color:var(--slate);font-size:11px;margin-left:6px">Sent by agent</span>'}
               </div>
-            `).join('')}
+              <div class="msg-ts">${t.resolved_at ? fmtDate(t.resolved_at) : ''}</div>
+            </div>
           </div>
-        `;
-            $('content-retrieve').innerHTML = html;
+          <div class="msg-body">${reply}</div>
+        </div>`;
         }
+      }
 
-        function renderDraft(data) {
-            const draftId = 'draft-text-' + Date.now();
-            $('content-draft').innerHTML = `
-        <div style="margin-bottom:10px;font-size:11px;font-family:var(--font-mono);color:var(--text-3);letter-spacing:.08em;text-transform:uppercase">Drafted reply</div>
-        <p class="draft-text" id="${draftId}">${data.draft_response ?? '—'}</p>
-        <div class="copy-row">
-          <button class="btn-ghost" type="button" data-target="${draftId}">Copy reply</button>
+      // Composer
+      const comp = document.getElementById('compInner');
+      const compWrap = document.getElementById('composer');
+
+      if (t.status === 'auto_resolved') {
+        compWrap.style.display = '';
+        comp.innerHTML = `
+      <div class="auto-banner">
+        <span class="auto-banner-icon">✦</span>
+        <div class="auto-banner-text">
+          <strong>Auto-resolved.</strong> The system handled this ticket automatically — confidence was ${confPct(t.confidence)} with a strong knowledge base match. No human action was needed.
         </div>
-      `;
-            document.querySelector(`[data-target="${draftId}"]`).addEventListener('click', function () {
-                navigator.clipboard.writeText(data.draft_response ?? '').then(() => {
-                    this.textContent = 'Copied';
-                    setTimeout(() => this.textContent = 'Copy reply', 1400);
-                });
-            });
-        }
+      </div>`;
 
-        function renderEscalate(data) {
-            const escalated = !!data.escalated;
-            $('content-escalate').innerHTML = `
-        <div class="escalation-result">
-          <div class="escalation-icon ${escalated ? 'flag' : 'ok'}">${escalated ? '⚑' : '✓'}</div>
-          <div>
-            <div class="escalation-label">${escalated ? 'Flagged for human review' : 'Safe to send automatically'}</div>
-            <div class="escalation-desc">${escalated
-                    ? 'This ticket has been flagged and routed to a human agent for review before responding.'
-                    : 'The drafted response is grounded in verified past resolutions and can be sent without further review.'
-                }</div>
-          </div>
+      } else if (t.status === 'resolved') {
+        compWrap.style.display = 'none';
+
+      } else if (t.status === 'escalated') {
+        compWrap.style.display = '';
+        comp.innerHTML = `
+      <div class="esc-banner">
+        <span class="esc-banner-icon">⚠</span>
+        <div class="esc-banner-text">
+          <strong>Flagged for human attention.</strong> Classifier confidence was low or the retrieved context didn't match well enough. Write a manual response below.
         </div>
+      </div>
+      <textarea class="reply-box" id="replyBox" placeholder="Write a reply…"></textarea>
+      <div class="comp-foot">
+        <button class="btn-send" id="btnSend">Send reply</button>
+      </div>`;
+        document.getElementById('btnSend').onclick = () => sendReply(t.id);
+
+      } else if (t.status === 'needs_review') {
+        compWrap.style.display = '';
+        const cf = confPct(t.confidence);
+        comp.innerHTML = `
+      <div class="comp-head">
+        <span class="ai-pill">✦ AI-drafted</span>
+        <span class="conf-pill">${cf} confidence</span>
+        <span class="comp-hint">Review and edit before sending</span>
+      </div>
+      <textarea class="reply-box" id="replyBox">${escHtml(t.draft_response || '')}</textarea>
+      <div class="comp-foot">
+        <button class="btn-ghost" id="btnReset">Reset draft</button>
+        <button class="btn-send" id="btnSend">Send reply</button>
+      </div>`;
+        document.getElementById('btnSend').onclick = () => sendReply(t.id);
+        document.getElementById('btnReset').onclick = () => {
+          document.getElementById('replyBox').value = t.draft_response || '';
+          toast('Draft restored');
+        };
+
+      } else {
+        compWrap.style.display = 'none';
+      }
+    }
+
+    function escHtml(s) {
+      return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    /* ================================================================
+       ACTIONS
+    ================================================================ */
+    async function sendReply(id) {
+      const box = document.getElementById('replyBox');
+      const text = box ? box.value.trim() : '';
+      if (!text) { toast('Reply cannot be empty'); return; }
+
+      const btn = document.getElementById('btnSend');
+      btn.disabled = true; btn.textContent = 'Sending…';
+
+      try {
+        await api.reply(id, text);
+        toast('✓ Reply sent successfully');
+        selectedId = null;
+        document.getElementById('detailView').style.display = 'none';
+        document.getElementById('detailEmpty').style.display = 'flex';
+        await refresh();
+      } catch (e) {
+        toast('Failed: ' + e.message);
+        btn.disabled = false; btn.textContent = 'Send reply';
+      }
+    }
+
+    /* ================================================================
+       NAV
+    ================================================================ */
+    const NAV_LABELS = {
+      needs_review: 'Inbox', escalated: 'Flagged',
+      auto_resolved: 'Auto-resolved', resolved: 'Resolved', '': 'All tickets'
+    };
+
+    document.querySelectorAll('.sb-btn[data-q]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.sb-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        filter = btn.dataset.q;
+        document.getElementById('listTitle').textContent = NAV_LABELS[filter] || 'Tickets';
+        selectedId = null;
+        document.getElementById('detailView').style.display = 'none';
+        document.getElementById('detailEmpty').style.display = 'flex';
+        renderList();
+      });
+    });
+
+    /* ================================================================
+       MODAL: NEW TICKET (agent simulation)
+    ================================================================ */
+    document.getElementById('btnNewTicket').onclick = () => {
+      document.getElementById('modalBg').classList.add('open');
+      document.getElementById('mEmail').value = '';
+      document.getElementById('mSubj').value = '';
+      document.getElementById('mBody').value = '';
+      setTimeout(() => document.getElementById('mEmail').focus(), 80);
+    };
+
+    document.getElementById('mCancel').onclick = () => {
+      document.getElementById('modalBg').classList.remove('open');
+    };
+
+    document.getElementById('mSubmit').onclick = async () => {
+      const email = document.getElementById('mEmail').value.trim() || 'demo@example.com';
+      const subj = document.getElementById('mSubj').value.trim();
+      const body = document.getElementById('mBody').value.trim();
+      if (!subj && !body) { toast('Enter a subject or message'); return; }
+
+      const btn = document.getElementById('mSubmit');
+      btn.disabled = true; btn.textContent = 'Processing…';
+      document.getElementById('modalBg').classList.remove('open');
+      toast('📥 Ticket submitted — routing through pipeline…');
+
+      try {
+        const result = await api.submit(email, subj || 'No subject', body || subj);
+        const msgs = {
+          auto_resolved: `✦ Auto-resolved (${confPct(result.confidence)} confidence)`,
+          needs_review: `✉ Routed to ${result.predicted_queue || 'queue'} — ready for review`,
+          escalated: '⚑ Escalated — needs human attention'
+        };
+        toast(msgs[result.status] || `Ticket ${result.id} created`);
+
+        // Navigate to the matching tab
+        const target = result.status;
+        if (target !== filter) {
+          document.querySelectorAll('.sb-btn').forEach(b => {
+            b.classList.toggle('active', b.dataset.q === target);
+          });
+          filter = target;
+          document.getElementById('listTitle').textContent = NAV_LABELS[target] || 'Tickets';
+        }
+
+        await refresh();
+        openTicket(result.id);
+      } catch (e) {
+        toast('Error: ' + e.message);
+      } finally {
+        btn.disabled = false; btn.textContent = 'Submit ticket';
+      }
+    };
+
+    /* ================================================================
+       MODAL: CUSTOMER PORTAL
+    ================================================================ */
+    document.getElementById('btnCustPortal').onclick = () => {
+      const bg = document.getElementById('custBg');
+      bg.classList.add('open');
+      document.getElementById('cEmail').value = '';
+      document.getElementById('cSubj').value = '';
+      document.getElementById('cBody').value = '';
+      document.getElementById('custResponse').classList.remove('show');
+      document.getElementById('custReplyCard').style.display = 'none';
+      document.getElementById('custSpinner').style.display = '';
+      document.getElementById('custFooter').style.display = 'flex';
+      setTimeout(() => document.getElementById('cEmail').focus(), 80);
+    };
+
+    document.getElementById('cCancel').onclick = () => {
+      document.getElementById('custBg').classList.remove('open');
+    };
+
+    document.getElementById('cSubmit').onclick = async () => {
+      const email = document.getElementById('cEmail').value.trim() || 'customer@example.com';
+      const subj = document.getElementById('cSubj').value.trim();
+      const body = document.getElementById('cBody').value.trim();
+      if (!subj && !body) { toast('Please describe your issue'); return; }
+
+      // Hide form footer, show processing
+      document.getElementById('custFooter').style.display = 'none';
+      const resp = document.getElementById('custResponse');
+      resp.classList.add('show');
+      document.getElementById('custSpinner').style.display = '';
+      document.getElementById('custStatusText').textContent = 'Processing your request…';
+      document.getElementById('custReplyCard').style.display = 'none';
+
+      // Disable inputs
+      document.getElementById('cEmail').disabled = true;
+      document.getElementById('cSubj').disabled = true;
+      document.getElementById('cBody').disabled = true;
+
+      try {
+        const result = await api.submit(email, subj || 'Support request', body || subj);
+
+        // Show response
+        document.getElementById('custSpinner').style.display = 'none';
+
+        if (result.status === 'auto_resolved' || result.draft_response) {
+          document.getElementById('custStatusText').textContent = 'We\'ve reviewed your request:';
+          document.getElementById('custReplyCard').style.display = '';
+          document.getElementById('custReplyBody').textContent = result.final_reply || result.draft_response || '';
+          document.getElementById('custMetaRow').innerHTML = `
+        <span class="pill pill-queue">${shortQ(result.predicted_queue || '')}</span>
+        ${statusPillHtml(result.status)}
       `;
+        } else if (result.status === 'escalated') {
+          document.getElementById('custStatusText').innerHTML =
+            '⚑ Your request has been flagged for our team. A support agent will reach out to you shortly at <strong>' + email + '</strong>.';
+        } else {
+          document.getElementById('custStatusText').innerHTML =
+            '✉ Your request is being reviewed by our support team. We\'ll respond to <strong>' + email + '</strong> shortly.';
         }
 
-        // ── Main pipeline runner ────────────────────────────
-        async function runPipeline() {
-            const text = ticketInput.value.trim();
-            if (!text) { ticketInput.focus(); return; }
+        // Also refresh the agent inbox in the background
+        await refresh();
 
-            // Reset UI
-            errorMsg.style.display = 'none';
-            emptyState.style.display = 'none';
-            workflow.style.display = 'flex';
-            resetStages();
-            submitBtn.disabled = true;
-            submitBtn.querySelector('span').textContent = 'Running…';
+      } catch (e) {
+        document.getElementById('custSpinner').style.display = 'none';
+        document.getElementById('custStatusText').textContent = 'Something went wrong. Please try again later.';
+      }
 
-            let data;
-            try {
-                const res = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ ticket_text: text })
-                });
-                if (!res.ok) throw new Error(`Pipeline returned ${res.status}. Check that the API server is running.`);
-                data = await res.json();
-            } catch (err) {
-                errorMsg.textContent = err.message || 'Could not reach the API. Make sure the server is running on port 8000.';
-                errorMsg.style.display = 'block';
-                emptyState.style.display = 'flex';
-                workflow.style.display = 'none';
-                submitBtn.disabled = false;
-                submitBtn.querySelector('span').textContent = 'Run Pipeline';
-                return;
-            }
+      // Show close button
+      const closeBtn = document.createElement('div');
+      closeBtn.style.cssText = 'display:flex;justify-content:flex-end;margin-top:14px';
+      closeBtn.innerHTML = '<button class="btn-ghost" onclick="document.getElementById(\'custBg\').classList.remove(\'open\');document.getElementById(\'cEmail\').disabled=false;document.getElementById(\'cSubj\').disabled=false;document.getElementById(\'cBody\').disabled=false;">Close</button>';
+      resp.appendChild(closeBtn);
+    };
 
-            // ── Stage-by-stage reveal ──
-            // Stage 1: Triage
-            activateStage('triage', 'Running…');
-            await sleep(280);
-            renderTriage(data);
-            await sleep(300);
-            doneStage('triage');
+    /* ================================================================
+       REFRESH & INIT
+    ================================================================ */
+    async function refresh() {
+      await Promise.all([renderStats(), renderList()]);
+    }
 
-            // Connector 0 → Retrieve
-            pulseConnector(0);
-            await sleep(680);
-
-            // Stage 2: Retrieve
-            activateStage('retrieve', 'Searching knowledge base…');
-            await sleep(320);
-            renderRetrieve(data);
-            await sleep(300);
-            doneStage('retrieve');
-
-            // Connector 1 → Draft
-            pulseConnector(1);
-            await sleep(680);
-
-            // Stage 3: Draft
-            activateStage('draft', 'Generating response…');
-            await sleep(320);
-            renderDraft(data);
-            await sleep(300);
-            doneStage('draft');
-
-            // Connector 2 → Escalate
-            pulseConnector(2);
-            await sleep(680);
-
-            // Stage 4: Escalate
-            activateStage('escalate', 'Evaluating…');
-            await sleep(320);
-            renderEscalate(data);
-            await sleep(300);
-            doneStage('escalate');
-
-            // Done
-            submitBtn.disabled = false;
-            submitBtn.querySelector('span').textContent = 'Run Again';
-        }
-
-        submitBtn.addEventListener('click', runPipeline);
-
-        // Allow Ctrl+Enter to submit
-        ticketInput.addEventListener('keydown', e => {
-            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') runPipeline();
-        });
-    </script>
-
+    refresh();
+    setInterval(refresh, 12000);
+  </script>
 </body>
 
 </html>

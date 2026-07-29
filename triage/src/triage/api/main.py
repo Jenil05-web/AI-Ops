@@ -23,8 +23,10 @@ app.add_middleware(
 current_dir = os.path.dirname(os.path.abspath(__file__))
 frontend_dir = os.path.join(current_dir, "..", "frontend")
 app.mount("/", StaticFiles(directory=frontend_dir, html=True), name="frontend")
+app.include_router(routes.router)
 
 @app.on_event("startup")
 def load_graph():
     graph = build_graph(model_dir="models")
     routes.set_graph(graph)
+
