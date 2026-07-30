@@ -931,40 +931,81 @@
     }
 
     /* delete button on row */
-    .tr { position: relative; }
+    .tr {
+      position: relative;
+    }
+
     .tr-del {
-      position: absolute; top: 10px; right: 10px;
-      width: 24px; height: 24px; border-radius: 6px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 12px; color: var(--text-3);
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: var(--text-3);
       background: transparent;
-      opacity: 0; transition: opacity 0.15s, background 0.15s, color 0.15s;
+      opacity: 0;
+      transition: opacity 0.15s, background 0.15s, color 0.15s;
       z-index: 2;
     }
-    .tr:hover .tr-del { opacity: 1; }
-    .tr-del:hover { background: var(--rose-dim); color: var(--rose); }
+
+    .tr:hover .tr-del {
+      opacity: 1;
+    }
+
+    .tr-del:hover {
+      background: var(--rose-dim);
+      color: var(--rose);
+    }
 
     /* confirm delete overlay inside row */
     .tr-confirm {
-      position: absolute; inset: 0;
-      background: rgba(15,17,23,0.92);
+      position: absolute;
+      inset: 0;
+      background: rgba(15, 17, 23, 0.92);
       border-radius: inherit;
       display: none;
-      align-items: center; justify-content: center; gap: 8px;
-      z-index: 3; font-size: 12.5px; color: var(--text-2);
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      z-index: 3;
+      font-size: 12.5px;
+      color: var(--text-2);
     }
-    .tr-confirm.show { display: flex; }
+
+    .tr-confirm.show {
+      display: flex;
+    }
+
     .tr-confirm-yes {
-      background: var(--rose); color: white;
-      padding: 4px 12px; border-radius: 6px; font-size: 12px; font-weight: 500;
+      background: var(--rose);
+      color: white;
+      padding: 4px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
       transition: filter 0.12s;
     }
-    .tr-confirm-yes:hover { filter: brightness(1.1); }
+
+    .tr-confirm-yes:hover {
+      filter: brightness(1.1);
+    }
+
     .tr-confirm-no {
-      color: var(--text-2); padding: 4px 10px; border-radius: 6px; font-size: 12px;
+      color: var(--text-2);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 12px;
       transition: background 0.12s;
     }
-    .tr-confirm-no:hover { background: var(--hover); }
+
+    .tr-confirm-no:hover {
+      background: var(--hover);
+    }
 
     /* toast */
     .toast-shelf {
