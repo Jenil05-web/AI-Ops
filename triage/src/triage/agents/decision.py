@@ -1,21 +1,42 @@
-HIGH_RISK_QUEUES = {"Billing and Payments", "Service Outages and Maintenance", "Human Resources"}
+import logging
+_log = logging.getLogger(__name__)
 
-CONFIDENCE_AUTO_RESOLVE_THRESHOLD = 0.35
-DISTANCE_GOOD_MATCH_THRESHOLD = 1.0
+# Queues that always need a human — no AI draft ever sent unsupervised
+ALWAYS_HUMAN_QUEUES = {"Service Outages and Maintenance", "Human Resources"}
+
+# Queues where we need higher confidence before auto-resolving
+HIGH_CAUTION_QUEUES = {"Billing and Payments"}
+
+CONFIDENCE_AUTO_RESOLVE_THRESHOLD = 0.22   # covers ~60-70% of real queries
+CONFIDENCE_BILLING_THRESHOLD      = 0.50   # billing still needs a higher bar
+DISTANCE_GOOD_MATCH_THRESHOLD     = 1.15   # L2 distance — good RAG match
 
 def decide_status(predicted_queue: str, confidence: float, top_context_distance: float) -> str:
     """
     Decide whether a ticket can be auto-resolved, needs human review,
     or should be escalated immediately.
     """
-    if predicted_queue in HIGH_RISK_QUEUES:
-        return "needs_review"  # never auto-send on money/outage/HR topics
+    # HR and Outages: always send to human, no exceptions
+    if predicted_queue in ALWAYS_HUMAN_QUEUES:
+        return "needs_review"
 
-    if confidence < 0.3 or top_context_distance > 1.2:
-        return "escalated"  # low trust in routing AND weak grounding — don't even draft confidently
+    # Billing: allow auto-resolve only when confidence is very high
+    if predicted_queue in HIGH_CAUTION_QUEUES:
+        if confidence >= CONFIDENCE_BILLING_THRESHOLD and top_context_distance <= DISTANCE_GOOD_MATCH_THRESHOLD:
+            return "auto_resolved"
+        return "needs_review"
 
-    if confidence >= CONFIDENCE_AUTO_RESOLVE_THRESHOLD and top_context_distance <= DISTANCE_GOOD_MATCH_THRESHOLD:
-        return "auto_resolved"
+    # All other queues: escalate only on very low confidence or very poor RAG match
+    if confidence < 0.18 or top_context_distance > 1.5:
+        status = "escalated"
+    elif confidence >= CONFIDENCE_AUTO_RESOLVE_THRESHOLD and top_context_distance <= DISTANCE_GOOD_MATCH_THRESHOLD:
+        status = "auto_resolved"
+    else:
+        status = "needs_review"
 
-    return "needs_review"
-
+    _log.info(
+        f"decide_status | queue={predicted_queue!r} conf={confidence:.3f} "
+        f"dist={top_context_distance:.3f} thresh=({CONFIDENCE_AUTO_RESOLVE_THRESHOLD}/{DISTANCE_GOOD_MATCH_THRESHOLD}) "
+        f"-> {status}"
+    )
+    return status

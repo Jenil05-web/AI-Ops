@@ -5,17 +5,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Support — Get Help</title>
-  <meta name="description" content="Submit a support request or check the status of an existing one.">
+  <meta name="description" content="Submit a support request and get instant help.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&display=swap" rel="stylesheet">
 
   <style>
-    /* ─────────────────────────────────────────────────
-     Light, calm, ordinary — nothing "AI" about it
-  ───────────────────────────────────────────────── */
     :root {
-      --bg: #F8F8F6;
+      --bg: #F7F7F5;
       --surface: #FFFFFF;
       --border: #E5E4E1;
       --border-2: #EDECE9;
@@ -25,18 +22,24 @@
       --text-3: #A3A09B;
 
       --brand: #2563EB;
-      --brand-dim: rgba(37, 99, 235, 0.06);
-      --brand-ring: rgba(37, 99, 235, 0.15);
+      --brand-dim: rgba(37, 99, 235, 0.07);
+      --brand-ring: rgba(37, 99, 235, 0.18);
 
       --green: #16A34A;
-      --green-dim: rgba(22, 163, 74, 0.06);
+      --green-dim: rgba(22, 163, 74, 0.07);
+      --green-ring: rgba(22, 163, 74, 0.15);
+
       --amber: #D97706;
-      --amber-dim: rgba(217, 119, 6, 0.06);
+      --amber-dim: rgba(217, 119, 6, 0.07);
+
+      --chat-ai: #F0F4FF;
+      --chat-user: #EEF2FF;
 
       --font: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
       --shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
-      --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+      --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.08);
       --ease: cubic-bezier(0.22, 1, 0.36, 1);
+      --radius: 14px;
     }
 
     *,
@@ -75,16 +78,17 @@
       flex-direction: column;
     }
 
-    /* ─────────────────────────────────────────────────
-     HEADER
-  ───────────────────────────────────────────────── */
+    /* ─── HEADER ─── */
     .header {
       background: var(--surface);
       border-bottom: 1px solid var(--border);
-      padding: 16px 24px;
+      padding: 14px 24px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
 
     .header-brand {
@@ -94,16 +98,16 @@
     }
 
     .brand-dot {
-      width: 28px;
-      height: 28px;
+      width: 30px;
+      height: 30px;
       background: var(--brand);
-      border-radius: 7px;
+      border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
       color: white;
       font-weight: 700;
-      font-size: 13px;
+      font-size: 14px;
     }
 
     .brand-name {
@@ -112,132 +116,116 @@
       letter-spacing: -0.02em;
     }
 
-    .header-nav {
-      display: flex;
-      gap: 4px;
+    .brand-sub {
+      font-size: 12.5px;
+      color: var(--text-3);
+      margin-left: 2px;
     }
 
-    .header-link {
-      font-size: 14px;
-      color: var(--text-2);
-      padding: 6px 12px;
-      border-radius: 7px;
-      transition: background 0.12s, color 0.12s;
-    }
-
-    .header-link:hover {
-      background: var(--bg);
-      color: var(--text);
-    }
-
-    .header-link.active {
-      background: var(--brand-dim);
-      color: var(--brand);
-      font-weight: 500;
-    }
-
-    /* ─────────────────────────────────────────────────
-     MAIN CONTAINER
-  ───────────────────────────────────────────────── */
+    /* ─── PAGE ─── */
     .page {
       flex: 1;
       display: flex;
       align-items: flex-start;
       justify-content: center;
-      padding: 48px 24px;
+      padding: 40px 24px 60px;
     }
 
+    /* ─── CARD ─── */
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 14px;
+      border-radius: var(--radius);
       box-shadow: var(--shadow);
       width: 100%;
-      max-width: 520px;
-      padding: 36px;
+      max-width: 540px;
+      overflow: hidden;
+    }
+
+    .card-body {
+      padding: 32px 32px 28px;
     }
 
     .card-title {
-      font-size: 20px;
+      font-size: 21px;
       font-weight: 600;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.025em;
       margin-bottom: 6px;
     }
 
     .card-sub {
       font-size: 14px;
       color: var(--text-2);
-      line-height: 1.5;
-      margin-bottom: 28px;
+      line-height: 1.55;
+      margin-bottom: 26px;
     }
 
-    /* ─────────────────────────────────────────────────
-     FORM ELEMENTS
-  ───────────────────────────────────────────────── */
+    /* ─── FORM ─── */
     .field {
-      margin-bottom: 18px;
+      margin-bottom: 16px;
     }
 
     .field-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      margin-bottom: 18px;
+      gap: 12px;
+      margin-bottom: 16px;
     }
 
-    .field-label {
+    .f-label {
       display: block;
-      font-size: 13px;
+      font-size: 12.5px;
       font-weight: 500;
       color: var(--text-2);
-      margin-bottom: 6px;
+      margin-bottom: 5px;
     }
 
-    .field-input {
+    .f-input {
       width: 100%;
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 8px;
-      padding: 10px 14px;
+      padding: 10px 13px;
       font-size: 14px;
       color: var(--text);
       outline: none;
       transition: border-color 0.15s, box-shadow 0.15s;
     }
 
-    .field-input::placeholder {
+    .f-input::placeholder {
       color: var(--text-3);
     }
 
-    .field-input:focus {
+    .f-input:focus {
       border-color: var(--brand);
       box-shadow: 0 0 0 3px var(--brand-ring);
     }
 
-    .field-textarea {
+    .f-textarea {
       width: 100%;
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 8px;
-      padding: 10px 14px;
+      padding: 10px 13px;
       font-size: 14px;
       line-height: 1.6;
       color: var(--text);
       outline: none;
       resize: vertical;
-      min-height: 120px;
+      min-height: 110px;
       transition: border-color 0.15s, box-shadow 0.15s;
     }
 
-    .field-textarea::placeholder {
+    .f-textarea::placeholder {
       color: var(--text-3);
     }
 
-    .field-textarea:focus {
+    .f-textarea:focus {
       border-color: var(--brand);
       box-shadow: 0 0 0 3px var(--brand-ring);
     }
 
+    /* ─── BUTTONS ─── */
     .btn-primary {
       width: 100%;
       background: var(--brand);
@@ -247,11 +235,11 @@
       font-size: 15px;
       font-weight: 500;
       transition: filter 0.12s, transform 0.1s;
-      margin-top: 6px;
+      margin-top: 4px;
     }
 
     .btn-primary:hover {
-      filter: brightness(1.06);
+      filter: brightness(1.07);
     }
 
     .btn-primary:active {
@@ -259,22 +247,20 @@
     }
 
     .btn-primary:disabled {
-      opacity: 0.5;
+      opacity: 0.45;
       cursor: not-allowed;
       filter: none;
     }
 
     .btn-secondary {
-      width: 100%;
       background: var(--surface);
       color: var(--text);
       border: 1px solid var(--border);
-      padding: 10px 20px;
-      border-radius: 9px;
-      font-size: 14px;
+      padding: 9px 18px;
+      border-radius: 8px;
+      font-size: 13.5px;
       font-weight: 500;
       transition: border-color 0.12s, background 0.12s;
-      margin-top: 10px;
     }
 
     .btn-secondary:hover {
@@ -282,9 +268,35 @@
       border-color: var(--text-3);
     }
 
-    /* ─────────────────────────────────────────────────
-     VIEWS
-  ───────────────────────────────────────────────── */
+    .btn-ghost {
+      color: var(--text-2);
+      font-size: 13.5px;
+      padding: 9px 14px;
+      border-radius: 8px;
+      transition: color 0.12s, background 0.12s;
+    }
+
+    .btn-ghost:hover {
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    .btn-danger {
+      background: #FFF1F2;
+      color: #E11D48;
+      border: 1px solid rgba(225, 29, 72, 0.15);
+      padding: 9px 18px;
+      border-radius: 8px;
+      font-size: 13.5px;
+      font-weight: 500;
+      transition: background 0.12s;
+    }
+
+    .btn-danger:hover {
+      background: #FFE4E6;
+    }
+
+    /* ─── VIEWS ─── */
     .view {
       display: none;
     }
@@ -293,96 +305,19 @@
       display: block;
     }
 
-    /* ─────────────────────────────────────────────────
-     RESPONSE VIEW (Screen B)
-  ───────────────────────────────────────────────── */
-    .response-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-
-    .response-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      flex-shrink: 0;
-    }
-
-    .response-icon.ok {
-      background: var(--green-dim);
-      color: var(--green);
-    }
-
-    .response-icon.pending {
-      background: var(--brand-dim);
-      color: var(--brand);
-    }
-
-    .response-title {
-      font-size: 17px;
-      font-weight: 600;
-      letter-spacing: -0.01em;
-    }
-
-    .ref-tag {
-      display: inline-block;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--text-2);
-      background: var(--bg);
-      border: 1px solid var(--border-2);
-      padding: 3px 10px;
-      border-radius: 6px;
-      font-variant-numeric: tabular-nums;
-      margin-bottom: 18px;
-      letter-spacing: 0.02em;
-    }
-
-    .response-message {
-      background: var(--bg);
-      border: 1px solid var(--border-2);
-      border-radius: 10px;
-      padding: 18px 20px;
-      font-size: 14.5px;
-      line-height: 1.7;
-      color: var(--text);
-      white-space: pre-wrap;
-      margin-bottom: 20px;
-    }
-
-    .response-note {
-      font-size: 13px;
-      color: var(--text-3);
-      line-height: 1.5;
-    }
-
-    .divider {
-      height: 1px;
-      background: var(--border-2);
-      margin: 20px 0;
-    }
-
-    /* ─────────────────────────────────────────────────
-     LOADING SPINNER
-  ───────────────────────────────────────────────── */
+    /* ─── SPINNER ─── */
     .spinner-area {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 40px 0;
+      padding: 52px 0;
       gap: 14px;
     }
 
     .spinner {
-      width: 28px;
-      height: 28px;
+      width: 30px;
+      height: 30px;
       border: 3px solid var(--border);
       border-top-color: var(--brand);
       border-radius: 50%;
@@ -400,48 +335,337 @@
       color: var(--text-2);
     }
 
-    /* ─────────────────────────────────────────────────
-     LOOKUP STATUS
-  ───────────────────────────────────────────────── */
-    .status-card {
-      border-radius: 10px;
-      padding: 16px 18px;
-      margin-bottom: 16px;
+    /* ─── HOLDING VIEW (escalated / needs_review) ─── */
+    .holding-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 19px;
+      margin: 0 auto 16px;
+      background: var(--brand-dim);
+      color: var(--brand);
     }
 
-    .status-card.resolved {
-      background: var(--green-dim);
-      border: 1px solid rgba(22, 163, 74, 0.12);
+    .holding-wrap {
+      text-align: center;
+      padding: 32px 32px 28px;
     }
 
-    .status-card.pending {
-      background: var(--amber-dim);
-      border: 1px solid rgba(217, 119, 6, 0.12);
-    }
-
-    .status-label {
-      font-size: 13px;
+    .holding-title {
+      font-size: 18px;
       font-weight: 600;
-      margin-bottom: 4px;
+      margin-bottom: 8px;
     }
 
-    .status-label.resolved {
+    .holding-msg {
+      font-size: 14.5px;
+      line-height: 1.7;
+      color: var(--text-2);
+      margin-bottom: 20px;
+    }
+
+    .ref-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--text-2);
+      background: var(--bg);
+      border: 1px solid var(--border-2);
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.03em;
+      margin-bottom: 24px;
+    }
+
+    .holding-divider {
+      height: 1px;
+      background: var(--border-2);
+      margin: 0 -32px 22px;
+    }
+
+    .holding-actions {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    /* ─── CHAT VIEW ─── */
+    .chat-header {
+      background: var(--green-dim);
+      border-bottom: 1px solid rgba(22, 163, 74, 0.1);
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .chat-resolved-badge {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--green);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      flex-shrink: 0;
+    }
+
+    .chat-header-text {
+      flex: 1;
+    }
+
+    .chat-header-title {
+      font-size: 13.5px;
+      font-weight: 600;
       color: var(--green);
     }
 
-    .status-label.pending {
-      color: var(--amber);
+    .chat-header-sub {
+      font-size: 12px;
+      color: var(--text-3);
+      margin-top: 1px;
     }
 
-    .status-desc {
+    /* message thread */
+    .chat-thread {
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      max-height: 360px;
+      overflow-y: auto;
+      scroll-behavior: smooth;
+    }
+
+    .chat-thread::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .chat-thread::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 4px;
+    }
+
+    .msg-row {
+      display: flex;
+      gap: 10px;
+      animation: fadeUp 0.2s var(--ease) both;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .msg-row.user {
+      flex-direction: row-reverse;
+    }
+
+    .msg-av {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: white;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .msg-av.ai-av {
+      background: var(--brand);
+    }
+
+    .msg-av.user-av {
+      background: #6366F1;
+    }
+
+    .msg-bubble {
+      max-width: 82%;
+      padding: 11px 14px;
+      border-radius: 12px;
       font-size: 14px;
-      color: var(--text);
-      line-height: 1.5;
+      line-height: 1.65;
+      white-space: pre-wrap;
     }
 
-    /* ─────────────────────────────────────────────────
-     FOOTER
-  ───────────────────────────────────────────────── */
+    .msg-bubble.ai {
+      background: var(--chat-ai);
+      border: 1px solid var(--border-2);
+      border-top-left-radius: 4px;
+    }
+
+    .msg-bubble.user {
+      background: var(--brand);
+      color: white;
+      border-top-right-radius: 4px;
+    }
+
+    /* typing indicator */
+    .typing-dots {
+      display: flex;
+      gap: 4px;
+      padding: 4px 2px;
+    }
+
+    .typing-dots span {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--text-3);
+      animation: bounce 1.2s infinite;
+    }
+
+    .typing-dots span:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .typing-dots span:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    @keyframes bounce {
+
+      0%,
+      80%,
+      100% {
+        transform: translateY(0);
+      }
+
+      40% {
+        transform: translateY(-5px);
+      }
+    }
+
+    /* chat input */
+    .chat-input-area {
+      padding: 12px 16px 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .chat-input-row {
+      display: flex;
+      gap: 8px;
+      align-items: flex-end;
+    }
+
+    .chat-input {
+      flex: 1;
+      resize: none;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 13px;
+      font-size: 14px;
+      line-height: 1.5;
+      max-height: 120px;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      overflow-y: auto;
+    }
+
+    .chat-input:focus {
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px var(--brand-ring);
+    }
+
+    .chat-input::placeholder {
+      color: var(--text-3);
+    }
+
+    .chat-send {
+      background: var(--brand);
+      color: white;
+      width: 38px;
+      height: 38px;
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+      transition: filter 0.12s, transform 0.1s;
+    }
+
+    .chat-send:hover {
+      filter: brightness(1.08);
+    }
+
+    .chat-send:active {
+      transform: scale(0.94);
+    }
+
+    .chat-send:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    /* escalate prompt */
+    .escalate-prompt {
+      margin: 0 16px 14px;
+      background: var(--amber-dim);
+      border: 1px solid rgba(217, 119, 6, 0.12);
+      border-radius: 10px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .ep-text {
+      flex: 1;
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.45;
+    }
+
+    .ep-text strong {
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .ep-btn {
+      background: var(--amber);
+      color: white;
+      padding: 7px 14px;
+      border-radius: 7px;
+      font-size: 12.5px;
+      font-weight: 500;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: filter 0.12s;
+    }
+
+    .ep-btn:hover {
+      filter: brightness(1.08);
+    }
+
+    .exchanges-hint {
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-3);
+      padding: 0 16px 10px;
+    }
+
+    /* ─── FOOTER ─── */
     .footer {
       text-align: center;
       padding: 20px;
@@ -449,12 +673,9 @@
       color: var(--text-3);
     }
 
-    /* ─────────────────────────────────────────────────
-     RESPONSIVE
-  ───────────────────────────────────────────────── */
     @media (max-width: 560px) {
-      .card {
-        padding: 24px;
+      .card-body {
+        padding: 24px 22px 20px;
       }
 
       .field-row {
@@ -463,7 +684,11 @@
       }
 
       .page {
-        padding: 24px 16px;
+        padding: 24px 14px 48px;
+      }
+
+      .chat-thread {
+        max-height: 280px;
       }
     }
   </style>
@@ -471,121 +696,129 @@
 
 <body>
 
-  <!-- ═══ HEADER ═══ -->
   <header class="header">
     <div class="header-brand">
       <div class="brand-dot">T</div>
-      <span class="brand-name">Support</span>
+      <div>
+        <div class="brand-name">Support<span class="brand-sub"> — Get Help</span></div>
+      </div>
     </div>
-    <nav class="header-nav">
-      <button class="header-link active" id="navSubmit" onclick="showView('submit')">Get help</button>
-      <button class="header-link" id="navLookup" onclick="showView('lookup')">Check request</button>
-    </nav>
   </header>
 
   <main class="page">
 
-    <!-- ═══ SCREEN A: Submit a request ═══ -->
+    <!-- ══ SCREEN A: Submit form ══ -->
     <div class="card view active" id="viewSubmit">
-      <h1 class="card-title">How can we help?</h1>
-      <p class="card-sub">Describe your issue below. We'll get back to you as quickly as possible.</p>
+      <div class="card-body">
+        <h1 class="card-title">How can we help?</h1>
+        <p class="card-sub">Describe your issue and we'll look into it right away.</p>
 
-      <div class="field-row">
-        <div class="field">
-          <label class="field-label" for="fName">Your name</label>
-          <input class="field-input" id="fName" type="text" placeholder="Alex Johnson">
+        <div class="field-row">
+          <div class="field">
+            <label class="f-label" for="fName">Your name</label>
+            <input class="f-input" id="fName" type="text" placeholder="Alex Johnson">
+          </div>
+          <div class="field">
+            <label class="f-label" for="fEmail">Email address</label>
+            <input class="f-input" id="fEmail" type="email" placeholder="alex@example.com">
+          </div>
         </div>
+
         <div class="field">
-          <label class="field-label" for="fEmail">Email address</label>
-          <input class="field-input" id="fEmail" type="email" placeholder="alex@example.com">
+          <label class="f-label" for="fSubject">Subject</label>
+          <input class="f-input" id="fSubject" type="text" placeholder="e.g. Password reset not working">
         </div>
-      </div>
 
-      <div class="field">
-        <label class="field-label" for="fSubject">Subject</label>
-        <input class="field-input" id="fSubject" type="text" placeholder="Brief summary of your issue">
-      </div>
+        <div class="field">
+          <label class="f-label" for="fBody">Message</label>
+          <textarea class="f-textarea" id="fBody" placeholder="Tell us what's happening…"></textarea>
+        </div>
 
-      <div class="field">
-        <label class="field-label" for="fBody">Message</label>
-        <textarea class="field-textarea" id="fBody"
-          placeholder="Tell us what's happening. Include any details that might help us resolve this faster."></textarea>
+        <button class="btn-primary" id="btnSubmit">Submit request</button>
       </div>
-
-      <button class="btn-primary" id="btnSubmit">Submit request</button>
     </div>
 
-    <!-- ═══ SCREEN B: Processing / Response ═══ -->
+    <!-- ══ PROCESSING spinner ══ -->
     <div class="card view" id="viewProcessing">
       <div class="spinner-area">
         <div class="spinner"></div>
-        <span class="spinner-text">We're looking into this…</span>
+        <span class="spinner-text">Looking into this…</span>
       </div>
     </div>
 
-    <div class="card view" id="viewResponse">
-      <div id="responseContent"></div>
-      <div class="divider"></div>
-      <button class="btn-secondary" onclick="showView('submit')">Submit another request</button>
-      <button class="btn-secondary" onclick="showView('lookup')" style="margin-top:6px">Check on a request</button>
-    </div>
+    <!-- ══ SCREEN B1: Chat (auto_resolved) ══ -->
+    <div class="card view" id="viewChat">
 
-    <!-- ═══ SCREEN C: Check existing request ═══ -->
-    <div class="card view" id="viewLookup">
-      <h1 class="card-title">Check on your request</h1>
-      <p class="card-sub">Enter your reference number and email to see the current status.</p>
-
-      <div class="field-row">
-        <div class="field">
-          <label class="field-label" for="lRef">Reference number</label>
-          <input class="field-input" id="lRef" type="text" placeholder="e.g. A3F9D2">
-        </div>
-        <div class="field">
-          <label class="field-label" for="lEmail">Email used</label>
-          <input class="field-input" id="lEmail" type="email" placeholder="alex@example.com">
+      <div class="chat-header">
+        <div class="chat-resolved-badge">✓</div>
+        <div class="chat-header-text">
+          <div class="chat-header-title">We found an answer</div>
+          <div class="chat-header-sub" id="chatRef">—</div>
         </div>
       </div>
 
-      <button class="btn-primary" id="btnLookup">Look up request</button>
+      <div class="chat-thread" id="chatThread"></div>
 
-      <div id="lookupResult" style="margin-top:24px"></div>
+      <div id="escalatePromptArea"></div>
+      <div id="exchangesHint"></div>
+
+      <div class="chat-input-area" id="chatInputArea">
+        <div class="chat-input-row">
+          <textarea class="chat-input" id="chatInput" rows="1" placeholder="Still have a question? Ask here…"
+            onkeydown="handleChatKey(event)"></textarea>
+          <button class="chat-send" id="chatSendBtn" title="Send">➤</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ══ SCREEN B2: Holding (needs_review / escalated) ══ -->
+    <div class="card view" id="viewHolding">
+      <div class="holding-wrap">
+        <div class="holding-icon">✉</div>
+        <h2 class="holding-title">We've received your request</h2>
+        <p class="holding-msg" id="holdingMsg">—</p>
+        <div class="ref-chip">Reference <span id="holdingRef">—</span></div>
+        <div class="holding-divider"></div>
+        <div class="holding-actions">
+          <button class="btn-secondary" onclick="resetToForm()">Submit another request</button>
+        </div>
+      </div>
     </div>
 
   </main>
 
-  <footer class="footer">
-    Powered by Triage · Response times may vary
-  </footer>
+  <footer class="footer">Powered by Triage</footer>
 
   <script>
-    /* ================================================================
-       VIEW MANAGEMENT
-    ================================================================ */
-    function showView(name) {
-      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    /* ─── State ─── */
+    let state = {
+      name: '',
+      email: '',
+      ticket: null,        // the original ticket from API
+      exchanges: 0,        // number of follow-up messages sent
+      MAX_EXCHANGES: 3     // after this many, show "still not helped?" prompt
+    };
 
-      document.getElementById('navSubmit').classList.remove('active');
-      document.getElementById('navLookup').classList.remove('active');
+    /* ─── Utils ─── */
+    function enc(s) { return encodeURIComponent(s); }
+    function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
 
-      if (name === 'submit') {
-        document.getElementById('viewSubmit').classList.add('active');
-        document.getElementById('navSubmit').classList.add('active');
-      } else if (name === 'processing') {
-        document.getElementById('viewProcessing').classList.add('active');
-      } else if (name === 'response') {
-        document.getElementById('viewResponse').classList.add('active');
-      } else if (name === 'lookup') {
-        document.getElementById('viewLookup').classList.add('active');
-        document.getElementById('navLookup').classList.add('active');
-        document.getElementById('lookupResult').innerHTML = '';
-      }
+    function showOnly(id) {
+      ['viewSubmit', 'viewProcessing', 'viewChat', 'viewHolding'].forEach(v => {
+        const el = document.getElementById(v);
+        el.classList.toggle('active', v === id);
+      });
     }
 
-    /* ================================================================
-       SUBMIT REQUEST
-    ================================================================ */
+    function resetToForm() {
+      state = { name: '', email: '', ticket: null, exchanges: 0, MAX_EXCHANGES: 3 };
+      showOnly('viewSubmit');
+    }
+
+    /* ─── Submit ticket ─── */
     document.getElementById('btnSubmit').onclick = async () => {
-      const name = document.getElementById('fName').value.trim() || 'there';
+      const name = document.getElementById('fName').value.trim();
       const email = document.getElementById('fEmail').value.trim();
       const subj = document.getElementById('fSubject').value.trim();
       const body = document.getElementById('fBody').value.trim();
@@ -593,138 +826,224 @@
       if (!email) { alert('Please enter your email address.'); return; }
       if (!subj && !body) { alert('Please describe your issue.'); return; }
 
-      showView('processing');
+      state.name = name || 'there';
+      state.email = email;
+
+      showOnly('viewProcessing');
 
       try {
         const r = await fetch(
           `/tickets?customer_email=${enc(email)}&subject=${enc(subj || 'Support request')}&body=${enc(body || subj)}`,
           { method: 'POST' }
         );
-        if (!r.ok) throw new Error('Request failed');
+        if (!r.ok) throw new Error('Failed');
         const ticket = await r.json();
+        state.ticket = ticket;
 
-        const ref = (ticket.id || '').toUpperCase();
-        const content = document.getElementById('responseContent');
+        // clear form
+        ['fName', 'fEmail', 'fSubject', 'fBody'].forEach(id => document.getElementById(id).value = '');
 
         if (ticket.status === 'auto_resolved') {
-          // Branch 1: System resolved it — show the actual answer
-          const reply = ticket.final_reply || ticket.draft_response || '';
-          content.innerHTML = `
-        <div class="response-header">
-          <div class="response-icon ok">✓</div>
-          <div class="response-title">We've resolved your request</div>
-        </div>
-        <div class="ref-tag">Reference #${ref}</div>
-        <div class="response-message">Hi ${esc(name)},\n\nThanks for reaching out. ${esc(reply)}\n\nIf this doesn't fully resolve your issue, you can check back using your reference number and we'll take another look.</div>
-        <p class="response-note">This response was generated based on our knowledge base. You can check on this request anytime using your reference number.</p>
-      `;
+          openChat(ticket);
         } else {
-          // Branch 2: Needs human review or escalated — holding message only
-          content.innerHTML = `
-        <div class="response-header">
-          <div class="response-icon pending">✉</div>
-          <div class="response-title">We've received your request</div>
-        </div>
-        <div class="ref-tag">Reference #${ref}</div>
-        <div class="response-message">Hi ${esc(name)},\n\nThanks for reaching out — we've received your request and someone from our team will follow up shortly at ${esc(email)}.\n\nYou can check on the status of your request anytime using the reference number above.</div>
-        <p class="response-note">Our team typically responds within a few hours. You can check on this request using the "Check request" tab above.</p>
-      `;
+          openHolding(ticket);
         }
-
-        showView('response');
-
-        // Clear form for next use
-        document.getElementById('fName').value = '';
-        document.getElementById('fEmail').value = '';
-        document.getElementById('fSubject').value = '';
-        document.getElementById('fBody').value = '';
-
       } catch (e) {
-        showView('submit');
-        alert('Something went wrong submitting your request. Please try again.');
+        showOnly('viewSubmit');
+        alert('Something went wrong. Please try again.');
       }
     };
 
-    /* ================================================================
-       LOOKUP REQUEST
-    ================================================================ */
-    document.getElementById('btnLookup').onclick = async () => {
-      const ref = document.getElementById('lRef').value.trim().replace('#', '').toLowerCase();
-      const email = document.getElementById('lEmail').value.trim();
-      const result = document.getElementById('lookupResult');
+    /* ─── Chat interface (auto_resolved) ─── */
+    function openChat(ticket) {
+      state.exchanges = 0;
+      const thread = document.getElementById('chatThread');
+      thread.innerHTML = '';
 
-      if (!ref) { alert('Please enter your reference number.'); return; }
+      // Reference line
+      document.getElementById('chatRef').textContent =
+        `Reference #${(ticket.id || '').toUpperCase()} · ${ticket.predicted_queue || ''}`;
 
-      result.innerHTML = `
-    <div class="spinner-area" style="padding:24px 0">
-      <div class="spinner"></div>
-      <span class="spinner-text">Looking up your request…</span>
-    </div>`;
+      // First AI message
+      const reply = ticket.final_reply || ticket.draft_response || '';
+      const greeting = `Hi ${esc(state.name)},\n\n${esc(reply)}`;
+      appendMsg('ai', greeting);
 
+      // Reset prompt areas
+      document.getElementById('escalatePromptArea').innerHTML = '';
+      document.getElementById('exchangesHint').innerHTML = '';
+      document.getElementById('chatInputArea').style.display = '';
+
+      showOnly('viewChat');
+      scrollThread();
+
+      // Wire send button
+      document.getElementById('chatSendBtn').onclick = sendFollowUp;
+    }
+
+    function appendMsg(who, text) {
+      const thread = document.getElementById('chatThread');
+      const row = document.createElement('div');
+      row.className = `msg-row ${who === 'user' ? 'user' : ''}`;
+
+      const av = document.createElement('div');
+      av.className = `msg-av ${who === 'ai' ? 'ai-av' : 'user-av'}`;
+      av.textContent = who === 'ai' ? 'T' : (state.name ? state.name[0].toUpperCase() : 'U');
+
+      const bubble = document.createElement('div');
+      bubble.className = `msg-bubble ${who}`;
+      bubble.textContent = text;
+
+      row.appendChild(av);
+      row.appendChild(bubble);
+      thread.appendChild(row);
+      scrollThread();
+      return row;
+    }
+
+    function appendTyping() {
+      const thread = document.getElementById('chatThread');
+      const row = document.createElement('div');
+      row.className = 'msg-row';
+      row.id = 'typingIndicator';
+
+      const av = document.createElement('div');
+      av.className = 'msg-av ai-av';
+      av.textContent = 'T';
+
+      const bubble = document.createElement('div');
+      bubble.className = 'msg-bubble ai';
+      bubble.innerHTML = '<div class="typing-dots"><span></span><span></span><span></span></div>';
+
+      row.appendChild(av);
+      row.appendChild(bubble);
+      thread.appendChild(row);
+      scrollThread();
+    }
+
+    function removeTyping() {
+      const el = document.getElementById('typingIndicator');
+      if (el) el.remove();
+    }
+
+    function scrollThread() {
+      const t = document.getElementById('chatThread');
+      t.scrollTop = t.scrollHeight;
+    }
+
+    function handleChatKey(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendFollowUp();
+      }
+    }
+
+    async function sendFollowUp() {
+      const input = document.getElementById('chatInput');
+      const text = input.value.trim();
+      if (!text) return;
+
+      const btn = document.getElementById('chatSendBtn');
+      input.value = '';
+      btn.disabled = true;
+
+      state.exchanges++;
+
+      appendMsg('user', text);
+      appendTyping();
+
+      // Simulate a follow-up by re-running the pipeline with the follow-up context
+      // We call the API with the combined context so the LLM sees the full conversation
       try {
-        const r = await fetch(`/tickets/${enc(ref)}`);
-        if (!r.ok) {
-          result.innerHTML = `
-        <div class="status-card pending">
-          <div class="status-label pending">Not found</div>
-          <div class="status-desc">We couldn't find a request with that reference number. Please double-check and try again.</div>
-        </div>`;
-          return;
-        }
+        const context = text;
+        const r = await fetch(
+          `/tickets?customer_email=${enc(state.email)}&subject=${enc('Follow-up: ' + text.slice(0, 60))}&body=${enc(context)}`,
+          { method: 'POST' }
+        );
+        const followupTicket = r.ok ? await r.json() : null;
+        removeTyping();
 
-        const ticket = await r.json();
-
-        // Optional: verify email matches
-        if (email && ticket.customer_email && ticket.customer_email.toLowerCase() !== email.toLowerCase()) {
-          result.innerHTML = `
-        <div class="status-card pending">
-          <div class="status-label pending">Email doesn't match</div>
-          <div class="status-desc">The email address you entered doesn't match the one on this request. Please check and try again.</div>
-        </div>`;
-          return;
-        }
-
-        if (ticket.status === 'auto_resolved' || ticket.status === 'resolved') {
-          const reply = ticket.final_reply || ticket.draft_response || '';
-          result.innerHTML = `
-        <div class="status-card resolved">
-          <div class="status-label resolved">Resolved</div>
-          <div class="status-desc">Your request has been resolved.</div>
-        </div>
-        ${reply ? `
-          <div style="font-size:13px;font-weight:500;color:var(--text-2);margin-bottom:8px">Our response:</div>
-          <div class="response-message">${esc(reply)}</div>
-        ` : ''}
-        <p class="response-note" style="margin-top:12px">Resolved on ${ticket.resolved_at ? new Date(ticket.resolved_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : 'recently'}.</p>
-      `;
+        let aiReply = '';
+        if (followupTicket && (followupTicket.draft_response || followupTicket.final_reply)) {
+          aiReply = followupTicket.final_reply || followupTicket.draft_response;
         } else {
-          result.innerHTML = `
-        <div class="status-card pending">
-          <div class="status-label pending">Still with our team</div>
-          <div class="status-desc">Your request is being reviewed. A member of our support team will reach out to you at <strong>${esc(ticket.customer_email || email)}</strong> once we have a response.</div>
-        </div>
-        <p class="response-note">Submitted ${ticket.created_at ? new Date(ticket.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : 'recently'}.</p>
-      `;
+          aiReply = 'Thanks for the follow-up. Let me check on that for you — could you share a bit more detail so I can give you the most accurate answer?';
         }
 
+        appendMsg('ai', aiReply);
       } catch (e) {
-        result.innerHTML = `
-      <div class="status-card pending">
-        <div class="status-label pending">Something went wrong</div>
-        <div class="status-desc">We couldn't look up your request right now. Please try again later.</div>
-      </div>`;
+        removeTyping();
+        appendMsg('ai', 'Sorry, something went wrong on my end. Please try again.');
       }
-    };
 
-    /* ================================================================
-       UTILS
-    ================================================================ */
-    function enc(s) { return encodeURIComponent(s); }
+      btn.disabled = false;
+      input.focus();
 
-    function esc(s) {
-      const d = document.createElement('div');
-      d.textContent = s;
-      return d.innerHTML;
+      // Update hint and escalate prompt
+      updateExchangeUI();
+    }
+
+    function updateExchangeUI() {
+      const hint = document.getElementById('exchangesHint');
+      const prompt = document.getElementById('escalatePromptArea');
+
+      if (state.exchanges >= state.MAX_EXCHANGES) {
+        // Show escalate prompt — hide chat input
+        document.getElementById('chatInputArea').style.display = 'none';
+        hint.innerHTML = '';
+        prompt.innerHTML = `
+      <div class="escalate-prompt">
+        <div class="ep-text">
+          <strong>Still not resolved?</strong>
+          If our answers haven't fully helped, we can connect you with a member of our team.
+        </div>
+        <button class="ep-btn" onclick="escalateToHuman()">Talk to a person</button>
+      </div>`;
+      } else {
+        const remaining = state.MAX_EXCHANGES - state.exchanges;
+        hint.innerHTML = `<p class="exchanges-hint">${remaining} follow-up ${remaining === 1 ? 'message' : 'messages'} remaining</p>`;
+        prompt.innerHTML = '';
+      }
+    }
+
+    async function escalateToHuman() {
+      const prompt = document.getElementById('escalatePromptArea');
+      prompt.innerHTML = `<div class="spinner-area" style="padding:18px 0"><div class="spinner"></div><span class="spinner-text">Connecting you with our team…</span></div>`;
+
+      // Submit a new escalation ticket
+      try {
+        const body = 'Customer requested human support after AI follow-up conversation.';
+        await fetch(
+          `/tickets?customer_email=${enc(state.email)}&subject=${enc('Escalation request')}&body=${enc(body)}`,
+          { method: 'POST' }
+        );
+      } catch (e) { }
+
+      showHoldingAfterEscalate();
+    }
+
+    function showHoldingAfterEscalate() {
+      openHolding({
+        id: state.ticket ? state.ticket.id : '—',
+        status: 'escalated',
+        _custom: true
+      });
+    }
+
+    /* ─── Holding view (needs_review / escalated) ─── */
+    function openHolding(ticket) {
+      const ref = (ticket.id || '').toUpperCase();
+      document.getElementById('holdingRef').textContent = `#${ref}`;
+
+      let msg;
+      if (ticket._custom) {
+        msg = `Hi ${esc(state.name)}, we've flagged this for a member of our team and they'll reach out to you at <strong>${esc(state.email)}</strong> shortly. Thanks for your patience.`;
+      } else {
+        msg = `Hi ${esc(state.name)}, thanks for reaching out. We've received your request and a member of our team will follow up shortly at <strong>${esc(state.email)}</strong>.`;
+      }
+      document.getElementById('holdingMsg').innerHTML = msg;
+
+      showOnly('viewHolding');
     }
   </script>
 </body>
