@@ -88,3 +88,13 @@ Both were resolved by reading real tracebacks rather than guessing — same debu
 6. Validated the decision logic against real requests
 
 Ran multiple test tickets (billing, password reset, router issues) through the live API and confirmed: high-risk queues always route to review regardless of confidence, low-confidence tickets get flagged appropriately, and auto-resolution is genuinely reachable — checked against the classifier's actual confidence distribution rather than an arbitrary threshold.
+
+Phase 2 — Changes Made
+Added a persistence layer — introduced SQLite with SQLAlchemy (models.py, database.py, crud.py) to give tickets a real identity and lifecycle, replacing the previous stateless request/response pattern.
+Exposed classifier confidence as a usable signal — modified classifier.py's predict() to return (label, confidence) via predict_proba() instead of only the predicted label, and propagated this change through the agent state and all downstream callers.
+Built a rule-based decision layer — created decision.py with a decide_status() function that combines predicted queue, classifier confidence, and RAG retrieval distance to classify every ticket into one of three outcomes: auto_resolved, needs_review, or escalated.
+Enforced a safety rule for high-risk categories — tickets in sensitive queues (Billing, HR, Service Outages) are never auto-sent regardless of confidence, ensuring the highest-stakes topics always get human review.
+Extended the API with stateful endpoints — added POST /tickets (submit → run pipeline → decide outcome → persist), GET /tickets (filterable by status), GET /tickets/{id}, POST /tickets/{id}/reply, and GET /stats, while keeping the original stateless /process-ticket endpoint for the pipeline-inspector tool.
+Introduced a measurable automation metric — added a get_today_stats() query that computes real-time ticket counts by outcome and an overall automation rate, turning "the system helps automate support" from a claim into a live, calculated number.
+Debugged two real integration issues using tracebacks — resolved a stale-file routing error and a KeyError caused by an incomplete state-field refactor, both diagnosed from actual error tracebacks rather than guesswork.
+Validated the decision logic against live requests — tested multiple real ticket scenarios (billing, technical, account-related) to confirm each of the three outcome paths triggers correctly, and calibrated the confidence threshold using the classifier's actual confidence distribution rather than an arbitrary number.
