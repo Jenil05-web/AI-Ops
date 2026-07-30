@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from triage.api.schemas import TicketRequest, TicketResponse
 from triage.utils.logger import get_logger
@@ -64,5 +64,12 @@ def get_single_ticket(ticket_id: str, session: Session = Depends(get_session)):
 @router.get("/stats")
 def get_stats(session: Session = Depends(get_session)):
     return crud.get_today_stats(session)            
-
-
+@router.delete("/tickets/{ticket_id}")
+def delete_ticket(ticket_id: str, session: Session = Depends(get_session)):
+    ticket = crud.get_ticket(session, ticket_id)
+    if not ticket:
+        raise HTTPException(status_code=404, detail="Ticket not found")
+    session.delete(ticket)
+    session.commit()
+    logger.info(f"Ticket {ticket_id} permanently deleted")
+    return {"deleted": ticket_id}

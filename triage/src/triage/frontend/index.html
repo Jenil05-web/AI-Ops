@@ -930,6 +930,42 @@
       margin-top: 18px;
     }
 
+    /* delete button on row */
+    .tr { position: relative; }
+    .tr-del {
+      position: absolute; top: 10px; right: 10px;
+      width: 24px; height: 24px; border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; color: var(--text-3);
+      background: transparent;
+      opacity: 0; transition: opacity 0.15s, background 0.15s, color 0.15s;
+      z-index: 2;
+    }
+    .tr:hover .tr-del { opacity: 1; }
+    .tr-del:hover { background: var(--rose-dim); color: var(--rose); }
+
+    /* confirm delete overlay inside row */
+    .tr-confirm {
+      position: absolute; inset: 0;
+      background: rgba(15,17,23,0.92);
+      border-radius: inherit;
+      display: none;
+      align-items: center; justify-content: center; gap: 8px;
+      z-index: 3; font-size: 12.5px; color: var(--text-2);
+    }
+    .tr-confirm.show { display: flex; }
+    .tr-confirm-yes {
+      background: var(--rose); color: white;
+      padding: 4px 12px; border-radius: 6px; font-size: 12px; font-weight: 500;
+      transition: filter 0.12s;
+    }
+    .tr-confirm-yes:hover { filter: brightness(1.1); }
+    .tr-confirm-no {
+      color: var(--text-2); padding: 4px 10px; border-radius: 6px; font-size: 12px;
+      transition: background 0.12s;
+    }
+    .tr-confirm-no:hover { background: var(--hover); }
+
     /* toast */
     .toast-shelf {
       position: fixed;
@@ -1161,7 +1197,8 @@
       async list(s) { const u = s ? `/tickets?status=${encodeURIComponent(s)}` : '/tickets'; const r = await fetch(u); return r.ok ? r.json() : []; },
       async get(id) { const r = await fetch(`/tickets/${encodeURIComponent(id)}`); return r.ok ? r.json() : null; },
       async submit(e, s, b) { const r = await fetch(`/tickets?customer_email=${encodeURIComponent(e)}&subject=${encodeURIComponent(s)}&body=${encodeURIComponent(b)}`, { method: 'POST' }); if (!r.ok) throw new Error(await r.text()); return r.json(); },
-      async reply(id, t) { const r = await fetch(`/tickets/${encodeURIComponent(id)}/reply?final_reply=${encodeURIComponent(t)}`, { method: 'POST' }); if (!r.ok) throw new Error(await r.text()); return r.json(); }
+      async reply(id, t) { const r = await fetch(`/tickets/${encodeURIComponent(id)}/reply?final_reply=${encodeURIComponent(t)}`, { method: 'POST' }); if (!r.ok) throw new Error(await r.text()); return r.json(); },
+      async del(id) { const r = await fetch(`/tickets/${encodeURIComponent(id)}`, { method: 'DELETE' }); if (!r.ok) throw new Error(await r.text()); return r.json(); }
     };
 
     /* ─── render stats ─── */
@@ -1202,8 +1239,34 @@
         ${t.predicted_queue ? `<span class="pill pill-queue">${sQ(t.predicted_queue)}</span>` : ''}
         ${sPill(t.status)}
         ${cPct(t.confidence) ? `<span class="tr-conf">${cPct(t.confidence)}</span>` : ''}
+      </div>
+      <button class="tr-del" title="Delete ticket" data-id="${t.id}">🗑</button>
+      <div class="tr-confirm" id="confirm-${t.id}">
+        <span>Delete permanently?</span>
+        <button class="tr-confirm-yes" data-id="${t.id}">Delete</button>
+        <button class="tr-confirm-no" data-id="${t.id}">Cancel</button>
       </div>`;
-        row.addEventListener('click', () => openTicket(t.id));
+        // click row to open (but not if clicking delete controls)
+        row.addEventListener('click', (e) => {
+          if (e.target.closest('.tr-del') || e.target.closest('.tr-confirm')) return;
+          openTicket(t.id);
+        });
+        // delete icon → show confirm overlay
+        row.querySelector('.tr-del').addEventListener('click', (e) => {
+          e.stopPropagation();
+          const overlay = document.getElementById(`confirm-${t.id}`);
+          overlay.classList.add('show');
+        });
+        // confirm yes → delete
+        row.querySelector('.tr-confirm-yes').addEventListener('click', async (e) => {
+          e.stopPropagation();
+          await deleteTicket(t.id, row);
+        });
+        // confirm no → hide overlay
+        row.querySelector('.tr-confirm-no').addEventListener('click', (e) => {
+          e.stopPropagation();
+          document.getElementById(`confirm-${t.id}`).classList.remove('show');
+        });
         el.appendChild(row);
       });
     }
@@ -1303,6 +1366,30 @@
         document.getElementById('dEmpty').style.display = 'flex';
         await refresh();
       } catch (e) { toast('Failed: ' + e.message); btn.disabled = false; btn.textContent = 'Send reply'; }
+    }
+
+    async function deleteTicket(id, rowEl) {
+      try {
+        // Animate row out
+        rowEl.style.transition = 'opacity 0.2s, transform 0.2s';
+        rowEl.style.opacity = '0';
+        rowEl.style.transform = 'translateX(-8px)';
+        await new Promise(r => setTimeout(r, 200));
+        await api.del(id);
+        // If the deleted ticket was open in the detail panel, close it
+        if (selId === id) {
+          selId = null;
+          document.getElementById('dView').style.display = 'none';
+          document.getElementById('dEmpty').style.display = 'flex';
+        }
+        toast('🗑 Ticket deleted');
+        await refresh();
+      } catch (e) {
+        rowEl.style.opacity = '1';
+        rowEl.style.transform = '';
+        document.getElementById(`confirm-${id}`)?.classList.remove('show');
+        toast('Delete failed: ' + e.message);
+      }
     }
 
     /* ─── nav ─── */
