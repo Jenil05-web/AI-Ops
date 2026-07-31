@@ -112,10 +112,10 @@ Weaker on the smallest classes (`General Inquiry`, `Sales and Pre-Sales`) — a 
 | Metric | Score | What it measures |
 |---|---|---|
 | Context Precision | `1.00` | Are retrieved past tickets actually relevant? |
-| Faithfulness | `_.__` | Does the draft stick to the retrieved context? |
-| Answer Relevancy | `_.__` | Does the draft actually address the question asked? |
+| Faithfulness | `0.738` | Does the draft stick to the retrieved context? |
+| Answer Relevancy | `0.653` | Does the draft actually address the question asked? |
 
-> _Fill in the final numbers from `notebooks/05_evaluation.ipynb` — retrieval was validated at a perfect context-precision score; faithfulness and relevancy improved materially after iterating on the drafting prompt._
+faithfulness and relevancy improved materially after iterating on the drafting prompt._
 
 <br/>
 
@@ -222,7 +222,6 @@ Every module — cleaning, classifier, RAG, agents, API — is unit tested with 
 </div>
 -->
 
-_Coming soon._
 
 <br/>
 
