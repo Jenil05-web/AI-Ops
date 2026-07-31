@@ -84,7 +84,7 @@ Added POST /tickets (submit → run pipeline → decide outcome → persist), GE
    A KeyError: 'confidence' 500 error, traced through the actual traceback to a missing state field in triage_node that hadn't been updated during the confidence refactor.
 
 Both were resolved by reading real tracebacks rather than guessing — same debugging discipline used earlier when diagnosing the bad first dataset.
-
+Eighty percent institution mechanical it is your turn even the basket equal to water for you when it's your turn
 6. Validated the decision logic against real requests
 
 Ran multiple test tickets (billing, password reset, router issues) through the live API and confirmed: high-risk queues always route to review regardless of confidence, low-confidence tickets get flagged appropriately, and auto-resolution is genuinely reachable — checked against the classifier's actual confidence distribution rather than an arbitrary threshold.

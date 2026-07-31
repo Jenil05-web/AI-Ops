@@ -20,11 +20,9 @@ def decide_status(predicted_queue: str, confidence: float, top_context_distance:
     if predicted_queue in ALWAYS_HUMAN_QUEUES:
         return "needs_review"
 
-    # Billing: allow auto-resolve only when confidence is very high
+    # Billing: escalate all money-related tickets immediately
     if predicted_queue in HIGH_CAUTION_QUEUES:
-        if confidence >= CONFIDENCE_BILLING_THRESHOLD and top_context_distance <= DISTANCE_GOOD_MATCH_THRESHOLD:
-            return "auto_resolved"
-        return "needs_review"
+        return "escalated"
 
     # All other queues: escalate only on very low confidence or very poor RAG match
     if confidence < 0.18 or top_context_distance > 1.5:
