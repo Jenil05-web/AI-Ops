@@ -66,12 +66,12 @@ flowchart LR
     ES -->|Rule-based| OUT[✅ Auto-send  /  🚩 Human Review]
 ```
 
-| Stage | Approach | Why not just "ask the LLM"? |
-|---|---|---|
-| **Triage** | TF-IDF + XGBoost | Fixed category set → cheap, instant, deterministic. Paying an LLM per ticket for this is wasted cost and latency. |
-| **Retrieval** | OpenAI embeddings + FAISS | Semantic search over real historical resolutions — grounds the reply in what actually worked. |
-| **Drafting** | GPT-4o-mini | The one step that genuinely needs open-ended language generation. |
-| **Escalation** | Rule-based | Transparent, auditable logic for what gets human review — no black box on a compliance-relevant decision. |
+| Stage          | Approach                  | Why not just "ask the LLM"?                                                                                       |
+| -------------- | ------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| **Triage**     | TF-IDF + XGBoost          | Fixed category set → cheap, instant, deterministic. Paying an LLM per ticket for this is wasted cost and latency. |
+| **Retrieval**  | OpenAI embeddings + FAISS | Semantic search over real historical resolutions — grounds the reply in what actually worked.                     |
+| **Drafting**   | GPT-4o-mini               | The one step that genuinely needs open-ended language generation.                                                 |
+| **Escalation** | Rule-based                | Transparent, auditable logic for what gets human review — no black box on a compliance-relevant decision.         |
 
 <br/>
 
@@ -79,18 +79,18 @@ flowchart LR
 
 <div align="center">
 
-| Layer | Tools |
-|---|---|
-| Data | pandas, NumPy |
-| Classical ML | scikit-learn, XGBoost |
-| Retrieval | OpenAI Embeddings, FAISS |
-| Orchestration | LangGraph |
-| Generation | OpenAI GPT-4o-mini |
-| Evaluation | RAGAS |
-| Serving | FastAPI, Pydantic, Uvicorn |
-| Testing | pytest, unittest.mock |
-| Packaging | setuptools (`src/` layout, pip-installable) |
-| Ops | Docker, GitHub Actions |
+| Layer         | Tools                                       |
+| ------------- | ------------------------------------------- |
+| Data          | pandas, NumPy                               |
+| Classical ML  | scikit-learn, XGBoost                       |
+| Retrieval     | OpenAI Embeddings, FAISS                    |
+| Orchestration | LangGraph                                   |
+| Generation    | OpenAI GPT-4o-mini                          |
+| Evaluation    | RAGAS                                       |
+| Serving       | FastAPI, Pydantic, Uvicorn                  |
+| Testing       | pytest, unittest.mock                       |
+| Packaging     | setuptools (`src/` layout, pip-installable) |
+| Ops           | Docker, GitHub Actions                      |
 
 </div>
 
@@ -100,22 +100,22 @@ flowchart LR
 
 **Classifier — 10-class ticket routing (`queue` prediction)**
 
-| Model | Accuracy | Macro F1 |
-|---|---|---|
-| Logistic Regression + TF-IDF (baseline) | 46% | 0.37 |
-| **XGBoost + TF-IDF (final)** | **50%** | **0.44** |
+| Model                                   | Accuracy | Macro F1 |
+| --------------------------------------- | -------- | -------- |
+| Logistic Regression + TF-IDF (baseline) | 46%      | 0.37     |
+| **XGBoost + TF-IDF (final)**            | **50%**  | **0.44** |
 
 Weaker on the smallest classes (`General Inquiry`, `Sales and Pre-Sales`) — a direct effect of class imbalance, documented below rather than silently ignored.
 
 **RAG pipeline — RAGAS evaluation (20-sample eval set)**
 
-| Metric | Score | What it measures |
-|---|---|---|
-| Context Precision | `1.00` | Are retrieved past tickets actually relevant? |
-| Faithfulness | `0.738` | Does the draft stick to the retrieved context? |
-| Answer Relevancy | `0.653` | Does the draft actually address the question asked? |
+| Metric            | Score   | What it measures                                    |
+| ----------------- | ------- | --------------------------------------------------- |
+| Context Precision | `1.00`  | Are retrieved past tickets actually relevant?       |
+| Faithfulness      | `0.738` | Does the draft stick to the retrieved context?      |
+| Answer Relevancy  | `0.653` | Does the draft actually address the question asked? |
 
-faithfulness and relevancy improved materially after iterating on the drafting prompt._
+faithfulness and relevancy improved materially after iterating on the drafting prompt.\_
 
 <br/>
 
@@ -195,7 +195,9 @@ curl -X POST http://127.0.0.1:8000/process-ticket \
 {
   "ticket_text": "My internet connection keeps dropping",
   "predicted_queue": "Technical Support",
-  "retrieved_context": [ { "subject": "...", "answer": "...", "distance": 0.76 } ],
+  "retrieved_context": [
+    { "subject": "...", "answer": "...", "distance": 0.76 }
+  ],
   "draft_response": "...",
   "escalated": false
 }
@@ -222,7 +224,6 @@ Every module — cleaning, classifier, RAG, agents, API — is unit tested with 
 </div>
 -->
 
-
 <br/>
 
 ## What I'd Build Next
@@ -239,7 +240,7 @@ Deliberately scoped out of this MVP — not forgotten, just sequenced:
 
 ## Lessons Along the Way
 
-- My first dataset choice looked fine on paper — until I actually *read* the rows and found the labels had no real relationship to the text. Caught it before building three layers on top of broken data.
+- My first dataset choice looked fine on paper — until I actually _read_ the rows and found the labels had no real relationship to the text. Caught it before building three layers on top of broken data.
 - A perfect retrieval score doesn't mean a good system — my RAG context precision was `1.00` while the drafted answers still scored poorly, because the problem was prompt design, not retrieval.
 - "The metric didn't move" turned out to be a stale Jupyter kernel, not a bad idea — always verify your code is actually the code you think it is before trusting a number.
 
