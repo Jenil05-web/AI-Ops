@@ -22,15 +22,18 @@ ENV/
 # Jupyter
 .ipynb_checkpoints/
 
-# Data (raw/processed data shouldn't live in git — too large, and often has license restrictions)
+# Data (allow FAISS indexes and small CSVs, ignore huge files >100MB)
 data/raw/*
 data/processed/*
 !data/raw/.gitkeep
 !data/processed/.gitkeep
+!data/processed/*.faiss
+!data/processed/*.csv
 
-# Model artifacts (large binary files, regenerable from training script)
+# Model artifacts (allow pkl files so Render can use them)
 models/*
 !models/.gitkeep
+!models/*.pkl
 
 # Logs
 logs/*
