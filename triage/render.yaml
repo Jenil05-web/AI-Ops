@@ -5,6 +5,7 @@ services:
     region: ohio
     plan: free
     branch: main
+    rootDir: triage
     healthCheckPath: /health
     envVars:
       - key: OPENAI_API_KEY
