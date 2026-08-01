@@ -15,7 +15,11 @@ app.include_router(routes.router)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],   # fine for local dev; restrict in real deployment
+    allow_origins=[
+        "http://localhost:8000",
+        "https://ai-ops-triage.onrender.com",
+        "*"
+    ],
     allow_methods=["*"],
     allow_headers=["*"],
 )
