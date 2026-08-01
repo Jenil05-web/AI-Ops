@@ -1,38 +1,26 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:6A5AF9,50:B24BF3,100:FF6FB5&height=220&section=header&text=AI-Ops&fontSize=76&fontColor=ffffff&fontAlignY=40&desc=An%20End-to-End%20AI%20Support%20Intelligence%20Platform&descAlignY=62&descSize=17&descColor=F1E9FF&animation=fadeIn" width="100%"/>
-
-<br/>
-
-<img src="https://readme-typing-svg.demolab.com/?font=Fira+Code&size=20&weight=500&pause=1400&color=B24BF3,6A5AF9,FF9166&background=00000000&center=true&vCenter=true&width=720&height=50&lines=Routes+tickets+instantly+with+no+LLM+call;Grounds+replies+in+real+past+resolutions;Drafts+context-aware+replies+for+review;Decides+for+itself+what+needs+a+human." alt="typing-svg"/>
+<img src="assets/hero.svg" width="100%"/>
 
 <br/><br/>
 
-<img src="assets/ai-network.svg" width="620"/>
-
-<br/><br/>
-
-<img src="https://skillicons.dev/icons?i=python,fastapi,sqlite,docker,githubactions&theme=dark" height="48"/>
+<img src="https://skillicons.dev/icons?i=python,fastapi,sqlite,docker,githubactions&theme=dark" height="42"/>
 &nbsp;&nbsp;
-<img src="https://img.shields.io/badge/OpenAI-GPT--4o--mini-6A5AF9?style=for-the-badge&logo=openai&logoColor=white&labelColor=161221" height="30"/>
+<img src="https://img.shields.io/badge/OpenAI-GPT--4o--mini-6E7BFF?style=for-the-badge&logo=openai&logoColor=white&labelColor=0B0C11" height="28"/>
 &nbsp;
-<img src="https://img.shields.io/badge/LangGraph-Orchestration-B24BF3?style=for-the-badge&labelColor=161221" height="30"/>
+<img src="https://img.shields.io/badge/LangGraph-Orchestration-2E313C?style=for-the-badge&labelColor=0B0C11&color=2E313C" height="28"/>
 &nbsp;
-<img src="https://img.shields.io/badge/XGBoost-Classifier-FF6FB5?style=for-the-badge&labelColor=161221" height="30"/>
+<img src="https://img.shields.io/badge/XGBoost-Classifier-D9B26A?style=for-the-badge&labelColor=0B0C11" height="28"/>
 &nbsp;
-<img src="https://img.shields.io/badge/FAISS-Vector%20Search-FF9166?style=for-the-badge&labelColor=161221" height="30"/>
+<img src="https://img.shields.io/badge/FAISS-Vector%20Search-6E7BFF?style=for-the-badge&labelColor=0B0C11" height="28"/>
 &nbsp;
-<a href="./LICENSE"><img src="https://img.shields.io/badge/License-AOBL--1.0-2ECC71?style=for-the-badge&labelColor=161221" height="30"/></a>
-
-<br/><br/>
-
-<img src="https://capsule-render.vercel.app/api?type=rect&color=0:6A5AF9,50:B24BF3,100:FF6FB5&height=4&section=header" width="100%"/>
+<a href="./LICENSE"><img src="https://img.shields.io/badge/License-AOBL--1.0-3E8E7E?style=for-the-badge&labelColor=0B0C11" height="28"/></a>
 
 </div>
 
 <br/>
 
-> ### 💭 The idea
+> ### The idea
 >
 > **AI-Ops** reads an incoming customer support ticket, decides which team should own it, pulls up how similar issues were actually resolved before, drafts a grounded reply, and decides **for itself** — based on its own confidence, not a hardcoded rule of thumb — whether to send that reply, hold it for a human to approve, or escalate immediately.
 >
@@ -43,29 +31,27 @@
 <div align="center">
 
 <table>
-<tr><td align="center">🎯</td><td><a href="#-why-this-exists"><b>Why This Exists</b></a></td><td align="center">🧠</td><td><a href="#-architecture"><b>Architecture</b></a></td><td align="center">🖥️</td><td><a href="#️-two-interfaces-one-pipeline"><b>Interfaces</b></a></td></tr>
-<tr><td align="center">🛠️</td><td><a href="#️-tech-stack"><b>Tech Stack</b></a></td><td align="center">📊</td><td><a href="#-results"><b>Results</b></a></td><td align="center">📁</td><td><a href="#-project-structure"><b>Structure</b></a></td></tr>
-<tr><td align="center">🚀</td><td><a href="#-getting-started"><b>Getting Started</b></a></td><td align="center">🔌</td><td><a href="#-api-usage"><b>API Usage</b></a></td><td align="center">🧪</td><td><a href="#-testing"><b>Testing</b></a></td></tr>
-<tr><td align="center">🖼️</td><td><a href="#️-screenshots"><b>Screenshots</b></a></td><td align="center">🧭</td><td><a href="#-what-id-build-next"><b>What's Next</b></a></td><td align="center">💡</td><td><a href="#-lessons-along-the-way"><b>Lessons</b></a></td></tr>
+<tr><td align="center">🎯</td><td><a href="#why-this-exists"><b>Why This Exists</b></a></td><td align="center">🧠</td><td><a href="#architecture"><b>Architecture</b></a></td><td align="center">🖥️</td><td><a href="#two-interfaces-one-pipeline"><b>Interfaces</b></a></td></tr>
+<tr><td align="center">🛠️</td><td><a href="#tech-stack"><b>Tech Stack</b></a></td><td align="center">📊</td><td><a href="#results"><b>Results</b></a></td><td align="center">📁</td><td><a href="#project-structure"><b>Structure</b></a></td></tr>
+<tr><td align="center">🚀</td><td><a href="#getting-started"><b>Getting Started</b></a></td><td align="center">🔌</td><td><a href="#api-usage"><b>API Usage</b></a></td><td align="center">🧪</td><td><a href="#testing"><b>Testing</b></a></td></tr>
+<tr><td align="center">🖼️</td><td><a href="#screenshots"><b>Screenshots</b></a></td><td align="center">🧭</td><td><a href="#what-id-build-next"><b>What's Next</b></a></td><td align="center">💡</td><td><a href="#lessons-along-the-way"><b>Lessons</b></a></td></tr>
 </table>
 
 </div>
 
-<img src="https://capsule-render.vercel.app/api?type=rect&color=0:FF6FB5,50:B24BF3,100:6A5AF9&height=3&section=header" width="100%"/>
-
 <br/>
 
-## 🎯 Why This Exists
+## Why This Exists
 
 Most "AI support bot" projects are a single LLM call wearing a UI. That's not what running this in production actually looks like — and it's not what this looks like either, on purpose.
 
-**AI-Ops** is built the way a real support-intelligence system would be: a <img src="https://img.shields.io/badge/-classical%20ML%20model-FF6FB5?style=flat-square&labelColor=161221"/> does the cheap, deterministic job of routing (it doesn't need an LLM to know "this is a billing question"), a <img src="https://img.shields.io/badge/-retrieval%20layer-6A5AF9?style=flat-square&labelColor=161221"/> grounds every reply in what actually worked before, an <img src="https://img.shields.io/badge/-LLM-B24BF3?style=flat-square&labelColor=161221"/> only gets involved where genuine language generation is required, and a <img src="https://img.shields.io/badge/-decision%20layer-2ECC71?style=flat-square&labelColor=161221"/> weighs the model's own confidence and retrieval quality to decide whether a ticket can be safely auto-resolved, needs a human to approve the draft, or should skip straight to a person. Every layer earns its place — nothing is there just because it's trendy.
+**AI-Ops** is built the way a real support-intelligence system would be: a **classical ML model** does the cheap, deterministic job of routing (it doesn't need an LLM to know "this is a billing question"), a **retrieval layer** grounds every reply in what actually worked before, an **LLM** only gets involved where genuine language generation is required, and a **decision layer** weighs the model's own confidence and retrieval quality to decide whether a ticket can be safely auto-resolved, needs a human to approve the draft, or should skip straight to a person. Every layer earns its place — nothing is there just because it's trendy.
 
 The project went through two phases. **Phase 1** built the pipeline end-to-end (classifier → RAG → agents → API). **Phase 2** — after realizing a working pipeline still just _felt_ like a chatbot — added persistence, real confidence scoring, and outcome-based decision logic, so the system actually behaves like a product with an audit trail instead of a stateless text-in, text-out demo.
 
 <br/>
 
-## 🧠 Architecture
+## Architecture
 
 ```mermaid
 flowchart LR
@@ -84,10 +70,10 @@ flowchart LR
     OUT2 --> DB
     OUT3 --> DB
 
-    classDef ticket fill:#2A2140,stroke:#B24BF3,color:#fff,stroke-width:2px
-    classDef agent fill:#1E3A34,stroke:#2ECC71,color:#fff,stroke-width:2px
-    classDef out fill:#3A1F3D,stroke:#FF6FB5,color:#fff,stroke-width:2px
-    classDef store fill:#1A1F3A,stroke:#6A5AF9,color:#fff,stroke-width:2px
+    classDef ticket fill:#14161F,stroke:#6E7BFF,color:#F4F3EF,stroke-width:1.5px
+    classDef agent fill:#14161F,stroke:#D9B26A,color:#F4F3EF,stroke-width:1.5px
+    classDef out fill:#14161F,stroke:#3E8E7E,color:#F4F3EF,stroke-width:1.5px
+    classDef store fill:#14161F,stroke:#6A6D76,color:#F4F3EF,stroke-width:1.5px
     class T,Q,CTX,RESP ticket
     class TR,RT,DR,DEC agent
     class OUT1,OUT2,OUT3 out
@@ -96,18 +82,18 @@ flowchart LR
 
 <div align="center">
 
-|      Stage       | Approach                                                | Why not just "ask the LLM"?                                                                                                                                                  |
-| :--------------: | :------------------------------------------------------ | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  🟣 **Triage**   | TF-IDF + XGBoost                                        | Fixed category set → cheap, instant, deterministic. Paying an LLM per ticket for this is wasted cost and latency.                                                            |
-| 🔵 **Retrieval** | OpenAI embeddings + FAISS                               | Semantic search over real historical resolutions — grounds the reply in what actually worked.                                                                                |
-| 🟠 **Drafting**  | GPT-4o-mini                                             | The one step that genuinely needs open-ended language generation.                                                                                                            |
-| 🟢 **Decision**  | Rule-based, using model confidence + retrieval distance | Transparent, auditable logic for what gets sent automatically vs. reviewed vs. escalated. High-risk queues (billing, HR, outages) never auto-send, regardless of confidence. |
+|     Stage     | Approach                                                | Why not just "ask the LLM"?                                                                                                                                                  |
+| :-----------: | :------------------------------------------------------ | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  **Triage**   | TF-IDF + XGBoost                                        | Fixed category set → cheap, instant, deterministic. Paying an LLM per ticket for this is wasted cost and latency.                                                            |
+| **Retrieval** | OpenAI embeddings + FAISS                               | Semantic search over real historical resolutions — grounds the reply in what actually worked.                                                                                |
+| **Drafting**  | GPT-4o-mini                                             | The one step that genuinely needs open-ended language generation.                                                                                                            |
+| **Decision**  | Rule-based, using model confidence + retrieval distance | Transparent, auditable logic for what gets sent automatically vs. reviewed vs. escalated. High-risk queues (billing, HR, outages) never auto-send, regardless of confidence. |
 
 </div>
 
 <br/>
 
-## 🖥️ Two Interfaces, One Pipeline
+## Two Interfaces, One Pipeline
 
 The same backend pipeline is consumed by two completely different surfaces:
 
@@ -125,43 +111,43 @@ The same backend pipeline is consumed by two completely different surfaces:
 </tr>
 </table>
 
-<sub>🔎 A third, minimal <b>Pipeline Inspector</b> view is kept separately as an internal/debugging tool — it visualizes each agent stage lighting up in sequence for a single ticket, useful for explaining the architecture, not for daily use.</sub>
+<sub>A third, minimal <b>Pipeline Inspector</b> view is kept separately as an internal/debugging tool — it visualizes each agent stage lighting up in sequence for a single ticket, useful for explaining the architecture, not for daily use.</sub>
 
 <br/>
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 <div align="center">
 
-|         Layer         | Tools                                                 |
-| :-------------------: | :---------------------------------------------------- |
-|      📦 **Data**      | pandas · NumPy                                        |
-|  🧮 **Classical ML**  | scikit-learn · XGBoost                                |
-|   🔍 **Retrieval**    | OpenAI Embeddings · FAISS                             |
-| 🕸️ **Orchestration**  | LangGraph                                             |
-|   ✍️ **Generation**   | OpenAI GPT-4o-mini                                    |
-| 🧭 **Decision Logic** | Confidence + retrieval-distance rules (`decision.py`) |
-|  🗄️ **Persistence**   | SQLite · SQLAlchemy                                   |
-|   📏 **Evaluation**   | RAGAS                                                 |
-|    🌐 **Serving**     | FastAPI · Pydantic · Uvicorn                          |
-|    🧪 **Testing**     | pytest · unittest.mock                                |
-|   📦 **Packaging**    | setuptools (`src/` layout, pip-installable)           |
-|      ⚙️ **Ops**       | Docker · GitHub Actions                               |
+|     Layer      | Tools                                                 |
+| :------------: | :---------------------------------------------------- |
+|      Data      | pandas · NumPy                                        |
+|  Classical ML  | scikit-learn · XGBoost                                |
+|   Retrieval    | OpenAI Embeddings · FAISS                             |
+| Orchestration  | LangGraph                                             |
+|   Generation   | OpenAI GPT-4o-mini                                    |
+| Decision Logic | Confidence + retrieval-distance rules (`decision.py`) |
+|  Persistence   | SQLite · SQLAlchemy                                   |
+|   Evaluation   | RAGAS                                                 |
+|    Serving     | FastAPI · Pydantic · Uvicorn                          |
+|    Testing     | pytest · unittest.mock                                |
+|   Packaging    | setuptools (`src/` layout, pip-installable)           |
+|      Ops       | Docker · GitHub Actions                               |
 
 </div>
 
 <br/>
 
-## 📊 Results
+## Results
 
 <div align="center">
 
 **Classifier — 10-class ticket routing (`queue` prediction)**
 
-| Model                                   |  Accuracy  |  Macro F1   |
-| --------------------------------------- | :--------: | :---------: |
-| Logistic Regression + TF-IDF (baseline) |    46%     |    0.37     |
-| **XGBoost + TF-IDF (final)**            | 🟣 **50%** | 🟣 **0.44** |
+| Model                                   | Accuracy | Macro F1 |
+| --------------------------------------- | :------: | :------: |
+| Logistic Regression + TF-IDF (baseline) |   46%    |   0.37   |
+| **XGBoost + TF-IDF (final)**            | **50%**  | **0.44** |
 
 </div>
 
@@ -171,11 +157,11 @@ Weaker on the smallest classes (`General Inquiry`, `Sales and Pre-Sales`) — a 
 
 **RAG pipeline — RAGAS evaluation (20-sample eval set)**
 
-| Metric            |   Score    | What it measures                                    |
-| ----------------- | :--------: | --------------------------------------------------- |
-| Context Precision | 🟢 `1.00`  | Are retrieved past tickets actually relevant?       |
-| Faithfulness      | 🟡 `0.672` | Does the draft stick to the retrieved context?      |
-| Answer Relevancy  | 🟡 `0.589` | Does the draft actually address the question asked? |
+| Metric            |  Score  | What it measures                                    |
+| ----------------- | :-----: | --------------------------------------------------- |
+| Context Precision | `1.00`  | Are retrieved past tickets actually relevant?       |
+| Faithfulness      | `0.672` | Does the draft stick to the retrieved context?      |
+| Answer Relevancy  | `0.589` | Does the draft actually address the question asked? |
 
 **Decision layer — automation outcome** <sub>(live system, via `/stats`)</sub>
 
@@ -191,10 +177,10 @@ Weaker on the smallest classes (`General Inquiry`, `Sales and Pre-Sales`) — a 
 
 <br/>
 
-## 📁 Project Structure
+## Project Structure
 
 <details>
-<summary><b>🌳 Click to expand full tree</b></summary>
+<summary><b>Click to expand full tree</b></summary>
 
 ```
 ai-ops/
@@ -227,10 +213,10 @@ ai-ops/
 
 <br/>
 
-## 🚀 Getting Started
+## Getting Started
 
 <details open>
-<summary><b>⚡ Click to expand setup instructions</b></summary>
+<summary><b>Click to expand setup instructions</b></summary>
 
 ```bash
 # 1. Clone
@@ -263,7 +249,7 @@ Visit `http://127.0.0.1:8000/docs` for interactive Swagger docs. Open `frontend/
 
 <br/>
 
-## 🔌 API Usage
+## API Usage
 
 **Submit a ticket through the full pipeline** <sub>(persists to DB, returns a routing decision)</sub>
 
@@ -312,7 +298,7 @@ curl "http://127.0.0.1:8000/stats"
 
 <br/>
 
-## 🧪 Testing
+## Testing
 
 ```bash
 pytest tests/ -v
@@ -322,7 +308,7 @@ Every module — cleaning, classifier, RAG, agents, decision logic, and API — 
 
 <br/>
 
-## 🖼️ Screenshots
+## Screenshots
 
 <div align="center">
 
@@ -345,7 +331,7 @@ Every module — cleaning, classifier, RAG, agents, decision logic, and API — 
 
 <br/>
 
-## 🧭 What I'd Build Next
+## What I'd Build Next
 
 Deliberately scoped out of this MVP — not forgotten, just sequenced:
 
@@ -360,7 +346,7 @@ Deliberately scoped out of this MVP — not forgotten, just sequenced:
 
 <br/>
 
-## 💡 Lessons Along the Way
+## Lessons Along the Way
 
 - My first dataset choice looked fine on paper — until I actually _read_ the rows and found the labels had no real relationship to the text. Caught it before building three layers on top of broken data.
 - A perfect retrieval score doesn't mean a good system — my RAG context precision was `1.00` while the drafted answers still scored poorly, because the problem was prompt design, not retrieval.
@@ -369,27 +355,8 @@ Deliberately scoped out of this MVP — not forgotten, just sequenced:
 
 <br/>
 
-<img src="https://capsule-render.vercel.app/api?type=rect&color=0:6A5AF9,50:B24BF3,100:FF6FB5&height=3&section=header" width="100%"/>
-
 <div align="center">
 
-<br/>
-
-### Author
-
-**Built by Jenil**
-
-<a href="https://github.com/Jenil05-web">
-<img src="https://img.shields.io/badge/GitHub-Jenil05--web-6A5AF9?style=for-the-badge&logo=github&logoColor=white&labelColor=161221"/>
-</a>
-<a href="./LICENSE">
-<img src="https://img.shields.io/badge/License-AOBL--1.0-2ECC71?style=for-the-badge&labelColor=161221"/>
-</a>
-
-<sub>Licensed under the <a href="./LICENSE">AI-Ops Open Build License</a> — a custom permissive license written for this project.</sub>
-
-<br/><br/>
-
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:FF6FB5,50:B24BF3,100:6A5AF9&height=100&section=footer" width="100%"/>
+<img src="assets/footer.svg" width="100%"/>
 
 </div>
