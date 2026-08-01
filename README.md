@@ -1,81 +1,67 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=rect&color=0:0F0C29,50:302B63,100:24243E&height=210&section=header&text=AI-Ops&fontSize=78&fontColor=ffffff&fontAlignY=45&desc=An%20End-to-End%20AI%20Support%20Intelligence%20Platform&descAlignY=68&descSize=17&descColor=B8B3E8&animation=twinkling" width="100%"/>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:6A5AF9,50:B24BF3,100:FF6FB5&height=220&section=header&text=AI-Ops&fontSize=76&fontColor=ffffff&fontAlignY=40&desc=An%20End-to-End%20AI%20Support%20Intelligence%20Platform&descAlignY=62&descSize=17&descColor=F1E9FF&animation=fadeIn" width="100%"/>
 
 <br/>
 
-<img src="https://readme-typing-svg.demolab.com/?font=Fira+Code&size=20&weight=500&pause=1400&color=8A7FFF,4285F4,EB5E28&background=00000000&center=true&vCenter=true&width=720&height=50&lines=Routes+tickets+instantly+with+no+LLM+call;Grounds+replies+in+real+past+resolutions;Drafts+context-aware+replies+for+review;Decides+for+itself+what+needs+a+human." alt="typing-svg"/>
+<img src="https://readme-typing-svg.demolab.com/?font=Fira+Code&size=20&weight=500&pause=1400&color=B24BF3,6A5AF9,FF9166&background=00000000&center=true&vCenter=true&width=720&height=50&lines=Routes+tickets+instantly+with+no+LLM+call;Grounds+replies+in+real+past+resolutions;Drafts+context-aware+replies+for+review;Decides+for+itself+what+needs+a+human." alt="typing-svg"/>
 
 <br/><br/>
 
-<img src="assets/ai-network.svg" width="640"/>
+<img src="assets/ai-network.svg" width="620"/>
 
 <br/><br/>
 
-<img src="https://skillicons.dev/icons?i=python,fastapi,sqlite,docker,githubactions&theme=dark" height="50"/>
+<img src="https://skillicons.dev/icons?i=python,fastapi,sqlite,docker,githubactions&theme=dark" height="48"/>
 &nbsp;&nbsp;
-<img src="https://img.shields.io/badge/OpenAI-GPT--4o--mini-412991?style=for-the-badge&logo=openai&logoColor=white&labelColor=0d1117" height="28"/>
+<img src="https://img.shields.io/badge/OpenAI-GPT--4o--mini-6A5AF9?style=for-the-badge&logo=openai&logoColor=white&labelColor=161221" height="30"/>
 &nbsp;
-<img src="https://img.shields.io/badge/LangGraph-Orchestration-1C3C3C?style=for-the-badge&labelColor=0d1117" height="28"/>
+<img src="https://img.shields.io/badge/LangGraph-Orchestration-B24BF3?style=for-the-badge&labelColor=161221" height="30"/>
 &nbsp;
-<img src="https://img.shields.io/badge/XGBoost-Classifier-EB5E28?style=for-the-badge&labelColor=0d1117" height="28"/>
+<img src="https://img.shields.io/badge/XGBoost-Classifier-FF6FB5?style=for-the-badge&labelColor=161221" height="30"/>
 &nbsp;
-<img src="https://img.shields.io/badge/FAISS-Vector%20Search-4285F4?style=for-the-badge&labelColor=0d1117" height="28"/>
+<img src="https://img.shields.io/badge/FAISS-Vector%20Search-FF9166?style=for-the-badge&labelColor=161221" height="30"/>
 &nbsp;
-<a href="./LICENSE"><img src="https://img.shields.io/badge/License-AOBL--1.0-2ECC71?style=for-the-badge&labelColor=0d1117" height="28"/></a>
+<a href="./LICENSE"><img src="https://img.shields.io/badge/License-AOBL--1.0-2ECC71?style=for-the-badge&labelColor=161221" height="30"/></a>
 
 <br/><br/>
 
-<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.gif" width="100%"/>
+<img src="https://capsule-render.vercel.app/api?type=rect&color=0:6A5AF9,50:B24BF3,100:FF6FB5&height=4&section=header" width="100%"/>
 
 </div>
 
 <br/>
 
-> **AI‑Ops** reads an incoming customer support ticket, decides which team should own it, pulls up how similar issues were actually resolved before, drafts a grounded reply, and decides **for itself** — based on its own confidence, not a hardcoded rule of thumb — whether to send that reply, hold it for a human to approve, or escalate immediately. It's not a chatbot with a nice UI; it's a triage system with a measurable automation rate.
+> ### 💭 The idea
+>
+> **AI-Ops** reads an incoming customer support ticket, decides which team should own it, pulls up how similar issues were actually resolved before, drafts a grounded reply, and decides **for itself** — based on its own confidence, not a hardcoded rule of thumb — whether to send that reply, hold it for a human to approve, or escalate immediately.
+>
+> It's not a chatbot with a nice UI. It's a triage system with a measurable automation rate.
 
 <br/>
 
 <div align="center">
 
-### 📑 Table of Contents
+<table>
+<tr><td align="center">🎯</td><td><a href="#-why-this-exists"><b>Why This Exists</b></a></td><td align="center">🧠</td><td><a href="#-architecture"><b>Architecture</b></a></td><td align="center">🖥️</td><td><a href="#️-two-interfaces-one-pipeline"><b>Interfaces</b></a></td></tr>
+<tr><td align="center">🛠️</td><td><a href="#️-tech-stack"><b>Tech Stack</b></a></td><td align="center">📊</td><td><a href="#-results"><b>Results</b></a></td><td align="center">📁</td><td><a href="#-project-structure"><b>Structure</b></a></td></tr>
+<tr><td align="center">🚀</td><td><a href="#-getting-started"><b>Getting Started</b></a></td><td align="center">🔌</td><td><a href="#-api-usage"><b>API Usage</b></a></td><td align="center">🧪</td><td><a href="#-testing"><b>Testing</b></a></td></tr>
+<tr><td align="center">🖼️</td><td><a href="#️-screenshots"><b>Screenshots</b></a></td><td align="center">🧭</td><td><a href="#-what-id-build-next"><b>What's Next</b></a></td><td align="center">💡</td><td><a href="#-lessons-along-the-way"><b>Lessons</b></a></td></tr>
+</table>
 
 </div>
 
-<table align="center">
-<tr>
-<td valign="top" width="50%">
+<img src="https://capsule-render.vercel.app/api?type=rect&color=0:FF6FB5,50:B24BF3,100:6A5AF9&height=3&section=header" width="100%"/>
 
-- 🎯 [Why This Exists](#-why-this-exists)
-- 🧠 [Architecture](#-architecture)
-- 🖥️ [Two Interfaces, One Pipeline](#️-two-interfaces-one-pipeline)
-- 🛠️ [Tech Stack](#️-tech-stack)
-- 📊 [Results](#-results)
-- 📁 [Project Structure](#-project-structure)
-
-</td>
-<td valign="top" width="50%">
-
-- 🚀 [Getting Started](#-getting-started)
-- 🔌 [API Usage](#-api-usage)
-- 🧪 [Testing](#-testing)
-- 🖼️ [Screenshots](#️-screenshots)
-- 🧭 [What I'd Build Next](#-what-id-build-next)
-- 💡 [Lessons Along the Way](#-lessons-along-the-way)
-
-</td>
-</tr>
-</table>
-
-<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.gif" width="100%"/>
+<br/>
 
 ## 🎯 Why This Exists
 
 Most "AI support bot" projects are a single LLM call wearing a UI. That's not what running this in production actually looks like — and it's not what this looks like either, on purpose.
 
-**AI‑Ops** is built the way a real support-intelligence system would be: a <img src="https://img.shields.io/badge/-classical%20ML%20model-EB5E28?style=flat-square&labelColor=0d1117"/> does the cheap, deterministic job of routing (it doesn't need an LLM to know "this is a billing question"), a <img src="https://img.shields.io/badge/-retrieval%20layer-4285F4?style=flat-square&labelColor=0d1117"/> grounds every reply in what actually worked before, an <img src="https://img.shields.io/badge/-LLM-412991?style=flat-square&labelColor=0d1117"/> only gets involved where genuine language generation is required, and a <img src="https://img.shields.io/badge/-decision%20layer-2ECC71?style=flat-square&labelColor=0d1117"/> weighs the model's own confidence and retrieval quality to decide whether a ticket can be safely auto-resolved, needs a human to approve the draft, or should skip straight to a person. Every layer earns its place — nothing is there just because it's trendy.
+**AI-Ops** is built the way a real support-intelligence system would be: a <img src="https://img.shields.io/badge/-classical%20ML%20model-FF6FB5?style=flat-square&labelColor=161221"/> does the cheap, deterministic job of routing (it doesn't need an LLM to know "this is a billing question"), a <img src="https://img.shields.io/badge/-retrieval%20layer-6A5AF9?style=flat-square&labelColor=161221"/> grounds every reply in what actually worked before, an <img src="https://img.shields.io/badge/-LLM-B24BF3?style=flat-square&labelColor=161221"/> only gets involved where genuine language generation is required, and a <img src="https://img.shields.io/badge/-decision%20layer-2ECC71?style=flat-square&labelColor=161221"/> weighs the model's own confidence and retrieval quality to decide whether a ticket can be safely auto-resolved, needs a human to approve the draft, or should skip straight to a person. Every layer earns its place — nothing is there just because it's trendy.
 
-The project went through two phases. Phase 1 built the pipeline end-to-end (classifier → RAG → agents → API). Phase 2 — after realizing a working pipeline still just _felt_ like a chatbot — added persistence, real confidence scoring, and outcome-based decision logic, so the system actually behaves like a product with an audit trail instead of a stateless text-in, text-out demo.
+The project went through two phases. **Phase 1** built the pipeline end-to-end (classifier → RAG → agents → API). **Phase 2** — after realizing a working pipeline still just _felt_ like a chatbot — added persistence, real confidence scoring, and outcome-based decision logic, so the system actually behaves like a product with an audit trail instead of a stateless text-in, text-out demo.
 
 <br/>
 
@@ -98,23 +84,26 @@ flowchart LR
     OUT2 --> DB
     OUT3 --> DB
 
-    classDef ticket fill:#302B63,stroke:#8A7FFF,color:#fff,stroke-width:2px
-    classDef agent fill:#1C3C3C,stroke:#2ECC71,color:#fff,stroke-width:2px
-    classDef out fill:#0F0C29,stroke:#EB5E28,color:#fff,stroke-width:2px
-    classDef store fill:#1a1a2e,stroke:#4285F4,color:#fff,stroke-width:2px
+    classDef ticket fill:#2A2140,stroke:#B24BF3,color:#fff,stroke-width:2px
+    classDef agent fill:#1E3A34,stroke:#2ECC71,color:#fff,stroke-width:2px
+    classDef out fill:#3A1F3D,stroke:#FF6FB5,color:#fff,stroke-width:2px
+    classDef store fill:#1A1F3A,stroke:#6A5AF9,color:#fff,stroke-width:2px
     class T,Q,CTX,RESP ticket
     class TR,RT,DR,DEC agent
     class OUT1,OUT2,OUT3 out
     class DB store
 ```
 
-<table>
-<tr><th>Stage</th><th>Approach</th><th>Why not just "ask the LLM"?</th></tr>
-<tr><td>🟣 <b>Triage</b></td><td>TF-IDF + XGBoost</td><td>Fixed category set → cheap, instant, deterministic. Paying an LLM per ticket for this is wasted cost and latency.</td></tr>
-<tr><td>🔵 <b>Retrieval</b></td><td>OpenAI embeddings + FAISS</td><td>Semantic search over real historical resolutions — grounds the reply in what actually worked.</td></tr>
-<tr><td>🟠 <b>Drafting</b></td><td>GPT-4o-mini</td><td>The one step that genuinely needs open-ended language generation.</td></tr>
-<tr><td>🟢 <b>Decision</b></td><td>Rule-based, using model confidence + retrieval distance</td><td>Transparent, auditable logic for what gets sent automatically vs. reviewed vs. escalated — no black box on a compliance-relevant decision. High-risk queues (billing, HR, outages) never auto-send, regardless of confidence.</td></tr>
-</table>
+<div align="center">
+
+|      Stage       | Approach                                                | Why not just "ask the LLM"?                                                                                                                                                  |
+| :--------------: | :------------------------------------------------------ | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  🟣 **Triage**   | TF-IDF + XGBoost                                        | Fixed category set → cheap, instant, deterministic. Paying an LLM per ticket for this is wasted cost and latency.                                                            |
+| 🔵 **Retrieval** | OpenAI embeddings + FAISS                               | Semantic search over real historical resolutions — grounds the reply in what actually worked.                                                                                |
+| 🟠 **Drafting**  | GPT-4o-mini                                             | The one step that genuinely needs open-ended language generation.                                                                                                            |
+| 🟢 **Decision**  | Rule-based, using model confidence + retrieval distance | Transparent, auditable logic for what gets sent automatically vs. reviewed vs. escalated. High-risk queues (billing, HR, outages) never auto-send, regardless of confidence. |
+
+</div>
 
 <br/>
 
@@ -123,20 +112,20 @@ flowchart LR
 The same backend pipeline is consumed by two completely different surfaces:
 
 <table>
-<tr><th>Interface</th><th>Audience</th><th>What it shows</th></tr>
+<tr><th align="center">Interface</th><th align="center">Audience</th><th>What it shows</th></tr>
 <tr>
-<td>🌐 <b>Customer Portal</b></td>
-<td>The customer</td>
+<td align="center">🌐<br/><b>Customer<br/>Portal</b></td>
+<td align="center">The customer</td>
 <td>A simple form to submit a request, and a lookup screen to check on it. If the system auto-resolved it, the customer sees the final answer immediately. If it was flagged for review, they see a plain holding message — never an unapproved AI draft.</td>
 </tr>
 <tr>
-<td>🗂️ <b>Agent Console</b></td>
-<td>The support team</td>
+<td align="center">🗂️<br/><b>Agent<br/>Console</b></td>
+<td align="center">The support team</td>
 <td>A live inbox of tickets that actually need attention, split into <code>Needs Review</code>, <code>Flagged</code>, and <code>Resolved</code>, plus a read-only <code>Auto-resolved</code> log — the audit trail proving the system handles real volume on its own. A top stats bar surfaces the automation rate directly.</td>
 </tr>
 </table>
 
-A third, minimal <b>Pipeline Inspector</b> view is kept separately as an internal/debugging tool — it visualizes each agent stage lighting up in sequence for a single ticket, useful for explaining the architecture, not for daily use.
+<sub>🔎 A third, minimal <b>Pipeline Inspector</b> view is kept separately as an internal/debugging tool — it visualizes each agent stage lighting up in sequence for a single ticket, useful for explaining the architecture, not for daily use.</sub>
 
 <br/>
 
@@ -165,26 +154,32 @@ A third, minimal <b>Pipeline Inspector</b> view is kept separately as an interna
 
 ## 📊 Results
 
+<div align="center">
+
 **Classifier — 10-class ticket routing (`queue` prediction)**
 
 | Model                                   |  Accuracy  |  Macro F1   |
 | --------------------------------------- | :--------: | :---------: |
 | Logistic Regression + TF-IDF (baseline) |    46%     |    0.37     |
-| **XGBoost + TF-IDF (final)**            | 🟢 **50%** | 🟢 **0.44** |
+| **XGBoost + TF-IDF (final)**            | 🟣 **50%** | 🟣 **0.44** |
+
+</div>
 
 Weaker on the smallest classes (`General Inquiry`, `Sales and Pre-Sales`) — a direct effect of class imbalance, documented below rather than silently ignored.
 
+<div align="center">
+
 **RAG pipeline — RAGAS evaluation (20-sample eval set)**
 
-| Metric            |   Score   | What it measures                                    |
-| ----------------- | :-------: | --------------------------------------------------- |
-| Context Precision | 🟢 `1.00` | Are retrieved past tickets actually relevant?       |
-| Faithfulness      | 🟡 `_.__` | Does the draft stick to the retrieved context?      |
-| Answer Relevancy  | 🟡 `_.__` | Does the draft actually address the question asked? |
+| Metric            |   Score    | What it measures                                    |
+| ----------------- | :--------: | --------------------------------------------------- |
+| Context Precision | 🟢 `1.00`  | Are retrieved past tickets actually relevant?       |
+| Faithfulness      | 🟡 `0.672` | Does the draft stick to the retrieved context?      |
+| Answer Relevancy  | 🟡 `0.589` | Does the draft actually address the question asked? |
 
-> _Fill in the final numbers from `notebooks/05_evaluation.ipynb`._
+**Decision layer — automation outcome** <sub>(live system, via `/stats`)</sub>
 
-**Decision layer — automation outcome (live system, via `/stats`)**
+</div>
 
 | Outcome          | What it means                                                                                        |
 | ---------------- | ---------------------------------------------------------------------------------------------------- |
@@ -192,7 +187,7 @@ Weaker on the smallest classes (`General Inquiry`, `Sales and Pre-Sales`) — a 
 | 📝 Needs review  | Draft prepared, held for an agent to approve or edit before sending                                  |
 | 🚩 Escalated     | Low confidence and/or weak retrieval match → routed straight to a human, no draft trusted            |
 
-> _Automation rate (`% auto-resolved`) is computed live from real ticket volume via `GET /stats` — pull your current number in before sharing this README._
+> 📈 _Automation rate (`% auto-resolved`) is computed live from real ticket volume via `GET /stats`._
 
 <br/>
 
@@ -234,7 +229,7 @@ ai-ops/
 
 ## 🚀 Getting Started
 
-<details>
+<details open>
 <summary><b>⚡ Click to expand setup instructions</b></summary>
 
 ```bash
@@ -270,7 +265,7 @@ Visit `http://127.0.0.1:8000/docs` for interactive Swagger docs. Open `frontend/
 
 ## 🔌 API Usage
 
-**Submit a ticket through the full pipeline (persists to DB, returns a routing decision):**
+**Submit a ticket through the full pipeline** <sub>(persists to DB, returns a routing decision)</sub>
 
 ```bash
 curl -X POST "http://127.0.0.1:8000/tickets?customer_email=jane@example.com&subject=Billing+question&body=I+was+charged+twice+this+month"
@@ -288,7 +283,7 @@ curl -X POST "http://127.0.0.1:8000/tickets?customer_email=jane@example.com&subj
 }
 ```
 
-**Check live automation stats:**
+**Check live automation stats**
 
 ```bash
 curl "http://127.0.0.1:8000/stats"
@@ -304,7 +299,16 @@ curl "http://127.0.0.1:8000/stats"
 }
 ```
 
-**Other endpoints:** `GET /tickets?status=needs_review`, `GET /tickets/{id}`, `POST /tickets/{id}/reply`, and the original single-shot `POST /process-ticket` (no persistence — used by the Pipeline Inspector).
+<div align="center">
+
+| Method | Endpoint                       | Description                                                                |
+| :----: | ------------------------------ | -------------------------------------------------------------------------- |
+|  GET   | `/tickets?status=needs_review` | List tickets filtered by status                                            |
+|  GET   | `/tickets/{id}`                | Fetch a single ticket by ID                                                |
+|  POST  | `/tickets/{id}/reply`          | Approve / send a reviewed draft                                            |
+|  POST  | `/process-ticket`              | Original single-shot call, no persistence — used by the Pipeline Inspector |
+
+</div>
 
 <br/>
 
@@ -320,15 +324,23 @@ Every module — cleaning, classifier, RAG, agents, decision logic, and API — 
 
 ## 🖼️ Screenshots
 
-<!-- Add screenshots here, e.g.:
 <div align="center">
-<img src="assets/agent-console.png" width="80%"/>
-<img src="assets/customer-portal.png" width="80%"/>
-</div>
--->
 
-<div align="center">
-<i>Coming soon.</i>
+<table>
+<tr>
+<td align="center" width="50%">
+<img src="image.png" width="100%"/>
+<br/>
+<sub>🗂️ <b>Agent Console</b> — live inbox with automation-rate stats bar</sub>
+</td>
+<td align="center" width="50%">
+<img src="image-1.png" width="100%"/>
+<br/>
+<sub>🌐 <b>Customer Portal</b> — submission & status lookup</sub>
+</td>
+</tr>
+</table>
+
 </div>
 
 <br/>
@@ -357,25 +369,27 @@ Deliberately scoped out of this MVP — not forgotten, just sequenced:
 
 <br/>
 
-<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.gif" width="100%"/>
+<img src="https://capsule-render.vercel.app/api?type=rect&color=0:6A5AF9,50:B24BF3,100:FF6FB5&height=3&section=header" width="100%"/>
 
 <div align="center">
+
+<br/>
 
 ### Author
 
 **Built by Jenil**
 
 <a href="https://github.com/Jenil05-web">
-<img src="https://img.shields.io/badge/GitHub-Jenil05--web-8A7FFF?style=for-the-badge&logo=github&logoColor=white&labelColor=0d1117"/>
+<img src="https://img.shields.io/badge/GitHub-Jenil05--web-6A5AF9?style=for-the-badge&logo=github&logoColor=white&labelColor=161221"/>
 </a>
 <a href="./LICENSE">
-<img src="https://img.shields.io/badge/License-AOBL--1.0-2ECC71?style=for-the-badge&labelColor=0d1117"/>
+<img src="https://img.shields.io/badge/License-AOBL--1.0-2ECC71?style=for-the-badge&labelColor=161221"/>
 </a>
 
 <sub>Licensed under the <a href="./LICENSE">AI-Ops Open Build License</a> — a custom permissive license written for this project.</sub>
 
 <br/><br/>
 
-<img src="https://capsule-render.vercel.app/api?type=rect&color=0:24243E,50:302B63,100:0F0C29&height=100&section=footer&animation=twinkling" width="100%"/>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:FF6FB5,50:B24BF3,100:6A5AF9&height=100&section=footer" width="100%"/>
 
 </div>
