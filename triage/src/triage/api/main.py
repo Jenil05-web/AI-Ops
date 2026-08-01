@@ -29,6 +29,7 @@ frontend_dir = os.path.join(current_dir, "..", "frontend")
 app.mount("/", StaticFiles(directory=frontend_dir, html=True), name="frontend")
 app.include_router(routes.router)
 
+
 @app.on_event("startup")
 def load_graph():
     from triage.db.database import init_db
@@ -37,3 +38,6 @@ def load_graph():
     graph = build_graph(model_dir="models")
     routes.set_graph(graph)
 
+# This file is basically about loading the graph and setting it in the routes so that it can be used in the API endpoints.
+#  The graph is built using the build_graph function from triage.agents.graph module, which loads the model artifacts and prepares the inference pipeline.
+#  The graph is then set in the routes module using the set_graph function, allowing the API endpoints to access it for processing tickets and making predictions.
