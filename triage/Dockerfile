@@ -16,6 +16,7 @@ RUN pip install --no-cache-dir fastapi uvicorn
 # Copy the rest of the app
 COPY models/ models/
 COPY data/processed/ data/processed/
+COPY configs/ configs/
 
 EXPOSE 8000
 
