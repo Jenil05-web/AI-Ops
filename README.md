@@ -302,8 +302,20 @@ Every module — cleaning, classifier, RAG, agents, decision logic, and API — 
 
 <div align="center">
 
-  <img src="image-1.png" width="100%"/>
-  <img src="image.png" width="100%"/>
+<table>
+<tr>
+<td align="center" width="50%">
+<img src="image-1.png" width="100%"/>
+<br/>
+<sub>🌐 <b>Customer Portal</b> — submission &amp; status lookup</sub>
+</td>
+<td align="center" width="50%">
+<img src="image.png" width="100%"/>
+<br/>
+<sub>🗂️ <b>Agent Console</b> — live inbox with automation-rate stats bar</sub>
+</td>
+</tr>
+</table>
 
 </div>
 
