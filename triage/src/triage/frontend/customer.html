@@ -929,10 +929,15 @@
       show('viewProcessing');
 
       try {
-        const r = await fetch(
-          `/tickets?customer_email=${enc(email)}&subject=${enc(subj || 'Support request')}&body=${enc(body || subj)}`,
-          { method: 'POST' }
-        );
+        const r = await fetch('/tickets', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            customer_email: email,
+            subject: subj || 'Support request',
+            body: body || subj
+          })
+        });
         if (!r.ok) throw new Error('api error');
         const t = await r.json();
         S.ticket = t;

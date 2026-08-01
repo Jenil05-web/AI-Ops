@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from triage.api.schemas import TicketRequest, TicketResponse
+from triage.api.schemas import TicketRequest, TicketResponse, SubmitTicketRequest
 from triage.utils.logger import get_logger
 from triage.db import crud
 from triage.db.database import get_session
@@ -31,10 +31,10 @@ def process_ticket(request: TicketRequest):
 
 
 @router.post("/tickets")
-def submit_ticket(customer_email:str , subject:str ,body :str, session: Session = Depends(get_session)):
-    ticket = crud.create_ticket(session, customer_email, subject, body)
+def submit_ticket(req: SubmitTicketRequest, session: Session = Depends(get_session)):
+    ticket = crud.create_ticket(session, req.customer_email, req.subject, req.body)
 
-    result = graph.invoke({"ticket_text": f"{subject} {body}"})
+    result = graph.invoke({"ticket_text": f"{req.subject} {req.body}"})
     top_distance = result['retrieved_context'][0]['distance'] if result['retrieved_context'] else 999
 
     status = decide_status(result['predicted_queue'], result['confidence'], top_distance)

@@ -7,6 +7,12 @@ class TicketRequest(BaseModel):
     ticket_text:str
 
 
+class SubmitTicketRequest(BaseModel):
+    customer_email: str
+    subject: str
+    body: str
+
+
 class RetrievedItem(BaseModel):
     subject: str
     body: str
