@@ -28,6 +28,7 @@ data/processed/*
 !data/raw/.gitkeep
 !data/processed/.gitkeep
 !data/processed/*.faiss
+!data/processed/*.npy
 !data/processed/*.csv
 
 # Model artifacts (allow pkl files so Render can use them)
