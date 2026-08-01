@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/hero.svg" width="120%"/>
+<img src="assets/hero.svg" width="100%"/>
 
 <br/><br/>
 
@@ -78,6 +78,9 @@ flowchart LR
     class TR,RT,DR,DEC agent
     class OUT1,OUT2,OUT3 out
     class DB store
+    linkStyle 0,1,2,3,4,5,6,7 stroke:#6E7BFF,stroke-width:1.4px,opacity:0.7
+    linkStyle 8,9,10 stroke:#D9B26A,stroke-width:1.4px,opacity:0.7
+    linkStyle 11,12,13 stroke:#6A6D76,stroke-width:1.2px,opacity:0.6
 ```
 
 <div align="center">
