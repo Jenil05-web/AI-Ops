@@ -1,0 +1,67 @@
+<svg width="1600" height="300" viewBox="0 0 1600 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="ifBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F1119"/>
+      <stop offset="100%" stop-color="#12141D"/>
+    </linearGradient>
+    <filter id="ifBlur" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="6"/>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="300" fill="none"/>
+
+  <!-- ===== Card 1 — Customer Portal (border glow: clockwise) ===== -->
+  <g>
+    <rect x="40" y="30" width="740" height="240" rx="10" fill="url(#ifBg)" stroke="#22242F" stroke-width="1"/>
+    <rect x="40" y="30" width="740" height="240" rx="10" fill="none" stroke="#6E7BFF" stroke-opacity="0.06" stroke-width="1"/>
+    <rect x="40" y="30" width="740" height="240" rx="10" fill="none" stroke="#9AA3FF" stroke-width="4"
+          stroke-dasharray="180 1780" opacity="0.3" filter="url(#ifBlur)">
+      <animate attributeName="stroke-dashoffset" from="0" to="-1960" dur="20s" repeatCount="indefinite"/>
+    </rect>
+    <rect x="40" y="30" width="740" height="240" rx="10" fill="none" stroke="#C9CDFF" stroke-width="1.3"
+          stroke-dasharray="180 1780" opacity="0.85">
+      <animate attributeName="stroke-dashoffset" from="0" to="-1960" dur="20s" repeatCount="indefinite"/>
+    </rect>
+
+    <g font-family="-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif">
+      <text x="74" y="70" font-size="11.5" font-weight="600" letter-spacing="3" fill="#6E7BFF" style="text-transform:uppercase">THE CUSTOMER</text>
+      <text x="74" y="102" font-size="27" font-weight="300" fill="#F4F3EF">Customer Portal</text>
+      <rect x="74" y="116" width="46" height="1.4" fill="#6E7BFF" opacity="0.6"/>
+      <text x="74" y="150" font-size="13.5" fill="#AEB2BC">
+        <tspan x="74" dy="0">A simple form to submit a request, and a lookup</tspan>
+        <tspan x="74" dy="20">screen to check on it. If the system auto-resolved</tspan>
+        <tspan x="74" dy="20">it, the customer sees the final answer immediately.</tspan>
+        <tspan x="74" dy="20">If it was flagged for review, they see a plain</tspan>
+        <tspan x="74" dy="20">holding message — never an unapproved AI draft.</tspan>
+      </text>
+    </g>
+  </g>
+
+  <!-- ===== Card 2 — Agent Console (border glow: counter-clockwise) ===== -->
+  <g>
+    <rect x="820" y="30" width="740" height="240" rx="10" fill="url(#ifBg)" stroke="#22242F" stroke-width="1"/>
+    <rect x="820" y="30" width="740" height="240" rx="10" fill="none" stroke="#D9B26A" stroke-opacity="0.06" stroke-width="1"/>
+    <rect x="820" y="30" width="740" height="240" rx="10" fill="none" stroke="#E8C88A" stroke-width="4"
+          stroke-dasharray="180 1780" opacity="0.3" filter="url(#ifBlur)">
+      <animate attributeName="stroke-dashoffset" from="0" to="1960" dur="24s" repeatCount="indefinite"/>
+    </rect>
+    <rect x="820" y="30" width="740" height="240" rx="10" fill="none" stroke="#F0DCA8" stroke-width="1.3"
+          stroke-dasharray="180 1780" opacity="0.85">
+      <animate attributeName="stroke-dashoffset" from="0" to="1960" dur="24s" repeatCount="indefinite"/>
+    </rect>
+
+    <g font-family="-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif">
+      <text x="854" y="70" font-size="11.5" font-weight="600" letter-spacing="3" fill="#D9B26A" style="text-transform:uppercase">THE SUPPORT TEAM</text>
+      <text x="854" y="102" font-size="27" font-weight="300" fill="#F4F3EF">Agent Console</text>
+      <rect x="854" y="116" width="46" height="1.4" fill="#D9B26A" opacity="0.6"/>
+      <text x="854" y="150" font-size="13.5" fill="#AEB2BC">
+        <tspan x="854" dy="0">A live inbox of tickets that actually need attention,</tspan>
+        <tspan x="854" dy="20">split into Needs Review, Flagged, and Resolved, plus</tspan>
+        <tspan x="854" dy="20">a read-only Auto-resolved log — the audit trail proving</tspan>
+        <tspan x="854" dy="20">the system handles real volume on its own. A top stats</tspan>
+        <tspan x="854" dy="20">bar surfaces the automation rate directly.</tspan>
+      </text>
+    </g>
+  </g>
+</svg>

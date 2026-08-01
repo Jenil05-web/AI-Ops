@@ -85,12 +85,7 @@ flowchart LR
 
 <div align="center">
 
-|     Stage     | Approach                                                | Why not just "ask the LLM"?                                                                                                                                                  |
-| :-----------: | :------------------------------------------------------ | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  **Triage**   | TF-IDF + XGBoost                                        | Fixed category set → cheap, instant, deterministic. Paying an LLM per ticket for this is wasted cost and latency.                                                            |
-| **Retrieval** | OpenAI embeddings + FAISS                               | Semantic search over real historical resolutions — grounds the reply in what actually worked.                                                                                |
-| **Drafting**  | GPT-4o-mini                                             | The one step that genuinely needs open-ended language generation.                                                                                                            |
-| **Decision**  | Rule-based, using model confidence + retrieval distance | Transparent, auditable logic for what gets sent automatically vs. reviewed vs. escalated. High-risk queues (billing, HR, outages) never auto-send, regardless of confidence. |
+<img src="assets/architecture-stages.svg" width="100%"/>
 
 </div>
 
@@ -100,19 +95,11 @@ flowchart LR
 
 The same backend pipeline is consumed by two completely different surfaces:
 
-<table>
-<tr><th align="center">Interface</th><th align="center">Audience</th><th>What it shows</th></tr>
-<tr>
-<td align="center">🌐<br/><b>Customer<br/>Portal</b></td>
-<td align="center">The customer</td>
-<td>A simple form to submit a request, and a lookup screen to check on it. If the system auto-resolved it, the customer sees the final answer immediately. If it was flagged for review, they see a plain holding message — never an unapproved AI draft.</td>
-</tr>
-<tr>
-<td align="center">🗂️<br/><b>Agent<br/>Console</b></td>
-<td align="center">The support team</td>
-<td>A live inbox of tickets that actually need attention, split into <code>Needs Review</code>, <code>Flagged</code>, and <code>Resolved</code>, plus a read-only <code>Auto-resolved</code> log — the audit trail proving the system handles real volume on its own. A top stats bar surfaces the automation rate directly.</td>
-</tr>
-</table>
+<div align="center">
+
+<img src="assets/interfaces.svg" width="100%"/>
+
+</div>
 
 <sub>A third, minimal <b>Pipeline Inspector</b> view is kept separately as an internal/debugging tool — it visualizes each agent stage lighting up in sequence for a single ticket, useful for explaining the architecture, not for daily use.</sub>
 
@@ -315,20 +302,7 @@ Every module — cleaning, classifier, RAG, agents, decision logic, and API — 
 
 <div align="center">
 
-<table>
-<tr>
-<td align="center" width="50%">
-<img src="image.png" width="100%"/>
-<br/>
-<sub>🗂️ <b>Agent Console</b> — live inbox with automation-rate stats bar</sub>
-</td>
-<td align="center" width="50%">
-<img src="image-1.png" width="100%"/>
-<br/>
-<sub>🌐 <b>Customer Portal</b> — submission & status lookup</sub>
-</td>
-</tr>
-</table>
+<img src="assets/screenshots.svg" width="100%"/>
 
 </div>
 

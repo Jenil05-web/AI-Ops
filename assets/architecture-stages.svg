@@ -1,0 +1,99 @@
+<svg width="1600" height="280" viewBox="0 0 1600 280" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="stBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F1119"/>
+      <stop offset="100%" stop-color="#12141D"/>
+    </linearGradient>
+    <filter id="stBlur" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="5"/>
+    </filter>
+  </defs>
+
+  <!-- ===== Card 1 — Triage (clockwise) ===== -->
+  <g>
+    <rect x="40" y="30" width="362" height="210" rx="9" fill="url(#stBg)" stroke="#22242F" stroke-width="1"/>
+    <rect x="40" y="30" width="362" height="210" rx="9" fill="none" stroke="#9AA3FF" stroke-width="3.5"
+          stroke-dasharray="140 1004" opacity="0.32" filter="url(#stBlur)">
+      <animate attributeName="stroke-dashoffset" from="0" to="-1144" dur="16s" repeatCount="indefinite"/>
+    </rect>
+    <rect x="40" y="30" width="362" height="210" rx="9" fill="none" stroke="#C9CDFF" stroke-width="1.2"
+          stroke-dasharray="140 1004" opacity="0.85">
+      <animate attributeName="stroke-dashoffset" from="0" to="-1144" dur="16s" repeatCount="indefinite"/>
+    </rect>
+    <g font-family="-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif">
+      <text x="66" y="76" font-size="20" font-weight="600" letter-spacing="1.5" fill="#D9B26A">TRIAGE</text>
+      <text x="66" y="102" font-size="14.5" font-weight="400" fill="#F4F3EF">TF-IDF + XGBoost</text>
+      <text x="66" y="130" font-size="12" fill="#6A6D76">
+        <tspan x="66" dy="0">Fixed category set → cheap, instant,</tspan>
+        <tspan x="66" dy="17">deterministic. Paying an LLM per ticket</tspan>
+        <tspan x="66" dy="17">for this is wasted cost and latency.</tspan>
+      </text>
+    </g>
+  </g>
+
+  <!-- ===== Card 2 — Retrieval (counter-clockwise) ===== -->
+  <g>
+    <rect x="426" y="30" width="362" height="210" rx="9" fill="url(#stBg)" stroke="#22242F" stroke-width="1"/>
+    <rect x="426" y="30" width="362" height="210" rx="9" fill="none" stroke="#9AA3FF" stroke-width="3.5"
+          stroke-dasharray="140 1004" opacity="0.32" filter="url(#stBlur)">
+      <animate attributeName="stroke-dashoffset" from="0" to="1144" dur="19s" repeatCount="indefinite"/>
+    </rect>
+    <rect x="426" y="30" width="362" height="210" rx="9" fill="none" stroke="#C9CDFF" stroke-width="1.2"
+          stroke-dasharray="140 1004" opacity="0.85">
+      <animate attributeName="stroke-dashoffset" from="0" to="1144" dur="19s" repeatCount="indefinite"/>
+    </rect>
+    <g font-family="-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif">
+      <text x="452" y="76" font-size="20" font-weight="600" letter-spacing="1.5" fill="#D9B26A">RETRIEVAL</text>
+      <text x="452" y="102" font-size="14.5" font-weight="400" fill="#F4F3EF">OpenAI Embeddings + FAISS</text>
+      <text x="452" y="130" font-size="12" fill="#6A6D76">
+        <tspan x="452" dy="0">Semantic search over real historical</tspan>
+        <tspan x="452" dy="17">resolutions — grounds the reply in</tspan>
+        <tspan x="452" dy="17">what actually worked before.</tspan>
+      </text>
+    </g>
+  </g>
+
+  <!-- ===== Card 3 — Drafting (clockwise) ===== -->
+  <g>
+    <rect x="812" y="30" width="362" height="210" rx="9" fill="url(#stBg)" stroke="#22242F" stroke-width="1"/>
+    <rect x="812" y="30" width="362" height="210" rx="9" fill="none" stroke="#9AA3FF" stroke-width="3.5"
+          stroke-dasharray="140 1004" opacity="0.32" filter="url(#stBlur)">
+      <animate attributeName="stroke-dashoffset" from="0" to="-1144" dur="17s" repeatCount="indefinite"/>
+    </rect>
+    <rect x="812" y="30" width="362" height="210" rx="9" fill="none" stroke="#C9CDFF" stroke-width="1.2"
+          stroke-dasharray="140 1004" opacity="0.85">
+      <animate attributeName="stroke-dashoffset" from="0" to="-1144" dur="17s" repeatCount="indefinite"/>
+    </rect>
+    <g font-family="-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif">
+      <text x="838" y="76" font-size="20" font-weight="600" letter-spacing="1.5" fill="#D9B26A">DRAFTING</text>
+      <text x="838" y="102" font-size="14.5" font-weight="400" fill="#F4F3EF">GPT-4o-mini</text>
+      <text x="838" y="130" font-size="12" fill="#6A6D76">
+        <tspan x="838" dy="0">The one step that genuinely needs</tspan>
+        <tspan x="838" dy="17">open-ended language generation.</tspan>
+      </text>
+    </g>
+  </g>
+
+  <!-- ===== Card 4 — Decision (counter-clockwise) ===== -->
+  <g>
+    <rect x="1198" y="30" width="362" height="210" rx="9" fill="url(#stBg)" stroke="#22242F" stroke-width="1"/>
+    <rect x="1198" y="30" width="362" height="210" rx="9" fill="none" stroke="#9AA3FF" stroke-width="3.5"
+          stroke-dasharray="140 1004" opacity="0.32" filter="url(#stBlur)">
+      <animate attributeName="stroke-dashoffset" from="0" to="1144" dur="21s" repeatCount="indefinite"/>
+    </rect>
+    <rect x="1198" y="30" width="362" height="210" rx="9" fill="none" stroke="#C9CDFF" stroke-width="1.2"
+          stroke-dasharray="140 1004" opacity="0.85">
+      <animate attributeName="stroke-dashoffset" from="0" to="1144" dur="21s" repeatCount="indefinite"/>
+    </rect>
+    <g font-family="-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif">
+      <text x="1224" y="76" font-size="20" font-weight="600" letter-spacing="1.5" fill="#D9B26A">DECISION</text>
+      <text x="1224" y="102" font-size="14.5" font-weight="400" fill="#F4F3EF">Confidence + retrieval distance</text>
+      <text x="1224" y="130" font-size="12" fill="#6A6D76">
+        <tspan x="1224" dy="0">Transparent, auditable logic for what</tspan>
+        <tspan x="1224" dy="17">gets sent automatically vs. reviewed vs.</tspan>
+        <tspan x="1224" dy="17">escalated. High-risk queues never</tspan>
+        <tspan x="1224" dy="17">auto-send, regardless of confidence.</tspan>
+      </text>
+    </g>
+  </g>
+</svg>

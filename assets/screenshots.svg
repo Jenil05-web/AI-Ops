@@ -1,0 +1,63 @@
+<svg width="1600" height="500" viewBox="0 0 1600 500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="scBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F1119"/>
+      <stop offset="100%" stop-color="#12141D"/>
+    </linearGradient>
+    <filter id="scBlur" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="6"/>
+    </filter>
+    <clipPath id="scClip1">
+      <rect x="54" y="44" width="712" height="356" rx="6"/>
+    </clipPath>
+    <clipPath id="scClip2">
+      <rect x="834" y="44" width="712" height="356" rx="6"/>
+    </clipPath>
+  </defs>
+
+  <!-- ===== Card 1 — Agent Console (border glow: clockwise) ===== -->
+  <g>
+    <rect x="40" y="30" width="740" height="440" rx="10" fill="url(#scBg)" stroke="#22242F" stroke-width="1"/>
+    <rect x="54" y="44" width="712" height="356" fill="#0A0B10"/>
+    <image href="../image.png" x="54" y="44" width="712" height="356"
+           preserveAspectRatio="xMidYMid slice" clip-path="url(#scClip1)"/>
+    <rect x="54" y="44" width="712" height="356" rx="6" fill="none" stroke="#22242F" stroke-width="1"/>
+
+    <rect x="40" y="30" width="740" height="440" rx="10" fill="none" stroke="#9AA3FF" stroke-width="4"
+          stroke-dasharray="220 2120" opacity="0.3" filter="url(#scBlur)">
+      <animate attributeName="stroke-dashoffset" from="0" to="-2340" dur="24s" repeatCount="indefinite"/>
+    </rect>
+    <rect x="40" y="30" width="740" height="440" rx="10" fill="none" stroke="#C9CDFF" stroke-width="1.3"
+          stroke-dasharray="220 2120" opacity="0.85">
+      <animate attributeName="stroke-dashoffset" from="0" to="-2340" dur="24s" repeatCount="indefinite"/>
+    </rect>
+
+    <text x="400" y="424" font-family="-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif"
+          font-size="13.5" fill="#6A6D76" text-anchor="middle">
+      <tspan fill="#D9B26A" font-weight="600">Agent Console</tspan> — live inbox with automation-rate stats bar
+    </text>
+  </g>
+
+  <!-- ===== Card 2 — Customer Portal (border glow: counter-clockwise) ===== -->
+  <g>
+    <rect x="820" y="30" width="740" height="440" rx="10" fill="url(#scBg)" stroke="#22242F" stroke-width="1"/>
+    <rect x="834" y="44" width="712" height="356" fill="#0A0B10"/>
+    <image href="../image-1.png" x="834" y="44" width="712" height="356"
+           preserveAspectRatio="xMidYMid slice" clip-path="url(#scClip2)"/>
+    <rect x="834" y="44" width="712" height="356" rx="6" fill="none" stroke="#22242F" stroke-width="1"/>
+
+    <rect x="820" y="30" width="740" height="440" rx="10" fill="none" stroke="#9AA3FF" stroke-width="4"
+          stroke-dasharray="220 2120" opacity="0.3" filter="url(#scBlur)">
+      <animate attributeName="stroke-dashoffset" from="0" to="2340" dur="28s" repeatCount="indefinite"/>
+    </rect>
+    <rect x="820" y="30" width="740" height="440" rx="10" fill="none" stroke="#C9CDFF" stroke-width="1.3"
+          stroke-dasharray="220 2120" opacity="0.85">
+      <animate attributeName="stroke-dashoffset" from="0" to="2340" dur="28s" repeatCount="indefinite"/>
+    </rect>
+
+    <text x="1180" y="424" font-family="-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif"
+          font-size="13.5" fill="#6A6D76" text-anchor="middle">
+      <tspan fill="#D9B26A" font-weight="600">Customer Portal</tspan> — submission &amp; status lookup
+    </text>
+  </g>
+</svg>
