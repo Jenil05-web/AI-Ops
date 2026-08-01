@@ -26,4 +26,3 @@ class TicketResponse(BaseModel):
     retrieved_context : Optional[List[RetrievedItem]]
     draft_response: Optional[str]
     escalated: Optional[bool]
-        

@@ -302,7 +302,8 @@ Every module — cleaning, classifier, RAG, agents, decision logic, and API — 
 
 <div align="center">
 
-<img src="assets/screenshots.svg" width="100%"/>
+  <img src="image-1.png" width="100%"/>
+  <img src="image.png" width="100%"/>
 
 </div>
 
