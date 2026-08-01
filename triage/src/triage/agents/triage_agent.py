@@ -23,3 +23,5 @@ def triage_node(state: TicketState, model, vectorizer, label_encoder) -> TicketS
 """This triage node uses our trained classifier ML model
    classify_predict calls  trained XGBoost model , no OpenAI call happens here.
    The LLM only enters the picture later, in the Drafting Agent node."""
+
+# basically in this file we are defining the TicketState TypedDict which represents the state of a ticket during the triage process.and then using triage agent 

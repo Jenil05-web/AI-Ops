@@ -38,3 +38,8 @@ def decide_status(predicted_queue: str, confidence: float, top_context_distance:
         f"-> {status}"
     )
     return status
+
+
+# Basically in this file we are deciding the status of the ticket based on the predicted queue, confidence score, and distance of the top retrieved context.
+#  The function decide_status takes these parameters and returns a status string indicating whether the ticket can be auto-resolved, needs human review, or should be escalated immediately.
+#  The decision is based on predefined thresholds and specific rules for certain queues like "Service Outages and Maintenance" and "Billing and Payments".
