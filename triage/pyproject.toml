@@ -16,7 +16,9 @@ dependencies = [
     "xgboost",
     "scikit-learn",
     "faiss-cpu",
-    "joblib"
+    "joblib",
+    "sqlalchemy",
+    "pyyaml"
 ]
 
 [tool.setuptools.packages.find]
