@@ -27,6 +27,9 @@ app.include_router(routes.router)
 
 @app.on_event("startup")
 def load_graph():
+    from triage.db.database import init_db
+    init_db()
+    
     graph = build_graph(model_dir="models")
     routes.set_graph(graph)
 
