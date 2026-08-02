@@ -150,7 +150,7 @@ Weaker on the smallest classes (`General Inquiry`, `Sales and Pre-Sales`) — a 
 | Metric            |  Score  | What it measures                                    |
 | ----------------- | :-----: | --------------------------------------------------- |
 | Context Precision | `1.00`  | Are retrieved past tickets actually relevant?       |
-| Faithfulness      | `0.672` | Does the draft stick to the retrieved context?      |
+| Faithfulness      | `0.972` | Does the draft stick to the retrieved context?      |
 | Answer Relevancy  | `0.589` | Does the draft actually address the question asked? |
 
 **Decision layer — automation outcome** <sub>(live system, via `/stats`)</sub>
